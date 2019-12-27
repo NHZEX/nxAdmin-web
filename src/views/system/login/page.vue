@@ -45,19 +45,30 @@
                   <el-input
                     type="password"
                     v-model="formLogin.password"
+                    ref="form-password"
                     placeholder="密码">
                     <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
                 </el-form-item>
-                <el-form-item prop="code">
+                <el-form-item prop="code" style="margin-bottom: 11px" v-if="loginCaptcha">
                   <el-input
                     type="text"
                     v-model="formLogin.code"
-                    placeholder="验证码">
+                    ref="form-code"
+                    data-lpignore="true"
+                    placeholder="验证码"
+                    autocomplete="off">
                     <template slot="append">
-                      <img class="login-code" src="./image/login-code.png">
+                      <img class="login-code" :src="codeUrl" @click="refrushCode">
                     </template>
                   </el-input>
+                </el-form-item>
+                <el-form-item prop="lasting" style="margin-bottom: 11px">
+                  <el-switch
+                    v-model="formLogin.lasting"
+                    active-text="记住我"
+                    >
+                  </el-switch>
                 </el-form-item>
                 <el-button
                   size="default"
@@ -123,8 +134,10 @@
 
 <script>
 import dayjs from 'dayjs'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
+import common from '../../../libs/util.common'
+
 export default {
   mixins: [
     localeMixin
@@ -133,6 +146,9 @@ export default {
     return {
       timeInterval: null,
       time: dayjs().format('HH:mm:ss'),
+      // 验证码
+      codeUrl: '',
+      loginToken: common.randomString(32),
       // 快速选择用户
       dialogVisible: false,
       users: [
@@ -154,9 +170,10 @@ export default {
       ],
       // 表单
       formLogin: {
-        username: 'admin',
-        password: 'admin',
-        code: 'v9am'
+        username: '',
+        password: '',
+        code: '',
+        lasting: false
       },
       // 表单校验
       rules: {
@@ -188,9 +205,15 @@ export default {
     this.timeInterval = setInterval(() => {
       this.refreshTime()
     }, 1000)
+    this.refrushCode()
   },
   beforeDestroy () {
     clearInterval(this.timeInterval)
+  },
+  computed: {
+    ...mapState('d2admin/config', [
+      'loginCaptcha'
+    ])
   },
   methods: {
     ...mapActions('d2admin/account', [
@@ -220,17 +243,35 @@ export default {
           // 具体需要传递的数据请自行修改代码
           this.login({
             username: this.formLogin.username,
-            password: this.formLogin.password
+            password: this.formLogin.password,
+            lasting: this.formLogin.lasting,
+            code: this.formLogin.code,
+            token: this.loginToken
+          }).then(() => {
+            // 重定向对象不存在则返回顶层路径
+            this.$router.replace(this.$route.query.redirect || '/')
+          }).catch(err => {
+            console.dir(err)
+            if (err.code === 1103) {
+              this.formLogin.password = ''
+              this.$refs['form-password'].focus()
+              this.refrushCode()
+            }
+            if (err.code === 1001) {
+              this.formLogin.code = ''
+              this.$refs['form-code'].focus()
+              this.refrushCode()
+            }
           })
-            .then(() => {
-              // 重定向对象不存在则返回顶层路径
-              this.$router.replace(this.$route.query.redirect || '/')
-            })
         } else {
           // 登录表单校验失败
           this.$message.error('表单校验失败，请检查')
         }
       })
+    },
+    refrushCode () {
+      const HOST_URL = process.env.VUE_APP_API
+      this.codeUrl = `${HOST_URL}admin.login/captcha?_=${this.loginToken}&_r=${Math.random()}`
     }
   }
 }

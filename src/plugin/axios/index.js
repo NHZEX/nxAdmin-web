@@ -4,8 +4,11 @@ import { Message } from 'element-ui'
 import util from '@/libs/util'
 
 // 创建一个错误
-function errorCreate (msg) {
+function errorCreate (msg, code, dataAxios, response) {
   const error = new Error(msg)
+  error.code = code
+  error.data = dataAxios
+  error.resp = response
   errorLog(error)
   throw error
 }
@@ -36,7 +39,10 @@ function errorLog (error) {
 // 创建一个 axios 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_API,
-  timeout: 5000 // 请求超时时间
+  timeout: 5000, // 请求超时时间
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest'
+  }
 })
 
 // 请求拦截器
@@ -45,7 +51,9 @@ service.interceptors.request.use(
     // 在请求发送之前做一些处理
     const token = util.cookies.get('token')
     // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
-    config.headers['X-Token'] = token
+    if (token) {
+      config.headers['X-Token'] = token
+    }
     return config
   },
   error => {
@@ -74,11 +82,11 @@ service.interceptors.response.use(
           return dataAxios.data
         case 'xxx':
           // [ 示例 ] 其它和后台约定的 code
-          errorCreate(`[ code: xxx ] ${dataAxios.msg}: ${response.config.url}`)
+          errorCreate(`[ code: xxx ] ${dataAxios.msg}: ${response.config.url}`, code, dataAxios, response)
           break
         default:
           // 不是正确的 code
-          errorCreate(`${dataAxios.msg}: ${response.config.url}`)
+          errorCreate(`${dataAxios.msg}: ${response.config.url}`, code, dataAxios, response)
           break
       }
     }

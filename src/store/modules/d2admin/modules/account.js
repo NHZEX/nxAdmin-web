@@ -1,7 +1,7 @@
 import { Message, MessageBox } from 'element-ui'
 import util from '@/libs/util.js'
 import router from '@/router'
-import { AccountLogin } from '@api/sys.login'
+import { AccountLogin, AccountLogout, UserInfo } from '@/api/sys.login'
 
 export default {
   namespaced: true,
@@ -9,19 +9,28 @@ export default {
     /**
      * @description 登录
      * @param {Object} context
+     * @param {Object} payload token {String} Token
      * @param {Object} payload username {String} 用户账号
      * @param {Object} payload password {String} 密码
+     * @param {Object} payload code {String} 验证码
+     * @param {Object} payload lasting {Boolean} 记住我
      * @param {Object} payload route {Object} 登录成功后定向的路由对象 任何 vue-router 支持的格式
      */
     login ({ dispatch }, {
+      token,
       username = '',
-      password = ''
+      password = '',
+      code = '',
+      lasting = false
     } = {}) {
       return new Promise((resolve, reject) => {
         // 开始请求登录接口
         AccountLogin({
-          username,
-          password
+          'account': username,
+          'password': password,
+          'captcha': code,
+          'lasting': lasting,
+          '#': token
         })
           .then(async res => {
             // 设置 cookie 一定要存 uuid 和 token 两个 cookie
@@ -31,9 +40,12 @@ export default {
             // 如有必要 token 需要定时更新，默认保存一天
             util.cookies.set('uuid', res.uuid)
             util.cookies.set('token', res.token)
+
+            let info = await UserInfo()
+
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
-              name: res.name
+              name: info.user.nickname
             }, { root: true })
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load')
@@ -56,13 +68,15 @@ export default {
        * @description 注销
        */
       async function logout () {
+        // 注销会话
+        await AccountLogout()
         // 删除cookie
         util.cookies.remove('token')
         util.cookies.remove('uuid')
         // 清空 vuex 用户信息
         await dispatch('d2admin/user/set', {}, { root: true })
         // 跳转路由
-        router.push({
+        await router.push({
           name: 'login'
         })
       }
