@@ -11,6 +11,10 @@ import util from '@/libs/util.js'
 // 路由数据
 import routes from './routes'
 
+// 鉴权
+import { needAuthorize, isLogin, canAccessRoute } from '@/plugin/auth/index'
+import { Message } from 'element-ui'
+
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push (location) {
@@ -42,28 +46,32 @@ router.beforeEach(async (to, from, next) => {
   // 关闭搜索面板
   store.commit('d2admin/search/set', false)
   // 验证当前路由所有的匹配中是否需要有登录验证的
-  if (to.matched.some(r => r.meta.auth)) {
-    // 这里暂时将cookie里是否存有token作为验证是否登录的条件
-    // 请根据自身业务需要修改
-    const token = util.cookies.get('token')
-    if (token && token !== 'undefined') {
-      next()
-    } else {
-      // 没有登录的时候跳转到登录界面
-      // 携带上登陆成功之后需要跳转的页面完整路径
-      next({
-        name: 'login',
-        query: {
-          redirect: to.fullPath
-        }
-      })
-      // https://github.com/d2-projects/d2-admin/issues/138
-      NProgress.done()
-    }
-  } else {
-    // 不需要身份校验 直接通过
+  if (!needAuthorize(to)) {
+    // 该路由不需要任何验证
     next()
+  } else if (!isLogin()) {
+    // 没有登录的时候跳转到登录界面
+    // 携带上登陆成功之后需要跳转的页面完整路径
+    next({
+      name: 'login',
+      query: {
+        redirect: to.fullPath
+      }
+    })
+  } else if (canAccessRoute(to)) {
+    // 该路由验证通过
+    next()
+  } else {
+    // 该路由验证未通过, 取消导航
+    Message({
+      message: '你没有获得此页面授权',
+      type: 'warning',
+      duration: 5 * 1000
+    })
+    next(false)
   }
+  // https://github.com/d2-projects/d2-admin/issues/138
+  NProgress.done()
 })
 
 router.afterEach(to => {

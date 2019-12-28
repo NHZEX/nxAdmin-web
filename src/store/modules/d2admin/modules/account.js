@@ -45,8 +45,10 @@ export default {
 
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
-              name: info.user.nickname
+              name: info.user.nickname,
+              permission: info.permission
             }, { root: true })
+
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load')
             // 结束
@@ -106,7 +108,7 @@ export default {
      */
     load ({ dispatch }) {
       return new Promise(async resolve => {
-        // DB -> store 加载用户名
+        // DB -> store 加载用户
         await dispatch('d2admin/user/load', null, { root: true })
         // DB -> store 加载主题
         await dispatch('d2admin/theme/load', null, { root: true })

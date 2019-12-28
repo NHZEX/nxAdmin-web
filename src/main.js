@@ -13,8 +13,12 @@ import menuHeader from '@/menu/header'
 import menuAside from '@/menu/aside'
 import { frameInRoutes } from '@/router/routes'
 
+import { _install } from '@/plugin/auth'
+
 // 核心插件
 Vue.use(d2Admin)
+// 注册权限
+_install()
 
 new Vue({
   router,

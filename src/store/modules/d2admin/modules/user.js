@@ -1,8 +1,14 @@
+import { generateRouteMapping } from '@/plugin/auth'
+
 export default {
   namespaced: true,
   state: {
     // 用户信息
-    info: {}
+    info: {
+      name: '',
+      permission: {}
+    },
+    routeMapping: {}
   },
   actions: {
     /**
@@ -38,9 +44,20 @@ export default {
           defaultValue: {},
           user: true
         }, { root: true })
+
+        await dispatch('updatePermission')
         // end
         resolve()
       })
+    },
+    /**
+     * 响应权限更改
+     * @param state
+     * @param dispatch
+     */
+    updatePermission ({ state, dispatch }) {
+      generateRouteMapping()
+      dispatch('d2admin/menu/filterMenu', null, { root: true })
     }
   }
 }

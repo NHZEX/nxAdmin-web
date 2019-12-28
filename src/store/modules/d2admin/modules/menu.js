@@ -2,6 +2,8 @@ import { uniqueId } from 'lodash'
 // 设置文件
 import setting from '@/setting.js'
 
+import { filterMenu } from '@/plugin/auth'
+
 /**
  * 给菜单数据补充上 path 字段
  * https://github.com/d2-projects/d2-admin/issues/209
@@ -83,6 +85,18 @@ export default {
         // end
         resolve()
       })
+    },
+    /**
+     * 从持久化数据读取侧边栏展开或者收缩
+     * @param {Object} context
+     */
+    filterMenu ({ state }) {
+      return new Promise(async resolve => {
+        state.aside = filterMenu(state.aside)
+        state.header = filterMenu(state.header)
+        // end
+        resolve()
+      })
     }
   },
   mutations: {
@@ -93,7 +107,7 @@ export default {
      */
     headerSet (state, menu) {
       // store 赋值
-      state.header = supplementMenuPath(menu)
+      state.header = filterMenu(supplementMenuPath(menu))
     },
     /**
      * @description 设置侧边栏菜单
@@ -102,7 +116,7 @@ export default {
      */
     asideSet (state, menu) {
       // store 赋值
-      state.aside = supplementMenuPath(menu)
+      state.aside = filterMenu(supplementMenuPath(menu))
     }
   }
 }
