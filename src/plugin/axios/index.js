@@ -79,6 +79,12 @@ service.interceptors.response.use(
       switch (code) {
         case 0:
           // [ 示例 ] code === 0 代表没有错误
+          if (dataAxios.hasOwnProperty('count')) {
+            return {
+              count: dataAxios.count,
+              data: dataAxios.data
+            }
+          }
           return dataAxios.data
         case 'xxx':
           // [ 示例 ] 其它和后台约定的 code

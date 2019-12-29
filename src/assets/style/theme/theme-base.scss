@@ -293,7 +293,8 @@
               .d2-container-full__body {
                 flex-grow: 1;
                 height: 100%;
-                padding: 20px 20px;
+                /* diy: 调整样式 */
+                padding: 10px 10px;
                 overflow: auto;
                 position: relative;
               }
@@ -319,7 +320,8 @@
                 overflow: hidden;
                 position: relative;
                 .d2-container-full-bs__body-wrapper-inner {
-                  padding: 20px;
+                  /* diy: 调整样式 */
+                  padding: 10px;
                   position: relative;
                 }
               }
