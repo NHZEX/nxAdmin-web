@@ -2,7 +2,7 @@
   "name": "d2-admin",
   "version": "1.8.0",
   "scripts": {
-    "serve": "vue-cli-service serve --open",
+    "serve": "vue-cli-service serve",
     "start": "npm run serve",
     "dev": "npm run serve",
     "build": "vue-cli-service build",
@@ -13,7 +13,7 @@
     "lint": "vue-cli-service lint --fix",
     "test:unit": "vue-cli-service test:unit",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
-    "analyz": "npm_config_report=true npm run build"
+    "analyz": "cross-env npm_config_report=true npm run build"
   },
   "dependencies": {
     "@d2-projects/d2-crud": "^2.1.2",
@@ -54,6 +54,7 @@
     "babel-eslint": "^10.0.3",
     "babel-plugin-import": "^1.13.0",
     "compression-webpack-plugin": "^3.0.1",
+    "cross-env": "^6.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "sass": "^1.23.7",

@@ -7,10 +7,12 @@ import d2Admin from '@/plugin/d2admin'
 // store
 import store from '@/store/index'
 
+// iviewui
+import 'view-design/dist/styles/iview.css'
+
 // 菜单和路由设置
 import router from './router'
-import menuHeader from '@/menu/header'
-import menuAside from '@/menu/aside'
+import { menuHeader, menuAside } from '@/menu/index'
 import { frameInRoutes } from '@/router/routes'
 
 import { _install } from '@/plugin/auth'
