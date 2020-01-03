@@ -1,5 +1,9 @@
-.ivu-btn {
+.ivu-btn-group, .ivu-btn {
   margin-right: 3px;
+}
+
+.ivu-btn-group > .ivu-btn {
+  margin-right: initial;
 }
 
 .ivu-table-filter-list {
