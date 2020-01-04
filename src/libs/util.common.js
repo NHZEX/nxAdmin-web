@@ -1,6 +1,4 @@
-const common = {}
-
-common.randomString = function (length) {
+export function randomString (length) {
   let result = ''
   let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   let charactersLength = characters.length
@@ -9,5 +7,15 @@ common.randomString = function (length) {
   }
   return result
 }
+
+export function promiseResolveEmptyObject () {
+  return new Promise(resolve => { resolve({}) })
+}
+
+export function promiseResolveFalse () {
+  return new Promise(resolve => { resolve(false) })
+}
+
+const common = {}
 
 export default common

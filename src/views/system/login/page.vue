@@ -2,7 +2,7 @@
   <div class="page-login">
     <div class="page-login--layer page-login--layer-area">
       <ul class="circles">
-        <li v-for="n in 10" :key="n"></li>
+        <li v-for="n in 10" :key="n"/>
       </ul>
     </div>
     <div
@@ -23,7 +23,7 @@
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
           <!-- logo -->
-          <img class="page-login--logo" src="./image/logo@2x.png">
+          <img class="page-login--logo" src="./image/logo@2x.png" alt="web logo">
           <!-- form -->
           <div class="page-login--form">
             <el-card shadow="never">
@@ -38,7 +38,7 @@
                     type="text"
                     v-model="formLogin.username"
                     placeholder="用户名">
-                    <i slot="prepend" class="fa fa-user-circle-o"></i>
+                    <i slot="prepend" class="fa fa-user-circle-o"/>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
@@ -47,7 +47,7 @@
                     v-model="formLogin.password"
                     ref="form-password"
                     placeholder="密码">
-                    <i slot="prepend" class="fa fa-keyboard-o"></i>
+                    <i slot="prepend" class="fa fa-keyboard-o"/>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="code" style="margin-bottom: 11px" v-if="loginCaptcha">
@@ -59,7 +59,8 @@
                     placeholder="验证码"
                     autocomplete="off">
                     <template slot="append">
-                      <img class="login-code" :src="codeUrl" @click="refrushCode">
+                      <!--suppress HtmlUnknownTarget -->
+                      <img class="login-code" :src="codeUrl" @click="refrushCode" alt="logo code">
                     </template>
                   </el-input>
                 </el-form-item>
@@ -85,16 +86,12 @@
               <span><d2-icon name="question-circle"/> 忘记密码</span>
               <span>注册用户</span>
             </p>
-            <!-- quick login -->
-            <el-button class="page-login--quick" size="default" type="info" @click="dialogVisible = true">
-              快速选择用户（测试功能）
-            </el-button>
           </div>
         </div>
         <div class="page-login--content-footer">
           <p class="page-login--content-footer-locales">
             <a
-              v-for="language in $languages"
+              v-for="language in this.$languages"
               :key="language.value"
               @click="onChangeLocale(language.value)">
               {{ language.label }}
@@ -116,19 +113,6 @@
         </div>
       </div>
     </div>
-    <el-dialog
-      title="快速选择用户"
-      :visible.sync="dialogVisible"
-      width="400px">
-      <el-row :gutter="10" style="margin: -20px 0px -10px 0px;">
-        <el-col v-for="(user, index) in users" :key="index" :span="8">
-          <div class="page-login--quick-user" @click="handleUserBtnClick(user)">
-            <d2-icon name="user-circle-o"/>
-            <span>{{user.name}}</span>
-          </div>
-        </el-col>
-      </el-row>
-    </el-dialog>
   </div>
 </template>
 
@@ -136,11 +120,11 @@
 import dayjs from 'dayjs'
 import { mapActions, mapState } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
-import common from '../../../libs/util.common'
+import { randomString } from '@/libs/util.common'
 
 export default {
   mixins: [
-    localeMixin
+    localeMixin,
   ],
   data () {
     return {
@@ -148,32 +132,13 @@ export default {
       time: dayjs().format('HH:mm:ss'),
       // 验证码
       codeUrl: '',
-      loginToken: common.randomString(32),
-      // 快速选择用户
-      dialogVisible: false,
-      users: [
-        {
-          name: 'Admin',
-          username: 'admin',
-          password: 'admin'
-        },
-        {
-          name: 'Editor',
-          username: 'editor',
-          password: 'editor'
-        },
-        {
-          name: 'User1',
-          username: 'user1',
-          password: 'user1'
-        }
-      ],
+      loginToken: randomString(32),
       // 表单
       formLogin: {
         username: '',
         password: '',
         code: '',
-        lasting: false
+        lasting: false,
       },
       // 表单校验
       rules: {
@@ -181,24 +146,24 @@ export default {
           {
             required: true,
             message: '请输入用户名',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         password: [
           {
             required: true,
             message: '请输入密码',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         code: [
           {
             required: true,
             message: '请输入验证码',
-            trigger: 'blur'
-          }
-        ]
-      }
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   mounted () {
@@ -212,24 +177,15 @@ export default {
   },
   computed: {
     ...mapState('d2admin/config', [
-      'loginCaptcha'
-    ])
+      'loginCaptcha',
+    ]),
   },
   methods: {
     ...mapActions('d2admin/account', [
-      'login'
+      'login',
     ]),
     refreshTime () {
       this.time = dayjs().format('HH:mm:ss')
-    },
-    /**
-     * @description 接收选择一个用户快速登录的事件
-     * @param {Object} user 用户信息
-     */
-    handleUserBtnClick (user) {
-      this.formLogin.username = user.username
-      this.formLogin.password = user.password
-      this.submit()
     },
     /**
      * @description 提交表单
@@ -246,7 +202,7 @@ export default {
             password: this.formLogin.password,
             lasting: this.formLogin.lasting,
             code: this.formLogin.code,
-            token: this.loginToken
+            token: this.loginToken,
           }).then(() => {
             // 重定向对象不存在则返回顶层路径
             this.$router.replace(this.$route.query.redirect || '/')
@@ -272,8 +228,8 @@ export default {
     refrushCode () {
       const HOST_URL = process.env.VUE_APP_API
       this.codeUrl = `${HOST_URL}admin.login/captcha?_=${this.loginToken}&_r=${Math.random()}`
-    }
-  }
+    },
+  },
 }
 </script>
 
