@@ -1,8 +1,7 @@
 import util from '@/libs/util.js'
 import store from '@/store/index'
-import Vue from 'vue'
 import { frameInRoutes } from '@/router/routes'
-import { isBoolean, isString, isEmpty, cloneDeep } from 'lodash'
+import { isBoolean, isEmpty, cloneDeep } from 'lodash'
 
 /**
  * 需要授权验证
@@ -36,7 +35,7 @@ export function canAccess (to, some = false) {
     } else {
       access = to.every(v => permission.hasOwnProperty(v))
     }
-  } else if (isString(to)) {
+  } else if (typeof to === 'string') {
     access = permission.hasOwnProperty(to)
   }
   return access
@@ -119,8 +118,19 @@ export function filterMenu (menu) {
   return filter(menu)
 }
 
-export function _install () {
-  // ?access
+/**
+ * @param {Vue} Vue
+ * @param {Object} options
+ */
+let install = function (Vue, options) {
+  // noinspection JSUnusedGlobalSymbols
+  /**
+   * 当前令牌能访问
+   * @type {function((string|Array), Boolean=): boolean}
+   */
+  Vue.prototype.$canAccess = canAccess
+
+  // noinspection JSUnusedGlobalSymbols
   Vue.directive('access', {
     inserted (el, binding) {
       const permission = store.state.d2admin.user.info.permission
@@ -138,6 +148,10 @@ export function _install () {
       if (!access) {
         el.parentNode && el.parentNode.removeChild(el)
       }
-    }
+    },
   })
+}
+
+export default {
+  install,
 }

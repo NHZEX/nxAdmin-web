@@ -9,18 +9,22 @@ import store from '@/store/index'
 
 // iviewui
 import 'view-design/dist/styles/iview.css'
+import iviewMini from '@/plugin/iview/index'
 
 // 菜单和路由设置
 import router from './router'
 import { menuHeader, menuAside } from '@/menu/index'
 import { frameInRoutes } from '@/router/routes'
 
-import { _install } from '@/plugin/auth'
+// auth
+import auth from '@/plugin/auth'
 
 // 核心插件
 Vue.use(d2Admin)
+// 注册 iview
+Vue.use(iviewMini)
 // 注册权限
-_install()
+Vue.use(auth)
 
 new Vue({
   router,
@@ -48,5 +52,5 @@ new Vue({
     this.$store.commit('d2admin/ua/get')
     // 初始化全屏监听
     this.$store.dispatch('d2admin/fullscreen/listen')
-  }
+  },
 }).$mount('#app')
