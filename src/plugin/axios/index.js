@@ -2,6 +2,7 @@ import store from '@/store'
 import axios from 'axios'
 import { Message } from 'element-ui'
 import util from '@/libs/util'
+import router from '@/router'
 
 // 创建一个错误
 function errorCreate (msg, code, dataAxios, response) {
@@ -20,8 +21,8 @@ function errorLog (error) {
     message: '数据请求异常',
     type: 'danger',
     meta: {
-      error
-    }
+      error,
+    },
   })
   // 打印到控制台
   if (process.env.NODE_ENV === 'development') {
@@ -32,7 +33,7 @@ function errorLog (error) {
   Message({
     message: error.message,
     type: 'error',
-    duration: 5 * 1000
+    duration: 5 * 1000,
   })
 }
 
@@ -41,8 +42,8 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_API,
   timeout: 5000, // 请求超时时间
   headers: {
-    'X-Requested-With': 'XMLHttpRequest'
-  }
+    'X-Requested-With': 'XMLHttpRequest',
+  },
 })
 
 // 请求拦截器
@@ -82,7 +83,7 @@ service.interceptors.response.use(
           if (dataAxios.hasOwnProperty('count')) {
             return {
               count: dataAxios.count,
-              data: dataAxios.data
+              data: dataAxios.data,
             }
           }
           return dataAxios.data
@@ -112,6 +113,14 @@ service.interceptors.response.use(
         case 504: error.message = '网关超时'; break
         case 505: error.message = 'HTTP版本不受支持'; break
         default: break
+      }
+      if (error.response.status === 401) {
+        // 删除cookie
+        util.cookies.remove('token')
+        util.cookies.remove('uuid')
+        // 清空 vuex 用户信息
+        store.dispatch('d2admin/user/set', {}, { root: true })
+        router.push({ name: 'login' })
       }
     }
     errorLog(error)
