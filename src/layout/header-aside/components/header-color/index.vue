@@ -1,6 +1,7 @@
 <template>
   <el-color-picker
     class="btn-text can-hover"
+    style="box-sizing: initial"
     :value="value"
     :predefine="predefine"
     size="mini"
