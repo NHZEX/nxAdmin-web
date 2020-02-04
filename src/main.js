@@ -11,6 +11,10 @@ import store from '@/store/index'
 import 'view-design/dist/styles/iview.css'
 import iviewMini from '@/plugin/iview/index'
 
+// font-awesome-5
+import '@fortawesome/fontawesome-free/js/all'
+import '@fortawesome/fontawesome-free/js/v4-shims'
+
 // 菜单和路由设置
 import router from './router'
 import { menuHeader, menuAside } from '@/menu/index'
