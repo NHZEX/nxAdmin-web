@@ -1,7 +1,7 @@
 import util from '@/libs/util.js'
 import store from '@/store/index'
 import { frameInRoutes } from '@/router/routes'
-import { isBoolean, isEmpty, cloneDeep } from 'lodash'
+import { isBoolean, isPlainObject, isEmpty, cloneDeep } from 'lodash'
 
 /**
  * 需要授权验证
@@ -135,14 +135,16 @@ let install = function (Vue, options) {
     inserted (el, binding) {
       const permission = store.state.d2admin.user.info.permission
       let access = false
-      if (Array.isArray(binding.value)) {
-        if (binding.modifiers.some) {
-          access = binding.value.some(v => permission.hasOwnProperty(v))
+      if (isPlainObject(permission)) {
+        if (Array.isArray(binding.value)) {
+          if (binding.modifiers.some) {
+            access = binding.value.some(v => permission.hasOwnProperty(v))
+          } else {
+            access = binding.value.every(v => permission.hasOwnProperty(v))
+          }
         } else {
-          access = binding.value.every(v => permission.hasOwnProperty(v))
+          access = permission.hasOwnProperty(binding.value)
         }
-      } else {
-        access = permission.hasOwnProperty(binding.value)
       }
 
       if (!access) {
