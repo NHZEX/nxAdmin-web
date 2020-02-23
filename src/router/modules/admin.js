@@ -15,6 +15,7 @@ export default {
       meta: {
         title: '系统用户',
         cache: true,
+        auth: true,
       },
     }, {
       path: 'roles',
@@ -23,6 +24,17 @@ export default {
       meta: {
         title: '角色管理',
         cache: true,
+        auth: true,
+      },
+    },
+    {
+      path: 'permission',
+      name: 'AdminPermission',
+      component: _import('admin/permission'),
+      meta: {
+        title: '权限管理',
+        cache: true,
+        auth: true,
       },
     },
   ],

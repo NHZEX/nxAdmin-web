@@ -29,7 +29,7 @@ Vue.use(VueRouter)
 
 // 导出路由 在 main.js 里使用
 const router = new VueRouter({
-  routes
+  routes,
 })
 
 /**
@@ -55,8 +55,8 @@ router.beforeEach(async (to, from, next) => {
     next({
       name: 'login',
       query: {
-        redirect: to.fullPath
-      }
+        redirect: to.fullPath,
+      },
     })
   } else if (canAccessRoute(to)) {
     // 该路由验证通过
@@ -66,7 +66,7 @@ router.beforeEach(async (to, from, next) => {
     Message({
       message: '你没有获得此页面授权',
       type: 'warning',
-      duration: 5 * 1000
+      duration: 5 * 1000,
     })
     next(false)
   }
