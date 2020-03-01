@@ -16,6 +16,11 @@
         <el-form-item label="状态" prop="status">
           <el-checkbox v-model="formDataStatus">启用</el-checkbox>
         </el-form-item>
+        <el-form-item label="权限">
+          <div class="radius">
+            <el-tree ref="tree" :props="treeProps" :data="treeData" node-key="name" show-checkbox :default-checked-keys="treeCheckedKeys"></el-tree>
+          </div>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submit">提交</el-button>
         </el-form-item>
@@ -26,7 +31,7 @@
 
 <script>
 import constant from '@/constant'
-import { saveRole, getRole } from '@api/admin/admin'
+import { saveRole, getRole, getPermissions } from '@api/admin/admin'
 
 export default {
   name: 'RolesEdit',
@@ -45,6 +50,7 @@ export default {
         genre: 0,
         name: '',
         status: 0,
+        ext: {},
       },
       rules: {
         genre: [
@@ -54,6 +60,15 @@ export default {
           { type: 'string', min: 2, message: '请填写角色名称（最少两个字符）', required: true },
         ],
       },
+      treeProps: {
+        label: (data) => {
+          let desc = data.desc ? data.desc : 'null'
+          return `${data.name} (${desc})`
+        },
+        children: 'children',
+      },
+      treeData: [],
+      treeCheckedKeys: [],
     }
   },
   computed: {
@@ -77,9 +92,15 @@ export default {
   methods: {
     onOpen () {
       this.loading = true
-      getRole(this.id).then(data => {
-        if (data) {
-          this.formData = data
+      Promise.all([getRole(this.id), getPermissions()]).then(values => {
+        let role = values[0]
+        this.treeData = values[1]
+
+        if (role) {
+          this.formData = role
+          if (role.ext.permission) {
+            this.treeCheckedKeys = role.ext.permission
+          }
         }
       }).finally(() => {
         this.loading = false
@@ -94,6 +115,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.loading = true
+          this.formData.ext.permission = this.$refs.tree.getCheckedKeys()
           saveRole(this.id, this.formData).finally(() => {
             this.loading = false
             this.$emit('on-submit')
@@ -108,5 +130,8 @@ export default {
 </script>
 
 <style scoped>
-
+  .radius {
+    border: 1px solid #d7dae2;
+    border-radius: 4px;
+  }
 </style>
