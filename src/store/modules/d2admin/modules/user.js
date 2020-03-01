@@ -6,9 +6,9 @@ export default {
     // 用户信息
     info: {
       name: '',
-      permission: {}
+      permission: {},
     },
-    routeMapping: {}
+    routeMapping: {},
   },
   actions: {
     /**
@@ -25,7 +25,7 @@ export default {
           dbName: 'sys',
           path: 'user.info',
           value: info,
-          user: true
+          user: true,
         }, { root: true })
         // end
         resolve()
@@ -42,7 +42,7 @@ export default {
           dbName: 'sys',
           path: 'user.info',
           defaultValue: {},
-          user: true
+          user: true,
         }, { root: true })
 
         await dispatch('updatePermission')
@@ -58,6 +58,6 @@ export default {
     updatePermission ({ state, dispatch }) {
       generateRouteMapping()
       dispatch('d2admin/menu/filterMenu', null, { root: true })
-    }
-  }
+    },
+  },
 }
