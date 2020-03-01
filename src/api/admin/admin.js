@@ -62,3 +62,19 @@ export function saveRole (id, data) {
 export function deleteRole (id) {
   return require.delete(`/api/admin/roles/${id}`)
 }
+
+export function getPermissions () {
+  return require.get('/api/admin/permission')
+}
+
+export function getPermission (id) {
+  if (id) {
+    return require.get(`/api/admin/permission/${id}`)
+  } else {
+    return promiseResolveFalse()
+  }
+}
+
+export function scanPermission () {
+  return require.get('/api/admin/permission/scan')
+}
