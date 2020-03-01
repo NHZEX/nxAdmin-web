@@ -12,11 +12,6 @@
       <el-table-column label="角色" prop="role_name" column-key="role_id" :filters="userRoles" :filter-multiple="false"/>
       <el-table-column label="账号" prop="username"/>
       <el-table-column label="昵称" prop="nickname"/>
-      <el-table-column label="密码" width="80">
-        <template slot-scope="{}">
-          <el-button type="warning" size="mini">密码</el-button>
-        </template>
-      </el-table-column>
       <el-table-column label="邮箱" prop="email"/>
       <el-table-column label="状态" prop="status_desc"/>
       <el-table-column label="创建时间" prop="create_time" width="120" :formatter="formatData"/>
