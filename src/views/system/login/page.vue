@@ -121,6 +121,7 @@ import dayjs from 'dayjs'
 import { mapActions, mapState } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
 import { randomString } from '@/libs/util.common'
+import { URLS } from '@api/sys'
 
 export default {
   mixins: [
@@ -227,7 +228,7 @@ export default {
     },
     refrushCode () {
       const HOST_URL = process.env.VUE_APP_API
-      this.codeUrl = `${HOST_URL}admin.login/captcha?_=${this.loginToken}&_r=${Math.random()}`
+      this.codeUrl = `${HOST_URL}${URLS.GET_CAPTCHA}?token=${this.loginToken}&rand=${Math.random()}`
     },
   },
 }

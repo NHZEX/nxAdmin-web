@@ -9,5 +9,5 @@ export function AccountLogout () {
 }
 
 export function UserInfo () {
-  return request.get('/admin.main/userInfo')
+  return request.get('/api.admin.auth/userInfo')
 }
