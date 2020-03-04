@@ -54,6 +54,7 @@
                   <el-input
                     type="text"
                     v-model="formLogin.code"
+                    @keyup.enter.native.stop.prevent="submit"
                     ref="form-code"
                     data-lpignore="true"
                     placeholder="验证码"
@@ -122,6 +123,7 @@ import { mapActions, mapState } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
 import { randomString } from '@/libs/util.common'
 import { SYS_URLS } from '@api/sys'
+import { Loading } from 'element-ui'
 
 export default {
   mixins: [
@@ -195,6 +197,7 @@ export default {
     submit () {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
+          let loadingInstance = Loading.service({ fullscreen: true })
           // 登录
           // 注意 这里的演示没有传验证码
           // 具体需要传递的数据请自行修改代码
@@ -219,6 +222,8 @@ export default {
               this.$refs['form-code'].focus()
               this.refrushCode()
             }
+          }).finally(() => {
+            loadingInstance.close()
           })
         } else {
           // 登录表单校验失败
@@ -265,8 +270,8 @@ export default {
   .page-login--content-header {
     padding: 1em 0;
     .page-login--content-header-motto {
-      margin: 0px;
-      padding: 0px;
+      margin: 0;
+      padding: 0;
       color: $color-text-normal;
       text-align: center;
       font-size: 12px;
@@ -291,7 +296,7 @@ export default {
     }
     // 输入框左边的图表区域缩窄
     .el-input-group__prepend {
-      padding: 0px 14px;
+      padding: 0 14px;
     }
     .login-code {
       height: 40px - 2px;
@@ -302,11 +307,10 @@ export default {
     }
     // 登陆选项
     .page-login--options {
-      margin: 0px;
-      padding: 0px;
+      margin: 0 0 15px;
+      padding: 0;
       font-size: 14px;
       color: $color-primary;
-      margin-bottom: 15px;
       font-weight: bold;
     }
     .page-login--quick {
@@ -316,7 +320,7 @@ export default {
   // 快速选择用户面板
   .page-login--quick-user {
     @extend %flex-center-col;
-    padding: 10px 0px;
+    padding: 10px 0;
     border-radius: 4px;
     &:hover {
       background-color: $color-bg;
@@ -341,9 +345,8 @@ export default {
   .page-login--content-footer {
     padding: 1em 0;
     .page-login--content-footer-locales {
-      padding: 0px;
-      margin: 0px;
-      margin-bottom: 15px;
+      padding: 0;
+      margin: 0 0 15px;
       font-size: 12px;
       line-height: 12px;
       text-align: center;
@@ -357,9 +360,8 @@ export default {
       }
     }
     .page-login--content-footer-copyright {
-      padding: 0px;
-      margin: 0px;
-      margin-bottom: 10px;
+      padding: 0;
+      margin: 0 0 10px;
       font-size: 12px;
       line-height: 12px;
       text-align: center;
@@ -369,8 +371,8 @@ export default {
       }
     }
     .page-login--content-footer-options {
-      padding: 0px;
-      margin: 0px;
+      padding: 0;
+      margin: 0;
       font-size: 12px;
       line-height: 12px;
       text-align: center;
@@ -388,8 +390,8 @@ export default {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     li {
       position: absolute;
       display: block;
