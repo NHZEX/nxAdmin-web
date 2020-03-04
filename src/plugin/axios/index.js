@@ -1,6 +1,6 @@
 import store from '@/store'
 import axios from 'axios'
-import { Message } from 'element-ui'
+import ivuMessage from '@ivu/message'
 import util from '@/libs/util'
 import router from '@/router'
 
@@ -30,10 +30,9 @@ function errorLog (error) {
     console.log(error)
   }
   // 显示提示
-  Message({
-    message: error.message,
-    type: 'error',
-    duration: 5 * 1000,
+  ivuMessage.error({
+    content: error.message,
+    duration: 5,
   })
 }
 
