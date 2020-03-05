@@ -3,6 +3,7 @@ import axios from 'axios'
 import ivuMessage from '@ivu/message'
 import util from '@/libs/util'
 import router from '@/router'
+import { isPlainObject } from 'lodash';
 
 // 创建一个错误
 function errorCreate (msg, code, dataAxios, response) {
@@ -98,28 +99,34 @@ service.interceptors.response.use(
     }
   },
   error => {
+    if (error.response.status === 401) {
+      // 删除cookie
+      util.cookies.remove('token')
+      util.cookies.remove('uuid')
+      // 清空 vuex 用户信息
+      store.dispatch('d2admin/user/set', {}, { root: true })
+      router.push({ name: 'login' })
+    }
     if (error && error.response) {
-      switch (error.response.status) {
-        case 400: error.message = '请求错误'; break
-        case 401: error.message = '未授权，请登录'; break
-        case 403: error.message = '拒绝访问'; break
-        case 404: error.message = `请求地址出错: ${error.response.config.url}`; break
-        case 408: error.message = '请求超时'; break
-        case 500: error.message = '服务器内部错误'; break
-        case 501: error.message = '服务未实现'; break
-        case 502: error.message = '网关错误'; break
-        case 503: error.message = '服务不可用'; break
-        case 504: error.message = '网关超时'; break
-        case 505: error.message = 'HTTP版本不受支持'; break
-        default: break
-      }
-      if (error.response.status === 401) {
-        // 删除cookie
-        util.cookies.remove('token')
-        util.cookies.remove('uuid')
-        // 清空 vuex 用户信息
-        store.dispatch('d2admin/user/set', {}, { root: true })
-        router.push({ name: 'login' })
+      if (isPlainObject(error.response.data)) {
+        let errno = error.response.data.errno ? error.response.data.errno : -1
+        let message = error.response.data.message ? error.response.data.message : 'Undefined'
+        errorCreate(`${message}: ${error.config.url}`, errno, error.response.data, error.response)
+      } else {
+        switch (error.response.status) {
+          case 400: error.message = '请求错误'; break
+          case 401: error.message = '未授权，请登录'; break
+          case 403: error.message = '拒绝访问'; break
+          case 404: error.message = `请求地址出错: ${error.response.config.url}`; break
+          case 408: error.message = '请求超时'; break
+          case 500: error.message = '服务器内部错误'; break
+          case 501: error.message = '服务未实现'; break
+          case 502: error.message = '网关错误'; break
+          case 503: error.message = '服务不可用'; break
+          case 504: error.message = '网关超时'; break
+          case 505: error.message = 'HTTP版本不受支持'; break
+          default: break
+        }
       }
     }
     errorLog(error)
