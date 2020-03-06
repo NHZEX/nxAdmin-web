@@ -11,7 +11,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="账号" prop="username">
-          <el-input v-model="formData.username"/>
+          <el-input v-model="formData.username" :readonly="true"/>
         </el-form-item>
         <el-form-item label="昵称" prop="nickname">
           <el-input v-model="formData.nickname"/>
