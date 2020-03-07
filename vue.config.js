@@ -16,7 +16,7 @@ let publicPath = process.env.VUE_APP_PUBLIC_PATH || '/'
 
 // 设置不参与构建的库
 let externals = {}
-cdnDependencies.forEach(package => { externals[package.name] = package.library })
+cdnDependencies.forEach(cdnPackage => { externals[cdnPackage.name] = cdnPackage.library })
 
 // 引入文件的 cdn 链接
 const cdn = {

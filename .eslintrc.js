@@ -10,7 +10,8 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'comma-dangle': ["warn", "always-multiline"],
+    // 暂时关闭对逗号的检查
+    'comma-dangle': ["off", "always-multiline"],
     'camelcase': 'off'
   },
   parserOptions: {
