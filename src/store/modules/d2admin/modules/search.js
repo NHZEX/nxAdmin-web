@@ -1,4 +1,5 @@
 import setting from '@/setting.js'
+import { filterMenu } from '@/plugin/auth'
 
 export default {
   namespaced: true,
@@ -48,7 +49,7 @@ export default {
           }
         })
       }
-      push(menu)
+      push(filterMenu(menu))
       state.pool = pool
     }
   }
