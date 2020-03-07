@@ -17,7 +17,7 @@ import '@fortawesome/fontawesome-free/js/v4-shims'
 
 // 菜单和路由设置
 import router from './router'
-import { menuHeader, menuAside } from '@/menu/index'
+import { menuAside } from '@/menu/index'
 import { frameInRoutes } from '@/router/routes'
 
 // auth
@@ -39,7 +39,7 @@ new Vue({
     // 处理路由 得到每一级的路由设置
     this.$store.commit('d2admin/page/init', frameInRoutes)
     // 设置顶栏菜单
-    this.$store.commit('d2admin/menu/headerSet', menuHeader)
+    this.$store.commit('d2admin/menu/headerSet', [])
     // 设置侧边栏菜单
     this.$store.commit('d2admin/menu/asideSet', menuAside)
     // 初始化菜单搜索功能
