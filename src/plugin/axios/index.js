@@ -3,7 +3,7 @@ import axios from 'axios'
 import ivuMessage from '@ivu/message'
 import util from '@/libs/util'
 import router from '@/router'
-import { isPlainObject } from 'lodash';
+import { isPlainObject } from 'lodash'
 
 // 创建一个错误
 function errorCreate (msg, code, dataAxios, response) {
