@@ -11,10 +11,6 @@ import store from '@/store/index'
 import 'view-design/dist/styles/iview.css'
 import iviewMini from '@/plugin/iview/index'
 
-// font-awesome-5
-import '@fortawesome/fontawesome-free/js/all'
-import '@fortawesome/fontawesome-free/js/v4-shims'
-
 // 菜单和路由设置
 import router from './router'
 import { menuAside } from '@/menu/index'
@@ -29,6 +25,11 @@ Vue.use(d2Admin)
 Vue.use(iviewMini)
 // 注册权限
 Vue.use(auth)
+
+// fontawesome-5 (async load)
+import('@/plugin/fortawesome/index').then(module => {
+  module.default()
+})
 
 new Vue({
   router,
