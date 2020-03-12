@@ -3,6 +3,10 @@ import Modal from 'view-design/src/components/modal'
 import Notice from 'view-design/src/components/notice'
 import Spin from 'view-design/src/components/spin'
 
+import('./style').then((module) => {
+  module.default()
+})
+
 /**
  * @param {Vue} Vue
  * @param {Object} options

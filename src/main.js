@@ -8,7 +8,6 @@ import d2Admin from '@/plugin/d2admin'
 import store from '@/store/index'
 
 // iviewui
-import 'view-design/dist/styles/iview.css'
 import iviewMini from '@/plugin/iview/index'
 
 // 菜单和路由设置
