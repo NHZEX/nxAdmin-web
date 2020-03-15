@@ -50,7 +50,9 @@ export default {
         genre: 0,
         name: '',
         status: 0,
-        ext: {},
+        ext: {
+          permission: [],
+        },
       },
       rules: {
         genre: [
@@ -97,6 +99,9 @@ export default {
         this.treeData = values[1]
 
         if (role) {
+          if (Array.isArray(role.ext)) {
+            role.ext = {}
+          }
           this.formData = role
           if (role.ext.permission) {
             this.treeCheckedKeys = role.ext.permission
