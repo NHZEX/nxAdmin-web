@@ -12,7 +12,13 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // 暂时关闭对逗号的检查
     'comma-dangle': ["off", "always-multiline"],
-    'camelcase': 'off'
+    'camelcase': 'off',
+    // script 标签缩进设置
+    "vue/script-indent": ["warn", 2, {
+      "baseIndent": 1,
+      "switchCase": 0,
+      "ignores": []
+    }]
   },
   parserOptions: {
     parser: 'babel-eslint'
@@ -25,6 +31,12 @@ module.exports = {
       ],
       env: {
         jest: true
+      }
+    }, {
+      // 关闭对 vue 文件的缩进检测
+      files: ["*.vue"],
+      rules: {
+        indent: "off",
       }
     }
   ]
