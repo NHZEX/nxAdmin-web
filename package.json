@@ -15,6 +15,11 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "analyz": "cross-env npm_config_report=true npm run build"
   },
+  "engines": {
+    "node": ">=10.14",
+    "npm": ">=6",
+    "yarn": ">=1"
+  },
   "dependencies": {
     "@d2-projects/d2-crud": "^2.1.2",
     "@fortawesome/fontawesome-free": "^5.12.0",
