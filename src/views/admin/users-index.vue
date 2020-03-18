@@ -1,109 +1,137 @@
 <template>
   <d2-container>
     <div style="margin-bottom: 10px">
-      <el-button type="primary" size="small" icon="el-icon-refresh-right" :loading="loading" @click="loadTable" style="margin-right: 5px">刷新</el-button>
-      <users-edit @data-change="loadTable">
-        <el-button type="primary" size="small" style="margin-right: 10px;">添加</el-button>
+      <i-button type="primary" icon="md-refresh" :loading="loading" @click="refresh">刷新</i-button>
+      <users-edit @data-change="refresh">
+        <i-button type="primary" icon="md-add">添加</i-button>
       </users-edit>
     </div>
-    <el-table style="margin-bottom: 10px" border size="small" :data="data" v-loading="loading" row-key="id" @filter-change="filterChange">
-      <el-table-column label="ID" prop="id" width="100"/>
-      <el-table-column label="类型" prop="genre_desc" column-key="genre" :filters="usersGenre" :filter-multiple="false"/>
-      <el-table-column label="角色" prop="role_name" column-key="role_id" :filters="userRoles" :filter-multiple="false"/>
-      <el-table-column label="账号" prop="username"/>
-      <el-table-column label="昵称" prop="nickname"/>
-      <el-table-column label="邮箱" prop="email"/>
-      <el-table-column label="状态" prop="status_desc"/>
-      <el-table-column label="创建时间" prop="create_time" width="120" :formatter="formatData"/>
-      <el-table-column label="更新时间" prop="update_time" width="120" :formatter="formatData"/>
-      <el-table-column label="操作">
-        <template slot-scope="{ row, $index }">
-          <users-edit :id="row.id" @data-change="loadTable">
-            <el-button type="primary" size="mini" style="margin-right: 10px;" :loading="row.__loadingDelete">编辑</el-button>
-          </users-edit>
-          <el-popover-del title="确认删除数据？" @on-ok="tableDelete($index, row.id)">
-            <el-button type="danger" size="mini">删除</el-button>
-          </el-popover-del>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination :layout="page.layout" @current-change="pageChange" @size-change="pageSizeChange"
-                   :total="page.total" :current-page="page.current" :page-size="page.size" :page-sizes="page.sizes"/>
+    <i-page-table :columns="columns" :data="data" :loading="loading" row-key="id" border
+                  @page-change="pageChange" :pageTotal="page.total" :page-current="page.current" :page-size="page.size">
+      <template v-slot:formatTime="{ row, column }">
+        {{ dayjs.unix(row[column.key]).format('YYYY-MM-DD HH:mm') }}
+      </template>
+      <template v-slot:action="{ row, index }">
+        <users-edit :id="row.id" @data-change="refresh">
+          <i-button type="primary" size="small">编辑</i-button>
+        </users-edit>
+        <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="tableDelete(index, row.id)">
+          <i-button type="error" size="small" :loading="row.__loadingDelete">删除</i-button>
+        </poptip>
+      </template>
+    </i-page-table>
   </d2-container>
 </template>
 
 <script>
-import ElPopoverDel from '@/components/common/el-popover-del'
-import UsersEdit from './users-edit'
-import constant from '@/constant'
-import { deleteUser, getRolesSelect, getUsers } from '@api/admin/admin'
-import tableHelper from '@/plugin/helper/table-page'
-import dayjs from 'dayjs'
+  import iButton from '@ivu/button'
+  import Poptip from '@ivu/poptip'
+  import iPageTable from '@/components/common/i-page-table'
+  import UsersEdit from './users-edit'
+  import { deleteUser, getRolesSelect, getUsers } from '@api/admin/admin'
+  import dayjs from 'dayjs'
+  import { ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 
-export default {
-  name: 'UsersIndex',
-  components: { ElPopoverDel, UsersEdit },
-  mixins: [tableHelper],
-  data () {
-    return {
-      usersGenre: constant.admin.usersGenre,
-      userRoles: [],
-      loading: false,
-      data: [],
-      where: {
-        genre: 0,
-        role_id: 0,
-      },
-    }
-  },
-  methods: {
-    loadTable () {
-      this.loading = true
-      Promise.all([getRolesSelect(), getUsers(this.page.current, this.page.size)]).then(values => {
-        this.userRoles = values[0]
-        this.data = values[1].data.map(d => {
-          d.__loadingDelete = false
-          return d
-        })
-        this.page.total = values[1].count
-      }).finally(() => {
-        this.loading = false
-      })
+  export default {
+    name: 'UsersIndex',
+    components: {
+      iButton,
+      iPageTable,
+      Poptip,
+      UsersEdit
     },
-    formatData (row, column, cellValue) {
-      return dayjs(cellValue * 1000).format('YYYY-M-D HH:mm')
-    },
-    tableDelete (index, id) {
-      let row = this.data[index]
-      row.__loadingDelete = true
-      deleteUser(id).finally(() => {
-        row.__loadingDelete = false
-        this.loadTable()
-      })
-    },
-    filterChange (filters) {
-      for (let key in filters) {
-        if (!filters.hasOwnProperty(key)) {
-          continue
-        }
-        this.where[key] = filters[key].length ? filters[key][0] : 0
+    data () {
+      return {
+        dayjs,
+        loading: false,
+        columns: [
+          { title: 'id', key: 'id', width: 80 },
+          { title: '类型',
+            key: 'genre_desc',
+            width: 120,
+            filters: toLabelValue(ADMIN_USERS_GENRE),
+            filterMultiple: false,
+            filterRemote: this.filterRemote,
+          },
+          { title: '角色',
+            key: 'role_name',
+            width: 120,
+            filters: getRolesSelect(),
+            filterMultiple: false,
+            filterRemote: this.filterRemote,
+          },
+          { title: '账号', key: 'username' },
+          { title: '昵称', key: 'nickname' },
+          { title: '邮箱', key: 'email' },
+          { title: '状态', key: 'status_desc', width: 70 },
+          { title: '创建时间', key: 'create_time', slot: 'formatTime', width: 135 },
+          { title: '更新时间', key: 'update_time', slot: 'formatTime', width: 135 },
+          { title: '操作', slot: 'action', width: 200 },
+        ],
+        data: [],
+        page: {
+          total: 0,
+          current: 1,
+          size: 10,
+        },
+        where: {
+          genre: 0,
+          role_id: 0,
+        },
       }
     },
-  },
-  mounted () {
-    this.loadTable()
-  },
-  comments: {
-  },
-  watch: {
-    'page.current' () {
-      this.loadTable()
+    methods: {
+      pageChange ({ current, size }) {
+        this.page.current = current
+        this.page.size = size
+        this.refresh()
+      },
+      refresh () {
+        this.loading = true
+        getUsers(this.page.current, this.page.size, this.where).then(({ data, count }) => {
+          this.data = data.map(d => {
+            d.__loadingDelete = false
+            return d
+          })
+          this.page.total = data.count
+        }).finally(() => {
+          this.loading = false
+        })
+      },
+      searchSubmit () {
+        this.page.current = 1
+        this.refresh()
+      },
+      filterRemote (values, key) {
+        switch (key) {
+          case 'genre_desc':
+            this.where.genre = values[0]
+            break
+          case 'role_name':
+            this.where.role_id = values[0]
+            break
+          default:
+            break
+        }
+        this.searchSubmit()
+      },
+      tableDelete (index, id) {
+        let row = this.data[index]
+        row.__loadingDelete = true
+        deleteUser(id).finally(() => {
+          row.__loadingDelete = false
+          this.refresh()
+        })
+      },
     },
-    'page.size' () {
-      this.loadTable()
+    mounted () {
+      this.refresh()
     },
-  },
-}
+    comments: {
+    },
+    watch: {
+    },
+  }
 </script>
 
 <style scoped>

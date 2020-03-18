@@ -1,11 +1,12 @@
 import require from '@/plugin/axios'
 import { promiseResolveFalse } from '@/libs/util.common'
 
-export function getUsers (page, limit) {
+export function getUsers (page, limit, where = {}) {
   return require.get('/api/admin/users', {
     params: {
       page,
       limit,
+      ...where,
     },
   })
 }
@@ -30,11 +31,12 @@ export function deleteUser (id) {
   return require.delete(`/api/admin/users/${id}`)
 }
 
-export function getRoles (page, limit) {
+export function getRoles (page, limit, where) {
   return require.get('/api/admin/roles', {
     params: {
       page,
       limit,
+      ...where,
     },
   })
 }
