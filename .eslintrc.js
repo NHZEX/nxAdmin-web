@@ -16,7 +16,7 @@ module.exports = {
     // script 标签缩进设置
     "vue/script-indent": ["warn", 2, {
       "baseIndent": 1,
-      "switchCase": 0,
+      "switchCase": 1,
       "ignores": []
     }]
   },
