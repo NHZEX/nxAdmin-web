@@ -67,7 +67,7 @@
             border: true,
             ...this.$attrs,
           },
-          listeners: this.$listeners,
+          on: this.$listeners,
           scopedSlots: this.$scopedSlots,
         }),
         createElement('page', {
