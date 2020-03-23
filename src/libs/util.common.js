@@ -8,8 +8,12 @@ export function randomString (length) {
   return result
 }
 
+export function promiseResolveObject (object) {
+  return new Promise(resolve => { resolve(object) })
+}
+
 export function promiseResolveEmptyObject () {
-  return new Promise(resolve => { resolve({}) })
+  return promiseResolveObject({})
 }
 
 export function promiseResolveFalse () {
