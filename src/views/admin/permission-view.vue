@@ -31,70 +31,70 @@
 </template>
 
 <script>
-import iTable from '@ivu/table'
-import iInput from '@ivu/input'
-import iForm from '@ivu/form'
-import formItem from '@ivu/form-item'
-import modal from '@ivu/modal'
-import { getPermission } from '@api/admin/admin'
+  import iTable from '@ivu/table'
+  import iInput from '@ivu/input'
+  import iForm from '@ivu/form'
+  import formItem from '@ivu/form-item'
+  import modal from '@ivu/modal'
+  import { getPermission } from '@api/admin/admin'
 
-export default {
-  name: 'admin-permission-view',
-  components: {
-    iTable,
-    iInput,
-    iForm,
-    formItem,
-    modal,
-  },
-  props: {
-    id: {
-      type: String,
-      required: true,
+  export default {
+    name: 'admin-permission-view',
+    components: {
+      iTable,
+      iInput,
+      iForm,
+      formItem,
+      modal,
     },
-  },
-  data: function () {
-    return {
-      loading: false,
-      visible: false,
-      formData: {
-        pid: '',
-        name: '',
-        sort: 0,
-        control: {},
+    props: {
+      id: {
+        type: String,
+        required: true,
       },
-      formRule: {
-      },
-      controlLoading: false,
-      controlColumns: [
-        { title: '节点', key: 'name', width: 280 },
-        { title: '注解', key: 'desc' },
-      ],
-      controlData: [],
-    }
-  },
-  computed: {
-  },
-  methods: {
-    onDisplay (visible) {
-      if (visible) {
-        this.render()
+    },
+    data: function () {
+      return {
+        loading: false,
+        visible: false,
+        formData: {
+          pid: '',
+          name: '',
+          sort: 0,
+          control: {},
+        },
+        formRule: {
+        },
+        controlLoading: false,
+        controlColumns: [
+          { title: '节点', key: 'name', width: 280 },
+          { title: '注解', key: 'desc' },
+        ],
+        controlData: [],
       }
     },
-    render () {
-      if (this.id === 0) {
-        return
-      }
-      this.loading = true
-      getPermission(this.id).then(data => {
-        this.formData = data
-        this.controlData = data.allow
-      }).finally(() => {
-        this.loading = false
-      })
+    computed: {
     },
-  },
-}
+    methods: {
+      onDisplay (visible) {
+        if (visible) {
+          this.render()
+        }
+      },
+      render () {
+        if (!this.id) {
+          return
+        }
+        this.loading = true
+        getPermission(this.id).then(data => {
+          this.formData = data
+          this.controlData = data.allow
+        }).finally(() => {
+          this.loading = false
+        })
+      },
+    },
+  }
 </script>
 
 <style scoped>
