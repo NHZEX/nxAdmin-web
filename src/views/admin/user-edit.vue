@@ -40,7 +40,7 @@
   import { ADMIN_USERS_GENRE } from '@/store/constant'
 
   export default {
-    name: 'UsersEdit',
+    name: 'UserEdit',
     props: {
       id: {
         type: Number,

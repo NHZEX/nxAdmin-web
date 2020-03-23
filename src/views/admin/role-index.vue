@@ -2,9 +2,9 @@
   <d2-container>
     <div style="margin-bottom: 10px">
       <i-button type="primary" icon="md-refresh" :loading="loading" @click="refresh">刷新</i-button>
-      <roles-edit @on-submit="refresh">
+      <role-edit @on-submit="refresh">
         <i-button type="primary" icon="md-add">添加</i-button>
-      </roles-edit>
+      </role-edit>
     </div>
     <i-page-table :columns="columns" :data="data" :loading="loading" row-key="id" border
                   @page-change="pageChange" :pageTotal="page.total" :page-current="page.current" :page-size="page.size">
@@ -12,9 +12,9 @@
         {{ dayjs.unix(row[column.key]).format('YYYY-MM-DD HH:mm') }}
       </template>
       <template v-slot:action="{ row }">
-        <roles-edit :id="row.id" @on-submit="refresh">
+        <role-edit :id="row.id" @on-submit="refresh">
           <i-button type="primary" size="small">编辑</i-button>
-        </roles-edit>
+        </role-edit>
         <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="roleDelete(row.id)">
           <i-button type="error" size="small">删除</i-button>
         </poptip>
@@ -28,17 +28,17 @@
   import Poptip from '@ivu/poptip'
   import iPageTable from '@/components/common/i-page-table'
   import dayjs from 'dayjs'
-  import RolesEdit from './roles-edit'
+  import RoleEdit from './role-edit'
   import { deleteRole, getRoles } from '@api/admin/admin'
   import { ADMIN_ROLES_GENRE, toLabelValue } from '@/store/constant'
 
   export default {
-    name: 'RolesIndex',
+    name: 'RoleIndex',
     components: {
       iButton,
       Poptip,
       iPageTable,
-      RolesEdit
+      RoleEdit
     },
     data () {
       return {

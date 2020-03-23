@@ -43,7 +43,7 @@
   import { ADMIN_ROLES_GENRE } from '@/store/constant'
 
   export default {
-    name: 'RolesEdit',
+    name: 'RoleEdit',
     components: {
       Tree,
       Modal,

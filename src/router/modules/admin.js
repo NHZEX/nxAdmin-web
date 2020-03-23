@@ -8,18 +8,18 @@ export default {
   component: layoutHeaderAside,
   children: [
     {
-      path: 'users',
-      name: 'AdminUsers',
-      component: _import('admin/users-index'),
+      path: 'user',
+      name: 'AdminUser',
+      component: _import('admin/user-index'),
       meta: {
         title: '系统用户',
         cache: true,
         auth: 'user',
       },
     }, {
-      path: 'roles',
-      name: 'RolesIndex',
-      component: _import('admin/roles-index'),
+      path: 'role',
+      name: 'RoleIndex',
+      component: _import('admin/role-index'),
       meta: {
         title: '角色管理',
         cache: true,
