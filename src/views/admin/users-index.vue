@@ -11,12 +11,12 @@
       <template v-slot:formatTime="{ row, column }">
         {{ dayjs.unix(row[column.key]).format('YYYY-MM-DD HH:mm') }}
       </template>
-      <template v-slot:action="{ row, index }">
+      <template v-slot:action="{ row }">
         <users-edit :id="row.id" @data-change="refresh">
           <i-button type="primary" size="small">编辑</i-button>
         </users-edit>
-        <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="tableDelete(index, row.id)">
-          <i-button type="error" size="small" :loading="row.__loadingDelete">删除</i-button>
+        <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="tableDelete(row.id)">
+          <i-button type="error" size="small">删除</i-button>
         </poptip>
       </template>
     </i-page-table>
@@ -89,11 +89,8 @@
       refresh () {
         this.loading = true
         getUsers(this.page.current, this.page.size, this.where).then(({ data, count }) => {
-          this.data = data.map(d => {
-            d.__loadingDelete = false
-            return d
-          })
-          this.page.total = data.count
+          this.data = data
+          this.page.total = count
         }).finally(() => {
           this.loading = false
         })
@@ -115,11 +112,8 @@
         }
         this.searchSubmit()
       },
-      tableDelete (index, id) {
-        let row = this.data[index]
-        row.__loadingDelete = true
+      tableDelete (id) {
         deleteUser(id).finally(() => {
-          row.__loadingDelete = false
           this.refresh()
         })
       },
