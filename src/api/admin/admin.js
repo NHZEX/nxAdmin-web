@@ -23,7 +23,7 @@ export function saveUser (id, data) {
   if (id) {
     return require.put(`/api/admin/users/${id}`, data)
   } else {
-    return require.post('`/api/admin/users', data)
+    return require.post('/api/admin/users', data)
   }
 }
 

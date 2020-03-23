@@ -2,21 +2,21 @@
   <d2-container>
     <div style="margin-bottom: 10px">
       <i-button type="primary" icon="md-refresh" :loading="loading" @click="refresh">刷新</i-button>
-      <users-edit @data-change="refresh">
+      <user-edit @on-submit="refresh">
         <i-button type="primary" icon="md-add">添加</i-button>
-      </users-edit>
+      </user-edit>
     </div>
     <i-page-table :columns="columns" :data="data" :loading="loading" row-key="id" border
                   @page-change="pageChange" :pageTotal="page.total" :page-current="page.current" :page-size="page.size">
       <template v-slot:formatTime="{ row, column }">
         {{ dayjs.unix(row[column.key]).format('YYYY-MM-DD HH:mm') }}
       </template>
-      <template v-slot:action="{ row, index }">
-        <users-edit :id="row.id" @data-change="refresh">
+      <template v-slot:action="{ row }">
+        <user-edit :id="row.id" @on-submit="refresh">
           <i-button type="primary" size="small">编辑</i-button>
-        </users-edit>
-        <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="tableDelete(index, row.id)">
-          <i-button type="error" size="small" :loading="row.__loadingDelete">删除</i-button>
+        </user-edit>
+        <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="tableDelete(row.id)">
+          <i-button type="error" size="small">删除</i-button>
         </poptip>
       </template>
     </i-page-table>
@@ -27,18 +27,18 @@
   import iButton from '@ivu/button'
   import Poptip from '@ivu/poptip'
   import iPageTable from '@/components/common/i-page-table'
-  import UsersEdit from './users-edit'
+  import UserEdit from './user-edit'
   import { deleteUser, getRolesSelect, getUsers } from '@api/admin/admin'
   import dayjs from 'dayjs'
   import { ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 
   export default {
-    name: 'UsersIndex',
+    name: 'UserIndex',
     components: {
       iButton,
       iPageTable,
       Poptip,
-      UsersEdit
+      UserEdit
     },
     data () {
       return {
@@ -89,11 +89,8 @@
       refresh () {
         this.loading = true
         getUsers(this.page.current, this.page.size, this.where).then(({ data, count }) => {
-          this.data = data.map(d => {
-            d.__loadingDelete = false
-            return d
-          })
-          this.page.total = data.count
+          this.data = data
+          this.page.total = count
         }).finally(() => {
           this.loading = false
         })
@@ -115,11 +112,8 @@
         }
         this.searchSubmit()
       },
-      tableDelete (index, id) {
-        let row = this.data[index]
-        row.__loadingDelete = true
+      tableDelete (id) {
         deleteUser(id).finally(() => {
-          row.__loadingDelete = false
           this.refresh()
         })
       },
