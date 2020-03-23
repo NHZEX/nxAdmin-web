@@ -3,38 +3,58 @@
     <span @click="visible = true">
       <slot/>
     </span>
-    <el-dialog title="角色" :visible.sync="visible" width="450px" @open="onOpen" @close="onClose">
-      <el-form ref="form" :model="formData" :rules="rules" label-width="70px" v-loading="loading">
-        <el-form-item label="类型" prop="genre" v-show="!id">
-          <el-select v-model="formDataGenre" placeholder="请选择角色类型" style="width: 100%">
-            <el-option v-for="(value, key) in rolesGenre" :key="key" :label="value" :value="parseInt(key)"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="formData.name"/>
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-checkbox v-model="formDataStatus">启用</el-checkbox>
-        </el-form-item>
-        <el-form-item label="权限">
+    <modal v-model="visible" @on-visible-change="onVisible" title="角色编辑" :loading="loading" width="450px" footer-hide :styles="{top: '20px'}">
+      <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
+        <form-item label="类型" prop="genre" v-show="!id">
+          <i-select v-model="formDataGenre" placeholder="请选择角色类型">
+            <i-option v-for="(value, key) in rolesGenre" :key="key" :value="parseInt(key)">{{ value }}</i-option>
+          </i-select>
+        </form-item>
+        <form-item label="名称" prop="name">
+          <i-input type="text" v-model="formData.name"></i-input>
+        </form-item>
+        <form-item label="状态" prop="status">
+          <checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></checkbox>
+        </form-item>
+        <form-item label="权限">
           <div class="radius">
-            <el-tree ref="tree" :props="treeProps" :data="treeData" node-key="name" show-checkbox :default-checked-keys="treeCheckedKeys"></el-tree>
+            <tree :data="treeData" :render="treeRender" @on-check-change="onTreeCheck" show-checkbox multiple></tree>
           </div>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submit">提交</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
+        </form-item>
+        <form-item>
+          <i-button type="primary" @click="submit">提交</i-button>
+        </form-item>
+      </i-form>
+    </modal>
   </span>
 </template>
 
 <script>
+  import Tree from '@ivu/tree'
+  import Modal from '@ivu/modal'
+  import iInput from '@ivu/input'
+  import iForm from '@ivu/form'
+  import FormItem from '@ivu/form-item'
+  import iSelect from '@ivu/select'
+  import iOption from '@ivu/option'
+  import Checkbox from '@ivu/checkbox'
+  import iButton from '@ivu/button'
   import { saveRole, getRole, getPermissions } from '@api/admin/admin'
   import { ADMIN_ROLES_GENRE } from '@/store/constant'
 
   export default {
     name: 'RolesEdit',
+    components: {
+      Tree,
+      Modal,
+      iInput,
+      iForm,
+      FormItem,
+      iSelect,
+      iOption,
+      Checkbox,
+      iButton,
+    },
     props: {
       id: {
         type: Number,
@@ -62,13 +82,6 @@
             { type: 'string', min: 2, message: '请填写角色名称（最少两个字符）', required: true },
           ],
         },
-        treeProps: {
-          label: (data) => {
-            let desc = data.desc ? data.desc : 'null'
-            return `${data.name} (${desc})`
-          },
-          children: 'children',
-        },
         treeData: [],
         treeCheckedKeys: [],
       }
@@ -92,44 +105,81 @@
       },
     },
     methods: {
-      onOpen () {
+      onVisible (visible) {
+        if (visible) {
+          this.render()
+        } else {
+          this.$refs['form'].resetFields()
+        }
+      },
+      treeRender (h, { data }) { // root, node
+        return h('span', {
+          style: {
+            display: 'inline-block',
+            width: '100%',
+          },
+        }, `${data.name} (${data.desc ? data.desc : 'null'})`)
+      },
+      onTreeCheck (checkeds) {
+        this.treeCheckedKeys = checkeds.map(v => v.name)
+      },
+      render () {
         this.loading = true
         Promise.all([getRole(this.id), getPermissions()]).then(values => {
           let role = values[0]
-          this.treeData = values[1]
-
           if (role) {
             if (Array.isArray(role.ext)) {
               role.ext = {}
             }
             this.formData = role
-            if (role.ext.permission) {
+            if (Array.isArray(role.ext.permission)) {
               this.treeCheckedKeys = role.ext.permission
             }
           }
+          this.treeData = this.checkTreeData(values[1], this.treeCheckedKeys)
         }).finally(() => {
           this.loading = false
         })
-      },
-      onClose () {
-        if (!this.id) {
-          this.$refs['form'].resetFields()
-        }
       },
       submit () {
         this.$refs['form'].validate((valid) => {
           if (valid) {
             this.loading = true
-            this.formData.ext.permission = this.$refs.tree.getCheckedKeys()
-            saveRole(this.id, this.formData).finally(() => {
-              this.loading = false
-              this.$emit('on-submit')
-            })
+            this.formData.ext.permission = this.treeCheckedKeys
+            saveRole(this.id, this.formData)
+              .then(() => {
+                this.visible = false
+              }).finally(() => {
+                this.loading = false
+                this.$emit('on-submit')
+              })
           } else {
             return false
           }
         })
       },
+      checkTreeData (treeData, checked) {
+        let cfun = (tree) => {
+          for (let i in tree) {
+            if (!tree.hasOwnProperty(i)) {
+              continue
+            }
+            let node = tree[i]
+
+            node.checked = checked.includes(node.name)
+
+            if (node.children && node.children.length > 0) {
+              node.children = cfun(node.children)
+            }
+          }
+          return tree
+        }
+        if (Array.isArray(checked)) {
+          return cfun(treeData)
+        } else {
+          return treeData
+        }
+      }
     },
   }
 </script>
@@ -138,5 +188,6 @@
   .radius {
     border: 1px solid #d7dae2;
     border-radius: 4px;
+    line-height: 1.5;
   }
 </style>

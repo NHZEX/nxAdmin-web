@@ -12,7 +12,7 @@
         {{ dayjs.unix(row[column.key]).format('YYYY-MM-DD HH:mm') }}
       </template>
       <template v-slot:action="{ row, index }">
-        <roles-edit :id="row.id" @data-change="refresh">
+        <roles-edit :id="row.id" @on-submit="refresh">
           <i-button type="primary" size="small">编辑</i-button>
         </roles-edit>
         <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="tableDelete(index, row.id)">
@@ -77,6 +77,7 @@
         this.refresh()
       },
       refresh () {
+        console.log('refresh')
         this.loading = true
         getRoles(this.page.current, this.page.size, this.where).then(({ data, count }) => {
           this.data = data.map(d => {
