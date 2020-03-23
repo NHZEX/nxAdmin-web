@@ -1,6 +1,6 @@
 <template>
   <d2-container class="page">
-    <el-table :data="tableData" border size="mini" style="width: 450px">
+    <el-table :data="tableData" border size="mini" v-loading="loading" style="width: 450px">
       <el-table-column label="系统信息">
         <el-table-column
           prop="name"
@@ -18,35 +18,39 @@
 
 <script>
 
-import { sysinfo } from '@api/sys'
+  import { sysinfo } from '@api/sys'
 
-export default {
-  components: {},
-  data () {
-    return {
-      tableData: [],
-    }
-  },
-  methods: {
-    load () {
-      sysinfo().then(data => {
-        let result = []
-        for (let key in data) {
-          if (data.hasOwnProperty(key)) {
-            result.push({
-              'name': data[key][0],
-              'value': data[key][1],
-            })
-          }
-        }
-        this.tableData = result
-      })
+  export default {
+    components: {},
+    data () {
+      return {
+        loading: false,
+        tableData: [],
+      }
     },
-  },
-  mounted () {
-    this.load()
-  },
-}
+    methods: {
+      load () {
+        this.loading = true
+        sysinfo().then(data => {
+          let result = []
+          for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+              result.push({
+                'name': data[key][0],
+                'value': data[key][1],
+              })
+            }
+          }
+          this.tableData = result
+        }).finally(() => {
+          this.loading = false
+        })
+      },
+    },
+    mounted () {
+      this.load()
+    },
+  }
 </script>
 
 <style lang="scss" scoped>
