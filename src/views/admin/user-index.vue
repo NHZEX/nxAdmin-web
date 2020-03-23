@@ -2,7 +2,7 @@
   <d2-container>
     <div style="margin-bottom: 10px">
       <i-button type="primary" icon="md-refresh" :loading="loading" @click="refresh">刷新</i-button>
-      <user-edit @data-change="refresh">
+      <user-edit @on-submit="refresh">
         <i-button type="primary" icon="md-add">添加</i-button>
       </user-edit>
     </div>
@@ -12,7 +12,7 @@
         {{ dayjs.unix(row[column.key]).format('YYYY-MM-DD HH:mm') }}
       </template>
       <template v-slot:action="{ row }">
-        <user-edit :id="row.id" @data-change="refresh">
+        <user-edit :id="row.id" @on-submit="refresh">
           <i-button type="primary" size="small">编辑</i-button>
         </user-edit>
         <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="tableDelete(row.id)">
