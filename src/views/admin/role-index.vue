@@ -77,7 +77,6 @@
         this.refresh()
       },
       refresh () {
-        console.log('refresh')
         this.loading = true
         getRoles(this.page.current, this.page.size, this.where).then(({ data, count }) => {
           this.data = data
