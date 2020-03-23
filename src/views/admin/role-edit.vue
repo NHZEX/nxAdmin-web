@@ -3,7 +3,8 @@
     <span @click="visible = true">
       <slot/>
     </span>
-    <modal v-model="visible" @on-visible-change="onVisible" title="角色编辑" :loading="loading" width="450px" footer-hide :styles="{top: '20px'}">
+    <modal v-model="visible" @on-visible-change="onVisible" title="角色编辑" width="450px" footer-hide :styles="{top: '20px'}">
+      <spin fix v-if="loading"/>
       <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
         <form-item label="类型" prop="genre" v-show="!id">
           <i-select v-model="formDataGenre" placeholder="请选择角色类型">
@@ -39,6 +40,7 @@
   import iOption from '@ivu/option'
   import Checkbox from '@ivu/checkbox'
   import iButton from '@ivu/button'
+  import Spin from '@ivu/spin'
   import { saveRole, getRole, getPermissions } from '@api/admin/admin'
   import { ADMIN_ROLES_GENRE } from '@/store/constant'
 
@@ -54,6 +56,7 @@
       iOption,
       Checkbox,
       iButton,
+      Spin,
     },
     props: {
       id: {
