@@ -1,13 +1,11 @@
 # 忽略目录
-build/
-tests/
-node_modules/
-
-# D2CRUD 演示
-src/views/demo/d2-crud/
+/build/
+/dist
+/tests/
+/node_modules/
 
 # node 覆盖率文件
-coverage/
+/coverage/
 
 # 忽略文件
 **/*-min.js
