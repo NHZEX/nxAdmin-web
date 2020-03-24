@@ -118,124 +118,124 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import { mapActions, mapState } from 'vuex'
-import localeMixin from '@/locales/mixin.js'
-import { randomString } from '@/libs/util.common'
-import { SYS_URLS } from '@api/sys'
-import { Loading } from 'element-ui'
+  import dayjs from 'dayjs'
+  import { mapActions, mapState } from 'vuex'
+  import localeMixin from '@/locales/mixin.js'
+  import { randomString } from '@/libs/util.common'
+  import { SYS_URLS } from '@api/sys'
+  import { Loading } from 'element-ui'
 
-export default {
-  mixins: [
-    localeMixin,
-  ],
-  data () {
-    return {
-      timeInterval: null,
-      time: dayjs().format('HH:mm:ss'),
-      // 验证码
-      codeUrl: '',
-      loginToken: randomString(32),
-      // 表单
-      formLogin: {
-        username: '',
-        password: '',
-        code: '',
-        lasting: false,
+  export default {
+    mixins: [
+      localeMixin,
+    ],
+    data () {
+      return {
+        timeInterval: null,
+        time: dayjs().format('HH:mm:ss'),
+        // 验证码
+        codeUrl: '',
+        loginToken: randomString(32),
+        // 表单
+        formLogin: {
+          username: '',
+          password: '',
+          code: '',
+          lasting: false,
+        },
+        // 表单校验
+        rules: {
+          username: [
+            {
+              required: true,
+              message: '请输入用户名',
+              trigger: 'blur',
+            },
+          ],
+          password: [
+            {
+              required: true,
+              message: '请输入密码',
+              trigger: 'blur',
+            },
+          ],
+          code: [
+            {
+              required: true,
+              message: '请输入验证码',
+              trigger: 'blur',
+            },
+          ],
+        },
+      }
+    },
+    mounted () {
+      this.timeInterval = setInterval(() => {
+        this.refreshTime()
+      }, 1000)
+      this.refrushCode()
+    },
+    beforeDestroy () {
+      clearInterval(this.timeInterval)
+    },
+    computed: {
+      ...mapState('d2admin/config', [
+        'loginCaptcha',
+      ]),
+    },
+    methods: {
+      ...mapActions('d2admin/account', [
+        'login',
+      ]),
+      refreshTime () {
+        this.time = dayjs().format('HH:mm:ss')
       },
-      // 表单校验
-      rules: {
-        username: [
-          {
-            required: true,
-            message: '请输入用户名',
-            trigger: 'blur',
-          },
-        ],
-        password: [
-          {
-            required: true,
-            message: '请输入密码',
-            trigger: 'blur',
-          },
-        ],
-        code: [
-          {
-            required: true,
-            message: '请输入验证码',
-            trigger: 'blur',
-          },
-        ],
+      /**
+       * @description 提交表单
+       */
+      // 提交登录信息
+      submit () {
+        this.$refs.loginForm.validate((valid) => {
+          if (valid) {
+            let loadingInstance = Loading.service({ fullscreen: true })
+            // 登录
+            // 注意 这里的演示没有传验证码
+            // 具体需要传递的数据请自行修改代码
+            this.login({
+              username: this.formLogin.username,
+              password: this.formLogin.password,
+              lasting: this.formLogin.lasting,
+              code: this.formLogin.code,
+              token: this.loginToken,
+            }).then(() => {
+              // 重定向对象不存在则返回顶层路径
+              this.$router.replace(this.$route.query.redirect || '/')
+            }).catch(err => {
+              console.dir(err)
+              if (err.code === 1103) {
+                this.formLogin.password = ''
+                this.$refs['form-password'].focus()
+                this.refrushCode()
+              }
+              if (err.code === 1001) {
+                this.formLogin.code = ''
+                this.$refs['form-code'].focus()
+                this.refrushCode()
+              }
+            }).finally(() => {
+              loadingInstance.close()
+            })
+          } else {
+            // 登录表单校验失败
+            this.$message.error('表单校验失败，请检查')
+          }
+        })
       },
-    }
-  },
-  mounted () {
-    this.timeInterval = setInterval(() => {
-      this.refreshTime()
-    }, 1000)
-    this.refrushCode()
-  },
-  beforeDestroy () {
-    clearInterval(this.timeInterval)
-  },
-  computed: {
-    ...mapState('d2admin/config', [
-      'loginCaptcha',
-    ]),
-  },
-  methods: {
-    ...mapActions('d2admin/account', [
-      'login',
-    ]),
-    refreshTime () {
-      this.time = dayjs().format('HH:mm:ss')
+      refrushCode () {
+        this.codeUrl = `${SYS_URLS.GET_CAPTCHA}?token=${this.loginToken}&rand=${Math.random()}`
+      },
     },
-    /**
-     * @description 提交表单
-     */
-    // 提交登录信息
-    submit () {
-      this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          let loadingInstance = Loading.service({ fullscreen: true })
-          // 登录
-          // 注意 这里的演示没有传验证码
-          // 具体需要传递的数据请自行修改代码
-          this.login({
-            username: this.formLogin.username,
-            password: this.formLogin.password,
-            lasting: this.formLogin.lasting,
-            code: this.formLogin.code,
-            token: this.loginToken,
-          }).then(() => {
-            // 重定向对象不存在则返回顶层路径
-            this.$router.replace(this.$route.query.redirect || '/')
-          }).catch(err => {
-            console.dir(err)
-            if (err.code === 1103) {
-              this.formLogin.password = ''
-              this.$refs['form-password'].focus()
-              this.refrushCode()
-            }
-            if (err.code === 1001) {
-              this.formLogin.code = ''
-              this.$refs['form-code'].focus()
-              this.refrushCode()
-            }
-          }).finally(() => {
-            loadingInstance.close()
-          })
-        } else {
-          // 登录表单校验失败
-          this.$message.error('表单校验失败，请检查')
-        }
-      })
-    },
-    refrushCode () {
-      this.codeUrl = `${SYS_URLS.GET_CAPTCHA}?token=${this.loginToken}&rand=${Math.random()}`
-    },
-  },
-}
+  }
 </script>
 
 <style lang="scss">

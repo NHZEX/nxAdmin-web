@@ -50,13 +50,13 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      dialogVisible: false
+  export default {
+    data () {
+      return {
+        dialogVisible: false
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>

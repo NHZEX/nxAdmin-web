@@ -26,86 +26,86 @@
 </template>
 
 <script>
-import { isEqual, cloneDeep } from 'lodash'
-import Divider from '@ivu/divider'
-import iInput from '@ivu/input'
-import iButton from '@ivu/button'
-import iSelect from '@ivu/select'
-import iOption from '@ivu/option'
-import DatePicker from '@ivu/date-picker'
+  import { isEqual, cloneDeep } from 'lodash'
+  import Divider from '@ivu/divider'
+  import iInput from '@ivu/input'
+  import iButton from '@ivu/button'
+  import iSelect from '@ivu/select'
+  import iOption from '@ivu/option'
+  import DatePicker from '@ivu/date-picker'
 
-export default {
-  name: 'Search',
-  components: {
-    Divider,
-    iInput,
-    iButton,
-    iSelect,
-    iOption,
-    DatePicker,
-  },
-  data () {
-    return {
-      need_submit: false,
-      search_params: {}, // 搜索条件
-      origin_search_params: {},
-    }
-  },
-  props: {
-    float: {
-      type: Boolean,
-      default: false,
+  export default {
+    name: 'Search',
+    components: {
+      Divider,
+      iInput,
+      iButton,
+      iSelect,
+      iOption,
+      DatePicker,
     },
-    config: {
-      type: Array,
-      require: true,
-      default () {
-        return [] // {tag: 'input|date-picker|select', label: '标签名称', key: '返回数据命名', type: '输入框类型', list: [], width: 200},
-      },
-    },
-  },
-  watch: {
-    // 监听搜索条件
-    search_params: {
-      handler: function (val, oldVal) {
-        this.need_submit = !isEqual(val, this.origin_search_params)
-      },
-      deep: true,
-    },
-  },
-  methods: {
-    // 初始搜索条件
-    initParams () {
-      let tmp = {}
-      this.config.forEach((item) => {
-        if (item.tag === 'select') {
-          tmp[item.key] = undefined
-        } else {
-          tmp[item.key] = ''
-        }
-      })
-      this.search_params = tmp
-      this.origin_search_params = cloneDeep(this.search_params)
-    },
-    // 提交搜索
-    submit () {
-      this.origin_search_params = cloneDeep(this.search_params)
-      this.need_submit = false
-      let tmp = {}
-      for (let i in this.search_params) {
-        if (this.search_params[i] === undefined) {
-          tmp[i] = null
-        } else {
-          tmp[i] = this.search_params[i]
-        }
+    data () {
+      return {
+        need_submit: false,
+        search_params: {}, // 搜索条件
+        origin_search_params: {},
       }
-      this.$emit('on-search', tmp)
     },
-  },
-  mounted () {
-    this.initParams()
-  },
-}
+    props: {
+      float: {
+        type: Boolean,
+        default: false,
+      },
+      config: {
+        type: Array,
+        require: true,
+        default () {
+          return [] // {tag: 'input|date-picker|select', label: '标签名称', key: '返回数据命名', type: '输入框类型', list: [], width: 200},
+        },
+      },
+    },
+    watch: {
+      // 监听搜索条件
+      search_params: {
+        handler: function (val, oldVal) {
+          this.need_submit = !isEqual(val, this.origin_search_params)
+        },
+        deep: true,
+      },
+    },
+    methods: {
+      // 初始搜索条件
+      initParams () {
+        let tmp = {}
+        this.config.forEach((item) => {
+          if (item.tag === 'select') {
+            tmp[item.key] = undefined
+          } else {
+            tmp[item.key] = ''
+          }
+        })
+        this.search_params = tmp
+        this.origin_search_params = cloneDeep(this.search_params)
+      },
+      // 提交搜索
+      submit () {
+        this.origin_search_params = cloneDeep(this.search_params)
+        this.need_submit = false
+        let tmp = {}
+        for (let i in this.search_params) {
+          if (this.search_params[i] === undefined) {
+            tmp[i] = null
+          } else {
+            tmp[i] = this.search_params[i]
+          }
+        }
+        this.$emit('on-search', tmp)
+      },
+    },
+    mounted () {
+      this.initParams()
+    },
+  }
 </script>
 
 <style scoped>
