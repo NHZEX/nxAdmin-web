@@ -1,5 +1,5 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
-const VueFilenameInjector = require('@d2-projects/vue-filename-injector')
+// const VueFilenameInjector = require('@d2-projects/vue-filename-injector')
 const ThemeColorReplacer = require('webpack-theme-color-replacer')
 const forElementUI = require('webpack-theme-color-replacer/forElementUI')
 const cdnDependencies = require('./dependencies-cdn')
@@ -103,11 +103,11 @@ module.exports = {
         config => config.devtool('cheap-source-map')
       )
       // 预览环境构建 vue-loader 添加 filename
-      .when(process.env.VUE_APP_SCOURCE_LINK === 'TRUE',
-        VueFilenameInjector(config, {
-          propName: process.env.VUE_APP_SOURCE_VIEWER_PROP_NAME
-        })
-      )
+      // .when(process.env.VUE_APP_SCOURCE_LINK === 'TRUE',
+      //   VueFilenameInjector(config, {
+      //     propName: process.env.VUE_APP_SOURCE_VIEWER_PROP_NAME
+      //   })
+      // )
     // markdown
     config.module
       .rule('md')
