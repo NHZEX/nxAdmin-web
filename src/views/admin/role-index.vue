@@ -7,7 +7,7 @@
       </role-edit>
     </div>
     <i-page-table :columns="columns" :data="data" :loading="loading" row-key="id" border
-                  @page-change="pageChange" :pageTotal="page.total" :page-current="page.current" :page-size="page.size">
+                  v-model="page" @page-change="refresh">
       <template v-slot:formatTime="{ row, column }">
         {{ dayjs.unix(row[column.key]).format('YYYY-MM-DD HH:mm') }}
       </template>
@@ -29,6 +29,7 @@
   import iPageTable from '@/components/common/i-page-table'
   import dayjs from 'dayjs'
   import RoleEdit from './role-edit'
+  import pageOption from '@/mixin/page-option'
   import { deleteRole, getRoles } from '@api/admin/admin'
   import { ADMIN_ROLES_GENRE, toLabelValue } from '@/store/constant'
 
@@ -40,6 +41,7 @@
       iPageTable,
       RoleEdit
     },
+    mixins: [ pageOption ],
     data () {
       return {
         dayjs,
@@ -60,22 +62,12 @@
           { title: '操作', slot: 'action', width: 200 },
         ],
         data: [],
-        page: {
-          total: 0,
-          current: 1,
-          size: 10,
-        },
         where: {
           genre: 0,
         },
       }
     },
     methods: {
-      pageChange ({ current, size }) {
-        this.page.current = current
-        this.page.size = size
-        this.refresh()
-      },
       refresh () {
         this.loading = true
         getRoles(this.page.current, this.page.size, this.where).then(({ data, count }) => {

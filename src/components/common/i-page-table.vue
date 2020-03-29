@@ -8,7 +8,17 @@
       Page,
       iTable,
     },
+    model: {
+      prop: 'pageConfig',
+      event: 'page-change',
+    },
     props: {
+      pageConfig: {
+        type: Object,
+        default () {
+          return {}
+        },
+      },
       pageTotal: {
         type: Number,
         default: 0,
@@ -30,33 +40,41 @@
     },
     data () {
       return {
-        page: {
-          total: this.pageTotal,
-          current: this.pageCurrent,
-          size: this.pageSize,
-          opts: this.pageOpts,
+        // todo 单个属性声明为淘汰方案，时机合适需移除
+        i_page: {
+          total: this.pageConfig.hasOwnProperty('total') ? this.pageConfig.total : this.pageTotal,
+          current: this.pageConfig.hasOwnProperty('current') ? this.pageConfig.current : this.pageCurrent,
+          size: this.pageConfig.hasOwnProperty('size') ? this.pageConfig.size : this.pageSize,
+          opts: this.pageConfig.hasOwnProperty('opts') ? this.pageConfig.opts : this.pageOpts,
         },
       }
     },
     methods: {
       pageChange (page) {
-        this.page.current = page
+        this.i_page.current = page
         this.triggerLoad()
       },
       pageSizeChange (size) {
-        this.page.size = size
+        this.i_page.size = size
         this.triggerLoad()
       },
       triggerLoad () {
-        this.$emit('page-change', {
-          current: this.page.current,
-          size: this.page.size,
-        })
+        this.$emit('page-change', this.i_page)
       },
     },
     watch: {
       pageCurrent (val) {
-        this.page.current = val
+        this.i_page.current = val
+      },
+      pageTotal (val) {
+        this.i_page.total = val
+      },
+      'pageConfig.current' (val) {
+        this.i_page.current = val
+      },
+      'pageConfig.total' (val, old) {
+        console.log(val, old)
+        this.i_page.total = val
       },
     },
     render (createElement) {
@@ -78,10 +96,10 @@
             transfer: true,
             showTotal: true,
             showSizer: true,
-            total: this.pageTotal,
-            current: this.page.current,
-            pageSize: this.page.size,
-            pageSizeOpts: this.page.opts,
+            total: this.i_page.total,
+            current: this.i_page.current,
+            pageSize: this.i_page.size,
+            pageSizeOpts: this.i_page.opts,
             disabled: this.$attrs.loading,
           },
           on: {
