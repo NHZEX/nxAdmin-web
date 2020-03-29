@@ -73,7 +73,6 @@
         this.i_page.current = val
       },
       'pageConfig.total' (val, old) {
-        console.log(val, old)
         this.i_page.total = val
       },
     },
