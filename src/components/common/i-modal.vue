@@ -21,7 +21,7 @@
         defaultAttrs.footerHide = true
       }
       // 载入lodaing层
-      if (this.loading) {
+      if (this.$slots.default && this.loading) {
         this.$slots.default.unshift(createElement('spin', {
           attrs: {
             size: 'large',
