@@ -34,17 +34,33 @@ export default {
             // 如有必要 token 需要定时更新，默认保存一天
             util.cookies.set('uuid', res.uuid)
             util.cookies.set('token', res.token)
-
-            let info = await userInfo()
-
-            // 设置 vuex 用户信息
-            await dispatch('d2admin/user/set', {
-              name: info.user.nickname,
-              permission: info.permission,
-            }, { root: true })
-
+            // 刷新用户信息
+            await dispatch('refresh')
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load')
+            // 结束
+            resolve()
+          })
+          .catch(err => {
+            console.log('err: ', err)
+            reject(err)
+          })
+      })
+    },
+    /**
+     * @description 刷新用户信息
+     * @param dispatch
+     * @return {Promise<unknown>}
+     */
+    refresh ({ dispatch }) {
+      return new Promise(async (resolve, reject) => {
+        userInfo()
+          .then(async data => {
+            // 设置 vuex 用户信息
+            await dispatch('d2admin/user/set', {
+              name: data.user.nickname,
+              permission: data.permission,
+            }, { root: true })
             // 结束
             resolve()
           })

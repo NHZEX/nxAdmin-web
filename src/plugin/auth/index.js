@@ -1,7 +1,7 @@
 import util from '@/libs/util.js'
 import store from '@/store/index'
 import { frameInRoutes } from '@/router/routes'
-import { isBoolean, isPlainObject, isEmpty, cloneDeep } from 'lodash'
+import { cloneDeep, isBoolean, isEmpty, isPlainObject } from 'lodash'
 
 /**
  * 需要授权验证
@@ -14,11 +14,23 @@ export function needAuthorize (to) {
 
 /**
  * 是否已经登录
- * @returns {boolean}
+ * @param tryRemote
+ * @return {Promise<boolean>}
  */
-export function isLogin () {
+export async function isLogin (tryRemote = false) {
+  if (tryRemote) {
+    // 测试登录状态是否完全无效
+    await store.dispatch('d2admin/account/refresh')
+  }
   const token = util.cookies.get('token')
-  return !!token && token !== 'undefined'
+  if (!token || token === 'undefined') {
+    if (tryRemote) {
+      return false
+    }
+    return isLogin(true)
+  } else {
+    return true
+  }
 }
 
 /**

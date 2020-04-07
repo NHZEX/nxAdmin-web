@@ -41,6 +41,7 @@ function errorLog (error) {
 const service = axios.create({
   baseURL: process.env.VUE_APP_API,
   timeout: 5000, // 请求超时时间
+  withCredentials: true,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },
@@ -51,8 +52,9 @@ service.interceptors.request.use(
   config => {
     // 在请求发送之前做一些处理
     const token = util.cookies.get('token')
+    const uuid = util.cookies.get('uuid')
     // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
-    if (token) {
+    if (token && uuid) {
       config.headers['X-Token'] = token
     }
     return config
@@ -67,34 +69,32 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
+    // 尝试更新Token
+    if (response.headers.hasOwnProperty('x-uuid') && response.headers.hasOwnProperty('x-token')) {
+      util.cookies.set('uuid', response.headers['x-uuid'])
+      util.cookies.set('token', response.headers['x-token'])
+    }
     // dataAxios 是 axios 返回数据中的 data
     const dataAxios = response.data
     // 这个状态码是和后端约定的
     const { code } = dataAxios
-    // 根据 code 进行判断
+    // todo 兼任新版后端接口, 带完全清除就接口后移除
     if (code === undefined) {
-      // 如果没有 code 代表这不是项目后端开发的接口 比如可能是 D2Admin 请求最新版本
+      // 新版后端接口
       return dataAxios
     } else {
-      // 有 code 代表这是一个后端接口 可以进行进一步的判断
-      switch (code) {
-        case 0:
-          // [ 示例 ] code === 0 代表没有错误
-          if (dataAxios.hasOwnProperty('count')) {
-            return {
-              count: dataAxios.count,
-              data: dataAxios.data,
-            }
+      // 旧版后端接口
+      if (code === 0) {
+        if (dataAxios.hasOwnProperty('count')) {
+          return {
+            count: dataAxios.count,
+            data: dataAxios.data,
           }
-          return dataAxios.data
-        case 'xxx':
-          // [ 示例 ] 其它和后台约定的 code
-          errorCreate(`[ code: xxx ] ${dataAxios.msg}: ${response.config.url}`, code, dataAxios, response)
-          break
-        default:
-          // 不是正确的 code
-          errorCreate(`${dataAxios.msg}: ${response.config.url}`, code, dataAxios, response)
-          break
+        }
+        return dataAxios.data
+      } else {
+        // 不是正确的 code
+        errorCreate(`${dataAxios.msg}: ${response.config.url}`, code, dataAxios, response)
       }
     }
   },
