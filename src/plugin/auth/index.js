@@ -40,6 +40,9 @@ export async function isLogin (tryRemote = false) {
  */
 export function canAccess (to, some = false) {
   const permission = store.state.d2admin.user.info.permission
+  if (!permission) {
+    return false
+  }
   let access = false
   if (Array.isArray(to)) {
     if (some) {
