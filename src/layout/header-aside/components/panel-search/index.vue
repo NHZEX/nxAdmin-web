@@ -99,11 +99,10 @@
       query (pool, queryString) {
         return new Fuse(pool, {
           shouldSort: true,
-          tokenize: true,
+          useExtendedSearch: true,
           threshold: 0.6,
           location: 0,
           distance: 100,
-          maxPatternLength: 32,
           minMatchCharLength: 1,
           keys: [
             'fullTitle',
@@ -112,8 +111,8 @@
         })
           .search(queryString)
           .map(e => ({
-            value: e.fullTitle,
-            ...e
+            value: e.item.fullTitle,
+            ...e.item
           }))
       },
       /**
@@ -157,7 +156,7 @@
         })
       },
       /**
-       * @augments 关闭输入框的下拉菜单
+       * 关闭输入框的下拉菜单
        */
       closeSuggestion () {
         if (this.$refs.input.activated) {
@@ -166,13 +165,13 @@
         }
       },
       /**
-       * @augments 接收用户点击空白区域的关闭
+       * 接收用户点击空白区域的关闭
        */
       handlePanelClick () {
         this.handleEsc()
       },
       /**
-       * @augments 接收用户触发的关闭
+       * 接收用户触发的关闭
        */
       handleEsc () {
         this.closeSuggestion()
@@ -206,7 +205,7 @@
       color: $color-text-sub;
       .panel-search__key {
         padding: 1px 5px;
-        margin: 0px 2px;
+        margin: 0 2px;
         border-radius: 2px;
         background-color: $color-text-normal;
         color: $color-bg;
