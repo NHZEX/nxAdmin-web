@@ -23,15 +23,19 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
 
+import fortawesome from '@/plugin/fortawesome/index'
+
 // 核心插件
 Vue.use(d2Admin)
 // 注册 iview
 Vue.use(iviewMini)
 // 注册权限
 Vue.use(auth)
+// FortAwesome
+Vue.use(fortawesome)
 
 // fontawesome-5 (async load)
-import('@/plugin/fortawesome/index').then(module => {
+import('@/plugin/fortawesome/async').then(module => {
   module.default()
 })
 
