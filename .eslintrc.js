@@ -18,7 +18,23 @@ module.exports = {
       "baseIndent": 1,
       "switchCase": 1,
       "ignores": []
-    }]
+    }],
+    // Object.prototype (https://eslint.org/docs/rules/no-prototype-builtins)
+    'no-prototype-builtins': 'warn',
+    // const 变量声明
+    'prefer-const': 'warn',
+    // array-bracket-spacing
+    'array-bracket-spacing': 'off',
+    // no-async-promise-executor
+    'no-async-promise-executor': 'warn',
+    // quote-props
+    'quote-props': 'warn',
+    // dot-notation
+    'dot-notation': 'warn',
+    // quotes
+    'quotes': 'warn',
+    // object-curly-newline
+    'object-curly-newline': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'
