@@ -12,11 +12,16 @@ import iviewMini from '@/plugin/iview/index'
 
 // 菜单和路由设置
 import router from './router'
-import { menuAside } from '@/menu/index'
+import { menuAside } from '@/menu'
 import { frameInRoutes } from '@/router/routes'
 
 // auth
 import auth from '@/plugin/auth'
+
+// dayjs
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/zh-cn'
 
 // 核心插件
 Vue.use(d2Admin)
@@ -29,6 +34,10 @@ Vue.use(auth)
 import('@/plugin/fortawesome/index').then(module => {
   module.default()
 })
+
+// dayjs
+dayjs.extend(relativeTime)
+dayjs.locale(navigator.language.toLowerCase())
 
 new Vue({
   router,
