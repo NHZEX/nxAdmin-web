@@ -1,7 +1,7 @@
 export function randomString (length) {
   let result = ''
-  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  let charactersLength = characters.length
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const charactersLength = characters.length
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength))
   }
@@ -18,6 +18,10 @@ export function promiseResolveEmptyObject () {
 
 export function promiseResolveFalse () {
   return new Promise(resolve => { resolve(false) })
+}
+
+export function hasOwnProperty (object, key) {
+  return Object.prototype.hasOwnProperty.call(object, key)
 }
 
 const common = {}

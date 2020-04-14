@@ -2,6 +2,7 @@ import util from '@/libs/util.js'
 import store from '@/store/index'
 import { frameInRoutes } from '@/router/routes'
 import { cloneDeep, isBoolean, isEmpty, isPlainObject } from 'lodash'
+import { hasOwnProperty } from '@/libs/util.common'
 
 /**
  * 需要授权验证
@@ -46,12 +47,12 @@ export function canAccess (to, some = false) {
   let access = false
   if (Array.isArray(to)) {
     if (some) {
-      access = to.some(v => permission.hasOwnProperty(v))
+      access = to.some(v => hasOwnProperty(permission, v))
     } else {
-      access = to.every(v => permission.hasOwnProperty(v))
+      access = to.every(v => hasOwnProperty(permission, v))
     }
   } else if (typeof to === 'string') {
-    access = permission.hasOwnProperty(to)
+    access = hasOwnProperty(permission, to)
   }
   return access
 }
@@ -77,10 +78,10 @@ export function canAccessRoute (to) {
  */
 export function generateRouteMapping () {
   // todo 未处理参数路由
-  let mapping = {}
-  let recursive = (tree, root = '') => {
+  const mapping = {}
+  const recursive = (tree, root = '') => {
     tree.forEach((value) => {
-      if (value.hasOwnProperty('children')) {
+      if (hasOwnProperty(value, 'children')) {
         let rootPath = root + value.path
         rootPath = rootPath.endsWith('/') ? rootPath : (rootPath + '/')
         recursive(value.children, rootPath)
@@ -89,7 +90,7 @@ export function generateRouteMapping () {
       if (!value.path.startsWith('/')) {
         path = root + path
       }
-      mapping[path] = value.meta && value.meta.hasOwnProperty('auth') ? value.meta.auth : false
+      mapping[path] = value.meta && hasOwnProperty(value.meta, 'auth') ? value.meta.auth : false
     })
   }
   recursive(frameInRoutes)
@@ -109,15 +110,15 @@ export function filterMenu (menu) {
   }
 
   // 按照权限过滤菜单
-  let filter = (tree) => {
-    let newTree = []
+  const filter = (tree) => {
+    const newTree = []
     tree.forEach(value => {
-      let item = cloneDeep(value)
-      if (value.hasOwnProperty('children') && Array.isArray(value.children)) {
+      const item = cloneDeep(value)
+      if (hasOwnProperty(value, 'children') && Array.isArray(value.children)) {
         item.children = filter(value.children)
       }
-      if (routeMapping.hasOwnProperty(item.path)) {
-        if (!isBoolean(routeMapping[item.path]) && !permission.hasOwnProperty(routeMapping[item.path])) {
+      if (hasOwnProperty(routeMapping, item.path)) {
+        if (!isBoolean(routeMapping[item.path]) && !hasOwnProperty(permission, routeMapping[item.path])) {
           // 无权限访问
           return
         }
@@ -137,7 +138,7 @@ export function filterMenu (menu) {
  * @param {Vue} Vue
  * @param {Object} options
  */
-let install = function (Vue, options) {
+const install = function (Vue, options) {
   // noinspection JSUnusedGlobalSymbols
   /**
    * 当前令牌能访问
@@ -153,12 +154,12 @@ let install = function (Vue, options) {
       if (isPlainObject(permission)) {
         if (Array.isArray(binding.value)) {
           if (binding.modifiers.some) {
-            access = binding.value.some(v => permission.hasOwnProperty(v))
+            access = binding.value.some(v => hasOwnProperty(permission, v))
           } else {
-            access = binding.value.every(v => permission.hasOwnProperty(v))
+            access = binding.value.every(v => hasOwnProperty(permission, v))
           }
         } else {
-          access = permission.hasOwnProperty(binding.value)
+          access = hasOwnProperty(permission, binding.value)
         }
       }
 
