@@ -76,29 +76,8 @@ service.interceptors.response.use(
       util.cookies.set('token', response.headers['x-token'])
       // todo 刷新用户远程状态
     }
-    // dataAxios 是 axios 返回数据中的 data
-    const dataAxios = response.data
-    // 这个状态码是和后端约定的
-    const { code } = dataAxios
-    // todo 兼任新版后端接口, 带完全清除就接口后移除
-    if (isNaN(code)) {
-      // 新版后端接口 code未定义或不是数字
-      return dataAxios
-    } else {
-      // 旧版后端接口
-      if (code === 0) {
-        if (hasOwnProperty(dataAxios, 'count')) {
-          return {
-            count: dataAxios.count,
-            data: dataAxios.data,
-          }
-        }
-        return dataAxios.data
-      } else {
-        // 不是正确的 code
-        throw errorCreate(`${dataAxios.msg}: ${response.config.url}`, code, dataAxios, response)
-      }
-    }
+    // 直接抽取 axios 返回数据中的 data
+    return response.data
   },
   error => {
     if (error.response.status === 401) {
