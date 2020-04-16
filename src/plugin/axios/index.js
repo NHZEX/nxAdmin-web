@@ -13,7 +13,7 @@ function errorCreate (msg, code, dataAxios, response) {
   error.data = dataAxios
   error.resp = response
   errorLog(error)
-  throw error
+  return error
 }
 
 // 记录和显示错误
@@ -74,6 +74,7 @@ service.interceptors.response.use(
     if (hasOwnProperty(response.headers, 'x-uuid') && hasOwnProperty(response.headers, 'x-token')) {
       util.cookies.set('uuid', response.headers['x-uuid'])
       util.cookies.set('token', response.headers['x-token'])
+      // todo 刷新用户远程状态
     }
     // dataAxios 是 axios 返回数据中的 data
     const dataAxios = response.data
@@ -95,7 +96,7 @@ service.interceptors.response.use(
         return dataAxios.data
       } else {
         // 不是正确的 code
-        errorCreate(`${dataAxios.msg}: ${response.config.url}`, code, dataAxios, response)
+        throw errorCreate(`${dataAxios.msg}: ${response.config.url}`, code, dataAxios, response)
       }
     }
   },
@@ -112,7 +113,7 @@ service.interceptors.response.use(
       if (isPlainObject(error.response.data)) {
         const errno = error.response.data.errno ? error.response.data.errno : -1
         const message = error.response.data.message ? error.response.data.message : 'Undefined'
-        errorCreate(`${message}: ${error.config.url}`, errno, error.response.data, error.response)
+        throw errorCreate(`${message}: ${error.config.url}`, errno, error.response.data, error.response)
       } else {
         switch (error.response.status) {
           case 400: error.message = '请求错误'; break
@@ -129,9 +130,8 @@ service.interceptors.response.use(
           default: break
         }
       }
+      throw errorCreate(`${error.message}: ${error.config.url}`, error.response.status, error.response.data, error.response)
     }
-    errorLog(error)
-    return Promise.reject(error)
   }
 )
 

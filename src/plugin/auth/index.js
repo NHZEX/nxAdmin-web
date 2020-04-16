@@ -21,7 +21,11 @@ export function needAuthorize (to) {
 export async function isLogin (tryRemote = false) {
   if (tryRemote) {
     // 测试登录状态是否完全无效
-    await store.dispatch('d2admin/account/refresh')
+    try {
+      await store.dispatch('d2admin/account/refresh')
+    } catch (e) {
+      return false
+    }
   }
   const token = util.cookies.get('token')
   if (!token || token === 'undefined') {
