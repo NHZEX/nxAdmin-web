@@ -4,6 +4,7 @@ import ivuMessage from '@ivu/message'
 import util from '@/libs/util'
 import router from '@/router'
 import { isPlainObject } from 'lodash'
+import { hasOwnProperty } from '@/libs/util.common'
 
 // 创建一个错误
 function errorCreate (msg, code, dataAxios, response) {
@@ -70,7 +71,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     // 尝试更新Token
-    if (response.headers.hasOwnProperty('x-uuid') && response.headers.hasOwnProperty('x-token')) {
+    if (hasOwnProperty(response.headers, 'x-uuid') && hasOwnProperty(response.headers, 'x-token')) {
       util.cookies.set('uuid', response.headers['x-uuid'])
       util.cookies.set('token', response.headers['x-token'])
     }
@@ -79,13 +80,13 @@ service.interceptors.response.use(
     // 这个状态码是和后端约定的
     const { code } = dataAxios
     // todo 兼任新版后端接口, 带完全清除就接口后移除
-    if (code === undefined) {
-      // 新版后端接口
+    if (isNaN(code)) {
+      // 新版后端接口 code未定义或不是数字
       return dataAxios
     } else {
       // 旧版后端接口
       if (code === 0) {
-        if (dataAxios.hasOwnProperty('count')) {
+        if (hasOwnProperty(dataAxios, 'count')) {
           return {
             count: dataAxios.count,
             data: dataAxios.data,
@@ -109,8 +110,8 @@ service.interceptors.response.use(
     }
     if (error && error.response) {
       if (isPlainObject(error.response.data)) {
-        let errno = error.response.data.errno ? error.response.data.errno : -1
-        let message = error.response.data.message ? error.response.data.message : 'Undefined'
+        const errno = error.response.data.errno ? error.response.data.errno : -1
+        const message = error.response.data.message ? error.response.data.message : 'Undefined'
         errorCreate(`${message}: ${error.config.url}`, errno, error.response.data, error.response)
       } else {
         switch (error.response.status) {
