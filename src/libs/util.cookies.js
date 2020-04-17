@@ -6,11 +6,17 @@ const cookies = {}
  * @description 存储 cookie 值
  * @param {String} name cookie name
  * @param {String} value cookie value
- * @param {Object} setting cookie setting
+ * @param {Object} cookieSetting cookie setting
  */
 cookies.set = function (name = 'default', value = '', cookieSetting = {}) {
-  let currentCookieSetting = {
-    expires: 1
+  const currentCookieSetting = {
+    expires: 1,
+  }
+  switch (name) {
+    case 'uuid':
+    case 'token':
+      currentCookieSetting.SameSite = 'Lax'
+      break
   }
   Object.assign(currentCookieSetting, cookieSetting)
   Cookies.set(`d2admin-${process.env.VUE_APP_VERSION}-${name}`, value, currentCookieSetting)

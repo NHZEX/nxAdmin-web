@@ -58,6 +58,9 @@ service.interceptors.request.use(
     if (token && uuid) {
       config.headers['X-Token'] = token
     }
+    if (store.state.d2admin.user.info.recallerSign) {
+      config.headers['X-Recaller-Sign'] = store.state.d2admin.user.info.recallerSign
+    }
     return config
   },
   error => {
@@ -70,11 +73,17 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    // 尝试更新Token
+    // 更新用户会话Token
     if (hasOwnProperty(response.headers, 'x-uuid') && hasOwnProperty(response.headers, 'x-token')) {
       util.cookies.set('uuid', response.headers['x-uuid'])
       util.cookies.set('token', response.headers['x-token'])
       // todo 刷新用户远程状态
+    }
+    // 更新用户记住令牌
+    if (hasOwnProperty(response.headers, 'x-recaller-sign')) {
+      const userInfo = store.state.d2admin.user.info
+      userInfo.recallerSign = response.headers['x-recaller-sign']
+      store.dispatch('d2admin/user/set', userInfo, { root: true })
     }
     // 直接抽取 axios 返回数据中的 data
     return response.data
