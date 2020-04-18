@@ -36,14 +36,14 @@
    * @returns {*}
    */
   function renderTpl (h, p) {
-    let text = p.row[p.column.key]
+    const text = p.row[p.column.key]
     return h('span', {
       domProps: { innerHTML: p.row.children && p.row.children.length > 0 ? `&nbsp;&nbsp;${text}` : text },
     })
   }
 
   export default {
-    name: 'AdminPermission',
+    name: 'admin-permission',
     components: {
       iButton,
       iTable,

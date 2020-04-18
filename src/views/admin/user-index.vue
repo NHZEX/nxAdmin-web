@@ -35,7 +35,7 @@
   import { ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 
   export default {
-    name: 'UserIndex',
+    name: 'admin-user-index',
     components: {
       iButton,
       iPageTable,

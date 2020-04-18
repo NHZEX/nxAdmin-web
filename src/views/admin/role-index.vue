@@ -34,7 +34,7 @@
   import { ADMIN_ROLES_GENRE, toLabelValue } from '@/store/constant'
 
   export default {
-    name: 'RoleIndex',
+    name: 'admin-role-index',
     components: {
       iButton,
       Poptip,

@@ -9,7 +9,7 @@ export default {
   children: [
     {
       path: 'user',
-      name: 'AdminUser',
+      name: 'admin-user-index',
       component: _import('admin/user-index'),
       meta: {
         title: '系统用户',
@@ -18,7 +18,7 @@ export default {
       },
     }, {
       path: 'role',
-      name: 'RoleIndex',
+      name: 'admin-role-index',
       component: _import('admin/role-index'),
       meta: {
         title: '角色管理',
@@ -28,7 +28,7 @@ export default {
     },
     {
       path: 'permission',
-      name: 'AdminPermission',
+      name: 'admin-permission',
       component: _import('admin/permission'),
       meta: {
         title: '权限管理',
