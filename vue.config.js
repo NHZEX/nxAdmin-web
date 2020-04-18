@@ -3,6 +3,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const ThemeColorReplacer = require('webpack-theme-color-replacer')
 const forElementUI = require('webpack-theme-color-replacer/forElementUI')
 const cdnDependencies = require('./dependencies-cdn')
+const { chain, set, each, keys } = require('lodash')
 
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
@@ -24,12 +25,20 @@ const cdn = {
   js: cdnDependencies.map(e => e.js).filter(e => e)
 }
 
+// 多页配置，默认未开启，如需要请参考 https://cli.vuejs.org/zh/config/#pages
+const pages = undefined
+// const pages = {
+//   index: './src/main.js',
+//   subpage: './src/subpage.js'
+// }
+
 module.exports = {
   // 根据你的实际情况更改这里
   publicPath,
   lintOnSave: true,
   devServer: {
-    publicPath // 和 publicPath 保持一致
+    publicPath, // 和 publicPath 保持一致
+    disableHostCheck: process.env.NODE_ENV === 'development', // 关闭 host check，方便使用 ngrok 之类的内网转发工具
   },
   css: {
     loaderOptions: {
@@ -39,6 +48,7 @@ module.exports = {
       }
     }
   },
+  pages,
   configureWebpack: config => {
     const configNew = {}
     if (process.env.NODE_ENV === 'production') {
@@ -54,26 +64,21 @@ module.exports = {
         })
       ]
     }
-    if (process.env.NODE_ENV === 'development') {
-      // 关闭 host check，方便使用 ngrok 之类的内网转发工具
-      configNew.devServer = {
-        disableHostCheck: true
-      }
-    }
     return configNew
   },
   // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
   chainWebpack: config => {
     /**
      * 添加 CDN 参数到 htmlWebpackPlugin 配置中
+     * 已适配多页
      */
-    config.plugin('html').tap(args => {
-      if (process.env.NODE_ENV === 'production') {
-        args[0].cdn = cdn
-      } else {
-        args[0].cdn = []
-      }
-      return args
+    const htmlPluginNames = chain(pages).keys().map(page => 'html-' + page).value()
+    const targetHtmlPluginNames = htmlPluginNames.length ? htmlPluginNames : ['html']
+    each(targetHtmlPluginNames, name => {
+      config.plugin(name).tap(options => {
+        set(options, '[0].cdn', process.env.NODE_ENV === 'production' ? cdn : [])
+        return options
+      })
     })
     /**
      * 删除懒加载模块的 prefetch preload，降低带宽压力
@@ -104,7 +109,7 @@ module.exports = {
       )
       // 预览环境构建 vue-loader 添加 filename
       // .when(process.env.VUE_APP_SCOURCE_LINK === 'TRUE',
-      //   VueFilenameInjector(config, {
+      //   config => VueFilenameInjector(config, {
       //     propName: process.env.VUE_APP_SOURCE_VIEWER_PROP_NAME
       //   })
       // )
@@ -140,11 +145,13 @@ module.exports = {
       .set('@api', resolve('src/api'))
       .set('@ivu', resolve('node_modules/view-design/src/components'))
     // 判断环境加入模拟数据
-    const entry = config.entry('app')
+    // 已适配多页
     if (process.env.VUE_APP_BUILD_MODE !== 'NOMOCK') {
-      entry
-        .add('@/mock')
-        .end()
+      const multiEntry = keys(pages || {})
+      const entrys = multiEntry.length ? multiEntry : ['app']
+      each(entrys, entry => {
+        config.entry(entry).add('@/mock').end()
+      })
     }
     // 分析工具
     if (process.env.npm_config_report) {
