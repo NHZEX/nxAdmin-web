@@ -1,23 +1,7 @@
-import { uniqueId } from 'lodash'
 // 设置文件
 import setting from '@/setting.js'
 
 import { filterMenu } from '@/plugin/auth'
-
-/**
- * 给菜单数据补充上 path 字段
- * https://github.com/d2-projects/d2-admin/issues/209
- * @param {Array} menu 原始的菜单数据
- */
-function supplementMenuPath (menu) {
-  return menu.map(e => ({
-    ...e,
-    path: e.path || uniqueId('d2-menu-empty-'),
-    ...e.children ? {
-      children: supplementMenuPath(e.children)
-    } : {}
-  }))
-}
 
 export default {
   namespaced: true,
@@ -107,7 +91,7 @@ export default {
      */
     headerSet (state, menu) {
       // store 赋值
-      state.header = filterMenu(supplementMenuPath(menu))
+      state.header = filterMenu(menu)
     },
     /**
      * @description 设置侧边栏菜单
@@ -116,7 +100,7 @@ export default {
      */
     asideSet (state, menu) {
       // store 赋值
-      state.aside = filterMenu(supplementMenuPath(menu))
+      state.aside = filterMenu(menu)
     }
   }
 }
