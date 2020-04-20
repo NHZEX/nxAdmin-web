@@ -57,7 +57,7 @@
           scan: false,
         },
         columns: [
-          { title: '权限', key: 'title', tree: true, width: 200, render: renderTpl },
+          { title: '权限', key: 'title', tree: true, width: 350, render: renderTpl },
           { title: '排序', slot: 'sort', key: 'sort', width: 100 },
           { title: '注释', slot: 'desc', key: 'desc' },
           { title: '查看', slot: 'action', width: 80 },
