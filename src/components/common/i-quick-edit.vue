@@ -6,7 +6,7 @@
     <modal :title="title" v-model="visible" @on-visible-change="onVisible" @on-ok="quickSubmit()">
       <i-form>
         <form-item>
-          <i-input v-if="i_type === 'text' || i_type === 'number'" :type="i_type" v-model="quick.value"/>
+          <i-input ref="input" v-if="i_type === 'text' || i_type === 'number'" :type="i_type" v-model="quick.value" @on-enter="quickSubmit()"/>
           <i-select v-if="i_type === 'select'" v-model="quick.value">
             <i-option v-for="item in i_data" :key="item.value" :value="item.value"
                       :disabled="item.hasOwnProperty('disabled') ? item.disabled : false"
@@ -83,8 +83,15 @@
         this.quick.field = field
         this.quick.value = value
         this.visible = true
+        if (type === 'text' || type === 'number') {
+          this.$nextTick(() => {
+            const el = this.$refs.input.$el
+            el.getElementsByTagName('input')[0].focus()
+          })
+        }
       },
       quickSubmit () {
+        this.visible = false
         this.$emit('submit', {
           ...this.quick
         })
