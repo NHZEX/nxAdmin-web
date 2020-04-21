@@ -77,6 +77,10 @@ export function getPermission (id) {
   }
 }
 
+export function savePermission (id, data) {
+  return require.put(`/api/admin/permission/${id}`, data)
+}
+
 export function scanPermission () {
   return require.get('/api/admin/permission/scan')
 }
