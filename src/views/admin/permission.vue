@@ -2,7 +2,7 @@
   <d2-container>
     <div style="margin-bottom: 5px">
       <i-button type="primary" icon="md-refresh" :loading="loading.render" @click="load">刷新</i-button>
-      <i-button v-access="'permission.scan'" type="warning" icon="md-refresh" :loading="loading.scan" @click="scan()">扫描权限</i-button>
+      <i-button v-access="'admin.permission.scan'" type="warning" icon="md-refresh" :loading="loading.scan" @click="scan()">扫描权限</i-button>
     </div>
     <i-table border :loading="loading.render" :columns="columns" :data="data" row-key="name">
       <template v-slot:title="{ row, column }">
