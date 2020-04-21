@@ -14,7 +14,7 @@ export default {
       meta: {
         title: '系统用户',
         cache: true,
-        auth: 'user',
+        auth: 'admin.user',
       },
     }, {
       path: 'role',
@@ -23,7 +23,7 @@ export default {
       meta: {
         title: '角色管理',
         cache: true,
-        auth: 'role',
+        auth: 'admin.role',
       },
     },
     {
@@ -33,7 +33,7 @@ export default {
       meta: {
         title: '权限管理',
         cache: true,
-        auth: 'permission',
+        auth: 'admin.permission',
       },
     },
   ],
