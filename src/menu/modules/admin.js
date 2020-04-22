@@ -1,6 +1,6 @@
 export default [
   {
-    title: '系统管理',
+    title: '系统',
     icon: 'cogs',
     children: [
       { path: '/admin/user', title: '用户管理', icon: 'user' },
