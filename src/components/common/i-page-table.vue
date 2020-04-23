@@ -1,6 +1,7 @@
 <script>
   import Page from '@ivu/page'
   import iTable from '@ivu/table'
+  import { hasOwnProperty } from '@/libs/util.common'
 
   export default {
     name: 'i-page-table',
@@ -13,6 +14,12 @@
       event: 'page-change',
     },
     props: {
+      filters: {
+        type: Object,
+        default () {
+          return {}
+        },
+      },
       pageConfig: {
         type: Object,
         default () {
@@ -42,10 +49,10 @@
       return {
         // todo 单个属性声明为淘汰方案，时机合适需移除
         i_page: {
-          total: this.pageConfig.hasOwnProperty('total') ? this.pageConfig.total : this.pageTotal,
-          current: this.pageConfig.hasOwnProperty('current') ? this.pageConfig.current : this.pageCurrent,
-          size: this.pageConfig.hasOwnProperty('size') ? this.pageConfig.size : this.pageSize,
-          opts: this.pageConfig.hasOwnProperty('opts') ? this.pageConfig.opts : this.pageOpts,
+          total: hasOwnProperty(this.pageConfig, 'total') ? this.pageConfig.total : this.pageTotal,
+          current: hasOwnProperty(this.pageConfig, 'current') ? this.pageConfig.current : this.pageCurrent,
+          size: hasOwnProperty(this.pageConfig, 'size') ? this.pageConfig.size : this.pageSize,
+          opts: hasOwnProperty(this.pageConfig, 'opts') ? this.pageConfig.opts : this.pageOpts,
         },
       }
     },
@@ -109,17 +116,38 @@
       ])
     },
     created () {
-      let columns = this.$attrs.columns
-      let queue = []
+      const columns = this.$attrs.columns
+      const queue = []
+      let promise = null
 
       for (let i = 0; i < columns.length; i++) {
-        let column = columns[i]
-        if (column.hasOwnProperty('filters') && column.filters instanceof Promise) {
+        const column = columns[i]
+        promise = null
+        if (hasOwnProperty(column, 'filter') && hasOwnProperty(this.filters, column.filter)) {
+          const filter = this.filters[column.filter]
+
+          if (filter.data instanceof Promise) {
+            this.$set(column, 'filters', [])
+            promise = filter.data
+          } else {
+            this.$set(column, 'filters', filter.data)
+          }
+          this.$watch(`filters.${column.filter}.data`, function (newVal) {
+            this.$set(column, 'filters', newVal)
+          })
+
+          this.$set(column, 'filterMultiple', filter.multiple)
+          this.$set(column, 'filterRemote', filter.remote)
+        } else if (hasOwnProperty(column, 'filters') && column.filters instanceof Promise) {
+          promise = column.filters
+          this.$set(column, 'filters', [])
+        }
+        // 进入队列
+        if (promise) {
           queue.push({
             index: i,
-            filters: column.filters,
+            filters: promise,
           })
-        // columns[i].filters = []
         }
       }
 
