@@ -14,6 +14,13 @@
       event: 'page-change',
     },
     props: {
+      primaryKey: {
+        type: String,
+      },
+      rememberChecked: {
+        type: Boolean,
+        default: false,
+      },
       filters: {
         type: Object,
         default () {
@@ -54,6 +61,23 @@
           size: hasOwnProperty(this.pageConfig, 'size') ? this.pageConfig.size : this.pageSize,
           opts: hasOwnProperty(this.pageConfig, 'opts') ? this.pageConfig.opts : this.pageOpts,
         },
+        selected: {},
+      }
+    },
+    computed: {
+      primaryKeys () {
+        return this.primaryKey ? this.$attrs.data.map(d => d[this.primaryKey]) : []
+      },
+      dataChecked () {
+        if (this.primaryKey) {
+          return this.$attrs.data.map(v => {
+            const key = v[this.primaryKey]
+            v._checked = hasOwnProperty(this.selected, key) ? this.selected[key] : false
+            return v
+          })
+        } else {
+          return this.$attrs.data
+        }
       }
     },
     methods: {
@@ -68,6 +92,50 @@
       triggerLoad () {
         this.$emit('page-change', this.i_page)
       },
+      onSelect (selection, row) {
+        if (this.rememberChecked && this.primaryKey) {
+          this.selected[row[this.primaryKey]] = true
+        }
+        this.$emit('on-select', selection, row)
+        this.triggerSelected()
+      },
+      onSelectCancel (selection, row) {
+        if (this.rememberChecked && this.primaryKey) {
+          this.selected[row[this.primaryKey]] = false
+        }
+        this.$emit('on-select-cancel', [selection, row])
+        this.triggerSelected()
+      },
+      onSelectAll (selection) {
+        if (this.rememberChecked && this.primaryKey) {
+          for (const d of selection) {
+            this.selected[d[this.primaryKey]] = true
+          }
+        }
+        this.$emit('on-select-all', selection)
+        this.triggerSelected()
+      },
+      onSelectAllCancel (selection) {
+        if (this.rememberChecked && this.primaryKey) {
+          for (const d of selection) {
+            this.selected[d[this.primaryKey]] = false
+          }
+        }
+        this.$emit('on-select-all-cancel', selection)
+        this.triggerSelected()
+      },
+      triggerSelected () {
+        const result = []
+        for (const id of Object.keys(this.selected)) {
+          if (this.selected[id]) {
+            result.push(id)
+          }
+        }
+        this.$emit('on-selected', result)
+      },
+      resetSelected () {
+        this.selected = {}
+      }
     },
     watch: {
       pageCurrent (val) {
@@ -90,8 +158,15 @@
             size: 'small',
             border: true,
             ...this.$attrs,
+            data: this.rememberChecked ? this.dataChecked : this.$attrs.data,
           },
-          on: this.$listeners,
+          on: {
+            ...this.$listeners,
+            'on-select': this.onSelect,
+            'on-select-cancel': this.onSelectCancel,
+            'on-select-all': this.onSelectAll,
+            'on-select-all-cancel': this.onSelectAllCancel,
+          },
           scopedSlots: this.$scopedSlots,
         }),
         createElement('page', {
