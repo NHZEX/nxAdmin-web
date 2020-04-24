@@ -15,7 +15,11 @@
         }"
         flex-box="0"
         flex>
-        <router-link to="/index" class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}" flex-box="0">
+        <router-link
+          to="/index"
+          :class="{'logo-group': true, 'logo-transition': asideTransition}"
+          :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}"
+          flex-box="0">
           <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">
           <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
         </router-link>
@@ -42,7 +46,7 @@
         <div
           flex-box="0"
           ref="aside"
-          class="d2-theme-container-aside"
+          :class="{'d2-theme-container-aside': true, 'd2-theme-container-transition': asideTransition}"
           :style="{
             width: asideCollapse ? asideWidthCollapse : asideWidth,
             opacity: this.searchActive ? 0.5 : 1
@@ -127,7 +131,8 @@
         keepAlive: state => state.page.keepAlive,
         grayActive: state => state.gray.active,
         transitionActive: state => state.transition.active,
-        asideCollapse: state => state.menu.asideCollapse
+        asideCollapse: state => state.menu.asideCollapse,
+        asideTransition: state => state.menu.asideTransition,
       }),
       ...mapGetters('d2admin', {
         themeActiveSetting: 'theme/activeSetting'
