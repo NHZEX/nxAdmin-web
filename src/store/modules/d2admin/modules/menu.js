@@ -19,68 +19,52 @@ export default {
      * @param {Object} context
      * @param {Boolean} collapse is collapse
      */
-    asideCollapseSet ({ state, dispatch }, collapse) {
-      return new Promise(async resolve => {
-        // store 赋值
-        state.asideCollapse = collapse
-        // 持久化
-        await dispatch('d2admin/db/set', {
-          dbName: 'sys',
-          path: 'menu.asideCollapse',
-          value: state.asideCollapse,
-          user: true
-        }, { root: true })
-        // end
-        resolve()
-      })
+    async asideCollapseSet ({ state, dispatch }, collapse) {
+      // store 赋值
+      state.asideCollapse = collapse
+      // 持久化
+      await dispatch('d2admin/db/set', {
+        dbName: 'sys',
+        path: 'menu.asideCollapse',
+        value: state.asideCollapse,
+        user: true
+      }, { root: true })
     },
     /**
      * 切换侧边栏展开和收缩
      * @param {Object} context
      */
-    asideCollapseToggle ({ state, dispatch }) {
-      return new Promise(async resolve => {
-        // store 赋值
-        state.asideCollapse = !state.asideCollapse
-        // 持久化
-        await dispatch('d2admin/db/set', {
-          dbName: 'sys',
-          path: 'menu.asideCollapse',
-          value: state.asideCollapse,
-          user: true
-        }, { root: true })
-        // end
-        resolve()
-      })
+    async asideCollapseToggle ({ state, dispatch }) {
+      // store 赋值
+      state.asideCollapse = !state.asideCollapse
+      // 持久化
+      await dispatch('d2admin/db/set', {
+        dbName: 'sys',
+        path: 'menu.asideCollapse',
+        value: state.asideCollapse,
+        user: true
+      }, { root: true })
     },
     /**
      * 从持久化数据读取侧边栏展开或者收缩
      * @param {Object} context
      */
-    asideCollapseLoad ({ state, dispatch }) {
-      return new Promise(async resolve => {
-        // store 赋值
-        state.asideCollapse = await dispatch('d2admin/db/get', {
-          dbName: 'sys',
-          path: 'menu.asideCollapse',
-          defaultValue: setting.menu.asideCollapse,
-          user: true
-        }, { root: true })
-        // end
-        resolve()
-      })
+    async asideCollapseLoad ({ state, dispatch }) {
+      // store 赋值
+      state.asideCollapse = await dispatch('d2admin/db/get', {
+        dbName: 'sys',
+        path: 'menu.asideCollapse',
+        defaultValue: setting.menu.asideCollapse,
+        user: true
+      }, { root: true })
     },
     /**
      * 从持久化数据读取侧边栏展开或者收缩
      * @param {Object} context
      */
-    filterMenu ({ state }) {
-      return new Promise(async resolve => {
-        state.aside = filterMenu(state.aside)
-        state.header = filterMenu(state.header)
-        // end
-        resolve()
-      })
+    async filterMenu ({ state }) {
+      state.aside = filterMenu(state.aside)
+      state.header = filterMenu(state.header)
     }
   },
   mutations: {
