@@ -6,7 +6,7 @@
         <i-button type="primary" icon="md-add">添加</i-button>
       </role-edit>
     </div>
-    <i-page-table :columns="columns" :data="data" :loading="loading" row-key="id" border
+    <i-page-table :columns="columns" :data="data" :filters="filters" :loading="loading" row-key="id" border
                   v-model="page" @page-change="refresh">
       <template v-slot:formatTime="{ row, column }">
         {{ dayjs.unix(row[column.key]).format('YYYY-MM-DD HH:mm') }}
@@ -46,20 +46,21 @@
       return {
         dayjs,
         loading: false,
+        filters: {
+          genre: {
+            data: toLabelValue(ADMIN_ROLES_GENRE),
+            multiple: false,
+            remote: this.filterRemote,
+          },
+        },
         columns: [
           { title: 'id', key: 'id', width: 80 },
-          { title: '类型',
-            key: 'genre_desc',
-            width: 100,
-            filters: toLabelValue(ADMIN_ROLES_GENRE),
-            filterMultiple: false,
-            filterRemote: this.filterRemote,
-          },
-          { title: '名称', key: 'name' },
+          { title: '类型', key: 'genre_desc', width: 100, filter: 'genre' },
+          { title: '名称', key: 'name', width: 240 },
           { title: '状态', key: 'status_desc', width: 70 },
           { title: '创建时间', key: 'create_time', slot: 'formatTime', width: 135 },
           { title: '更新时间', key: 'update_time', slot: 'formatTime', width: 135 },
-          { title: '操作', slot: 'action', width: 200 },
+          { title: '操作', slot: 'action', minWidth: 200, fixed: 'right' },
         ],
         data: [],
         where: {
