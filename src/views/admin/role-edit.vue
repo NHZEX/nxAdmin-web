@@ -112,7 +112,7 @@
         if (visible) {
           this.render()
         } else {
-          this.$refs['form'].resetFields()
+          this.$refs.form.resetFields()
         }
       },
       treeRender (h, { data }) { // root, node
@@ -129,7 +129,7 @@
       render () {
         this.loading = true
         Promise.all([getRole(this.id), getPermissions()]).then(values => {
-          let role = values[0]
+          const role = values[0]
           if (role) {
             if (Array.isArray(role.ext)) {
               role.ext = {}
@@ -145,7 +145,7 @@
         })
       },
       submit () {
-        this.$refs['form'].validate((valid) => {
+        this.$refs.form.validate((valid) => {
           if (valid) {
             this.loading = true
             this.formData.ext.permission = this.treeCheckedKeys
@@ -162,13 +162,8 @@
         })
       },
       checkTreeData (treeData, checked) {
-        let cfun = (tree) => {
-          for (let i in tree) {
-            if (!tree.hasOwnProperty(i)) {
-              continue
-            }
-            let node = tree[i]
-
+        const cfun = (tree) => {
+          for (const node of tree) {
             node.checked = checked.includes(node.name)
 
             if (node.children && node.children.length > 0) {

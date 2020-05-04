@@ -108,7 +108,7 @@
         if (visible) {
           this.loadData()
         } else {
-          this.$refs['form'].resetFields()
+          this.$refs.form.resetFields()
         }
       },
       loadData () {

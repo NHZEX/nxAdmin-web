@@ -14,6 +14,7 @@ import routes from './routes'
 // 鉴权
 import { needAuthorize, isLogin, canAccessRoute } from '@/plugin/auth/index'
 import { Message } from 'element-ui'
+import { hasOwnProperty } from '@/libs/util.common'
 
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push
@@ -79,7 +80,7 @@ router.afterEach(to => {
   NProgress.done()
 
   // 是否使用D2导航管理
-  if (!to.meta.hasOwnProperty('rawPage') || !to.meta.rawPage) {
+  if (!hasOwnProperty(to.meta, 'rawPage') || !to.meta.rawPage) {
     // 多页控制 打开新的页面
     store.dispatch('d2admin/page/open', to)
   }

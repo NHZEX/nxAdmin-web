@@ -1,6 +1,7 @@
 <script>
   import Modal from '@ivu/modal'
   import Spin from '@ivu/spin'
+  import { hasOwnProperty } from '@/libs/util.common'
 
   export default {
     name: 'i-modal',
@@ -16,8 +17,8 @@
     },
     render (createElement) {
       // 加载默认属性
-      let defaultAttrs = {}
-      if (!this.$attrs.hasOwnProperty('footerHide') && !this.$attrs.hasOwnProperty('footer-hide')) {
+      const defaultAttrs = {}
+      if (!hasOwnProperty(this.$attrs, 'footerHide') && !hasOwnProperty(this.$attrs, 'footer-hide')) {
         defaultAttrs.footerHide = true
       }
       // 载入lodaing层
