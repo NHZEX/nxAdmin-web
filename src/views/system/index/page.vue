@@ -32,14 +32,12 @@
       load () {
         this.loading = true
         sysinfo().then(data => {
-          let result = []
-          for (let key in data) {
-            if (data.hasOwnProperty(key)) {
-              result.push({
-                'name': data[key][0],
-                'value': data[key][1],
-              })
-            }
+          const result = []
+          for (const key of Object.keys(data)) {
+            result.push({
+              name: data[key][0],
+              value: data[key][1],
+            })
           }
           this.tableData = result
         }).finally(() => {
