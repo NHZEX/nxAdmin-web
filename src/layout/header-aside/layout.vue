@@ -20,8 +20,10 @@
           :class="{'logo-group': true, 'logo-transition': asideTransition}"
           :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}"
           flex-box="0">
-          <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">
-          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
+          <!--suppress HtmlUnknownTarget -->
+          <img v-if="asideCollapse" :src="`${this.activeThemePath}/logo/icon-only.png`" alt="site icon">
+          <!--suppress HtmlUnknownTarget -->
+          <img v-else :src="`${this.activeThemePath}/logo/all.png`" alt="site icon">
         </router-link>
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
           <fa-icon iconx="bars"/>
@@ -146,7 +148,10 @@
             backgroundImage: `url('${this.$baseUrl}${this.themeActiveSetting.backgroundImage}')`
           } : {}
         }
-      }
+      },
+      activeThemePath () {
+        return `${this.$baseUrl}image/theme/${this.themeActiveSetting.name}`
+      },
     },
     methods: {
       ...mapActions('d2admin/menu', [
