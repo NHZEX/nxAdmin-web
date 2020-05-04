@@ -1,6 +1,29 @@
 import Vue from 'vue'
 import router from '@/router'
 
+const mapping = {
+  default: {
+    el: 'default',
+    iv: 'default',
+  },
+  large: {
+    el: 'default',
+    iv: 'large',
+  },
+  medium: {
+    el: 'medium',
+    iv: 'default',
+  },
+  small: {
+    el: 'small',
+    iv: 'small',
+  },
+  mini: {
+    el: 'mini',
+    iv: 'small',
+  },
+}
+
 export default {
   namespaced: true,
   state: {
@@ -14,7 +37,8 @@ export default {
      * @param {Boolean} refresh 是否在设置之后刷新页面
      */
     apply ({ state, commit }, refresh) {
-      Vue.prototype.$ELEMENT.size = state.value
+      Vue.prototype.$ELEMENT.size = mapping[state.value].el
+      Vue.prototype.$IVIEW.size = mapping[state.value].iv
       if (refresh) {
         commit('d2admin/page/keepAliveClean', null, { root: true })
         router.replace('/refresh')
