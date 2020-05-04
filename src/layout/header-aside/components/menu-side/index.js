@@ -17,7 +17,7 @@ export default {
       }, this.aside.map(menu => (menu.children === undefined ? elMenuItem : elSubmenu).call(this, h, menu))),
       ...this.aside.length === 0 && !this.asideCollapse ? [
         h('div', { attrs: { class: 'd2-layout-header-aside-menu-empty', flex: 'dir:top main:center cross:center' } }, [
-          h('d2-icon', { props: { name: 'inbox' } }),
+          h('fa-icon', { props: { iconx: 'inbox' } }),
           h('span', {}, '没有侧栏菜单')
         ])
       ] : []

@@ -38,7 +38,7 @@
                     type="text"
                     v-model="formLogin.username"
                     placeholder="用户名">
-                    <i slot="prepend" class="fa fa-user-circle-o"/>
+                    <fa-icon slot="prepend" iconx="fas user-circle"/>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
@@ -47,7 +47,7 @@
                     v-model="formLogin.password"
                     ref="form-password"
                     placeholder="密码">
-                    <i slot="prepend" class="fa fa-keyboard-o"/>
+                    <fa-icon slot="prepend" iconx="fas keyboard"/>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="code" style="margin-bottom: 11px" v-if="loginCaptcha">
@@ -84,7 +84,7 @@
             <p
               class="page-login--options"
               flex="main:justify cross:center">
-              <span><d2-icon name="question-circle"/> 忘记密码</span>
+              <span><fa-icon iconx="fas question-circle"/> 忘记密码</span>
               <span>注册用户</span>
             </p>
           </div>
@@ -100,7 +100,7 @@
           </p>
           <p class="page-login--content-footer-copyright">
             Copyright
-            <d2-icon name="copyright"/>
+            <fa-icon iconx="far copyright"/>
             2018 D2 Projects 开源组织出品
             <a href="https://github.com/FairyEver">
               @FairyEver

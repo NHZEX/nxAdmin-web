@@ -81,10 +81,13 @@
         iconName: tmp[1],
       } : props.iconx
 
-      delete props.iconx
+      // delete props.iconx
+
+      const data = context.data
+      data.attrs = { ...data.attrs, ...props }
 
       return createElement(FontAwesomeIcon, {
-        attrs: props
+        ...data,
       })
     }
   }

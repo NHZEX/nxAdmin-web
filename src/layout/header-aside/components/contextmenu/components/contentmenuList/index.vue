@@ -8,9 +8,9 @@
       :data-value="item.value"
       class="d2-contentmenu-item"
       flex="cross:center main:center">
-      <d2-icon
+      <fa-icon
         v-if="item.icon"
-        :name="item.icon"/>
+        :iconx="item.icon" class="fa-w-14"/>
       <div
         class="d2-contentmenu-item-title"
         flex-box="1">

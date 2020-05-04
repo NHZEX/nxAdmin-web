@@ -1,11 +1,11 @@
 <template>
   <el-dropdown placement="bottom" size="small" @command="handleChange">
     <el-button class="d2-mr btn-text can-hover" type="text">
-      <d2-icon name="font" style="font-size: 16px;"/>
+      <fa-icon iconx="font" size="lg"></fa-icon>
     </el-button>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item v-for="item in options" :key="item.value" :command="item.value">
-        <d2-icon :name="iconName(item.value)" class="d2-mr-5"/>{{item.label}}
+        <fa-icon :iconx="iconName(item.value)" class="d2-mr-5"/>{{item.label}}
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
@@ -47,7 +47,7 @@
         })
       },
       iconName (name) {
-        return name === this.value ? 'dot-circle-o' : 'circle-o'
+        return `far ${name === this.value ? 'dot-circle' : 'circle'}`
       }
     }
   }

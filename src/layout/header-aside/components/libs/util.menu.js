@@ -2,10 +2,10 @@
 export function elMenuItem (h, menu) {
   return h('el-menu-item', { key: menu.path, props: { index: menu.path } }, [
     ...menu.icon ? [
-      h('i', { attrs: { class: `fa fa-${menu.icon}` } })
+      h('fa-icon', { attrs: { iconx: menu.icon } })
     ] : [],
-    ...menu.icon === undefined & !menu.iconSvg ? [
-      h('i', { attrs: { class: 'fa fa-file-o' } })
+    ...menu.icon === undefined && !menu.iconSvg ? [
+      h('fa-icon', { attrs: { iconx: 'file' } })
     ] : [],
     ...menu.iconSvg ? [
       h('d2-icon-svg', { props: { name: menu.iconSvg } })
@@ -18,10 +18,10 @@ export function elMenuItem (h, menu) {
 export function elSubmenu (h, menu) {
   return h('el-submenu', { key: menu.path, props: { index: menu.path } }, [
     ...menu.icon ? [
-      h('i', { slot: 'title', attrs: { class: `fa fa-${menu.icon}` } })
+      h('fa-icon', { slot: 'title', attrs: { iconx: menu.icon } })
     ] : [],
-    ...menu.icon === undefined & !menu.iconSvg ? [
-      h('i', { slot: 'title', attrs: { class: 'fa fa-folder-o' } })
+    ...menu.icon === undefined && !menu.iconSvg ? [
+      h('fa-icon', { slot: 'title', attrs: { iconx: 'file' } })
     ] : [],
     ...menu.iconSvg ? [
       h('d2-icon-svg', { slot: 'title', props: { name: menu.iconSvg } })

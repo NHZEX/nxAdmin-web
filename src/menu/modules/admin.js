@@ -1,7 +1,7 @@
 export default [
   {
     title: '系统',
-    icon: 'cogs',
+    icon: 'cog',
     children: [
       { path: '/admin/user', title: '用户管理', icon: 'user' },
       { path: '/admin/role', title: '角色管理', icon: 'id-card' },

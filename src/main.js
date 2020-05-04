@@ -35,9 +35,9 @@ Vue.use(auth)
 Vue.use(fortawesome)
 
 // fontawesome-5 (async load)
-import('@/plugin/fortawesome/async').then(module => {
-  module.default()
-})
+// import('@/plugin/fortawesome/async').then(module => {
+//   module.default()
+// })
 
 // dayjs
 dayjs.extend(relativeTime)

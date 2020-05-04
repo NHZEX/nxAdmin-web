@@ -51,7 +51,7 @@
             type="primary"
             size="mini"
             @click="handleShowMore(scope.row)">
-            <d2-icon name="eye"/>
+            <fa-icon iconx="far eye"/>
           </el-button>
         </template>
       </el-table-column>
@@ -62,7 +62,7 @@
       size="mini"
       :loading="uploading"
       @click="handleUpload">
-      <d2-icon name="cloud-upload"/>
+      <fa-icon iconx="cloud-upload-alt"/>
       Upload {{log.length}} log data
     </el-button>
   </d2-container>

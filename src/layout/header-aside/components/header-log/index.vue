@@ -12,14 +12,14 @@
         :max="99"
         :value="logLengthError"
         :is-dot="logLengthError === 0">
-        <d2-icon
-          :name="logLengthError === 0 ? 'dot-circle-o' : 'bug'"
-          style="font-size: 20px"/>
+        <fa-icon
+          :iconx="logLengthError === 0 ? 'far dot-circle' : 'bug'"
+          size="lg"/>
       </el-badge>
-      <d2-icon
+      <fa-icon
         v-else
-        name="dot-circle-o"
-        style="font-size: 20px"/>
+        iconx="far dot-circle"
+        size="lg"/>
     </el-button>
   </el-tooltip>
 </template>
