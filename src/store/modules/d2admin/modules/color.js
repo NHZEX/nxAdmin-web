@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash'
 import client from 'webpack-theme-color-replacer/client'
 import forElementUI from 'webpack-theme-color-replacer/forElementUI'
 
@@ -56,15 +55,17 @@ export default {
   mutations: {
     /**
      * @description 将 vuex 中的主题颜色设置应用到系统中
-     * @param {Object} context
+     * @param state
      * // payload
      * @param {Object} oldColor {String} 旧的颜色
      * @param {Object} newColor {String} 新颜色
      */
     apply (state, { oldColor, newColor }) {
       var options = {
-        oldColors: cloneDeep(forElementUI.getElementUISeries(oldColor)),
-        newColors: cloneDeep(forElementUI.getElementUISeries(newColor))
+        newColors: [
+          ...forElementUI.getElementUISeries(newColor),
+          // ...forElementUI.getElementUISeries(newColor), // iview 样式暂时无法完美兼任
+        ]
       }
       client.changer.changeColor(options)
     }

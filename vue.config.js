@@ -97,10 +97,11 @@ module.exports = {
       .use(ThemeColorReplacer, [{
         fileName: 'css/theme-colors.[contenthash:8].css',
         matchColors: [
-          ...forElementUI.getElementUISeries(process.env.VUE_APP_ELEMENT_COLOR) // Element-ui主色系列
+          ...forElementUI.getElementUISeries(process.env.VUE_APP_ELEMENT_COLOR), // element-ui 主色系列
+          // ...forElementUI.getElementUISeries('#2d8cf0'), // iview-ui 主色系列 (样式暂时无法完全兼任)
         ],
         externalCssFiles: [ './node_modules/element-ui/lib/theme-chalk/index.css' ], // optional, String or string array. Set external css files (such as cdn css) to extract colors.
-        changeSelector: forElementUI.changeSelector
+        changeSelector: forElementUI.changeSelector,
       }])
     config
       // 开发环境 sourcemap 不包含列信息
