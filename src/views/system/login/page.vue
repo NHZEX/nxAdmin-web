@@ -8,17 +8,12 @@
     <div
       class="page-login--layer page-login--layer-time"
       flex="main:center cross:center">
-      {{time}}
     </div>
     <div class="page-login--layer">
       <div
         class="page-login--content"
         flex="dir:top main:justify cross:stretch box:justify">
-        <div class="page-login--content-header">
-          <p class="page-login--content-header-motto">
-            时间是一切财富中最宝贵的财富
-          </p>
-        </div>
+        <div class="page-login--content-header"></div>
         <div
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
@@ -101,15 +96,12 @@
           <p class="page-login--content-footer-copyright">
             Copyright
             <fa-icon iconx="far copyright"/>
-            2018 D2 Projects 开源组织出品
-            <a href="https://github.com/FairyEver">
-              @FairyEver
-            </a>
+            2020 D2 Projects 开源组织出品
           </p>
           <p class="page-login--content-footer-options">
-            <a href="#">帮助</a>
-            <a href="#">隐私</a>
-            <a href="#">条款</a>
+<!--            <a href="#">帮助</a>-->
+<!--            <a href="#">隐私</a>-->
+<!--            <a href="#">条款</a>-->
           </p>
         </div>
       </div>
@@ -118,7 +110,6 @@
 </template>
 
 <script>
-  import dayjs from 'dayjs'
   import { mapActions, mapState } from 'vuex'
   import localeMixin from '@/locales/mixin.js'
   import { randomString } from '@/libs/util.common'
@@ -131,8 +122,6 @@
     ],
     data () {
       return {
-        timeInterval: null,
-        time: dayjs().format('HH:mm:ss'),
         // 验证码
         codeUrl: '',
         loginToken: randomString(32),
@@ -170,13 +159,9 @@
       }
     },
     mounted () {
-      this.timeInterval = setInterval(() => {
-        this.refreshTime()
-      }, 1000)
       this.refrushCode()
     },
     beforeDestroy () {
-      clearInterval(this.timeInterval)
     },
     computed: {
       ...mapState('d2admin/config', [
@@ -187,9 +172,6 @@
       ...mapActions('d2admin/account', [
         'login',
       ]),
-      refreshTime () {
-        this.time = dayjs().format('HH:mm:ss')
-      },
       /**
        * @description 提交表单
        */
@@ -197,7 +179,7 @@
       submit () {
         this.$refs.loginForm.validate((valid) => {
           if (valid) {
-            let loadingInstance = Loading.service({ fullscreen: true })
+            const loadingInstance = Loading.service({ fullscreen: true })
             // 登录
             // 注意 这里的演示没有传验证码
             // 具体需要传递的数据请自行修改代码
