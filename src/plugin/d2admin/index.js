@@ -1,6 +1,5 @@
 // Element
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import ElementUI from '@/plugin/element'
 // flex 布局库
 import 'flex.css'
 // 组件

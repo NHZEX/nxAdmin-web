@@ -9,9 +9,18 @@ module.exports = {
     [
       'import',
       {
-        'libraryName': 'view-design',
-        'libraryDirectory': 'src/components'
-      }
-    ]
+        libraryName: 'view-design',
+        libraryDirectory: 'src/components'
+      },
+      'view-design'
+    ],
+    [
+      'import',
+      {
+        libraryName: 'element-ui',
+        libraryDirectory: 'lib'
+      },
+      'element-ui'
+    ],
   ]
 }
