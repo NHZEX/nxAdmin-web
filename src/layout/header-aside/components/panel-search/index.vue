@@ -79,6 +79,22 @@
           value: e.fullTitle,
           ...e
         })) : this.results
+      },
+      // 根据 pool 更新 fuse 实例
+      fuse () {
+        return new Fuse(this.pool, {
+          shouldSort: true,
+          tokenize: true,
+          threshold: 0.6,
+          location: 0,
+          distance: 100,
+          maxPatternLength: 32,
+          minMatchCharLength: 1,
+          keys: [
+            'fullTitle',
+            'path'
+          ]
+        })
       }
     },
     methods: {
@@ -86,8 +102,7 @@
        * @description 过滤选项 这个方法在每次输入框的值发生变化时会触发
        */
       querySearch (queryString, callback) {
-        var pool = this.pool
-        const results = this.query(queryString ? pool : [], queryString)
+        const results = this.fuse.search(queryString).map(e => e.item)
         this.results = results
         callback(results)
       },
