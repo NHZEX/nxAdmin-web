@@ -1469,10 +1469,10 @@
   resolved "https://registry.npm.taobao.org/@vue/preload-webpack-plugin/download/@vue/preload-webpack-plugin-1.1.1.tgz#18723530d304f443021da2292d6ec9502826104a"
   integrity sha1-GHI1MNME9EMCHaIpLW7JUCgmEEo=
 
-"@vue/test-utils@1.0.0-beta.33":
-  version "1.0.0-beta.33"
-  resolved "https://registry.npm.taobao.org/@vue/test-utils/download/@vue/test-utils-1.0.0-beta.33.tgz#627511afbd4307e7557634f860a1b985bd25d9cd"
-  integrity sha1-YnURr71DB+dVdjT4YKG5hb0l2c0=
+"@vue/test-utils@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/@vue/test-utils/download/@vue/test-utils-1.0.2.tgz#68134747cb88d996e4c9703ca4b103b4d23fda14"
+  integrity sha1-aBNHR8uI2ZbkyXA8pLEDtNI/2hQ=
   dependencies:
     dom-event-types "^1.0.0"
     lodash "^4.17.15"
@@ -4767,7 +4767,7 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.npm.taobao.org/functional-red-black-tree/download/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-fuse.js@^5.1.0:
+fuse.js@^5.2.3:
   version "5.2.3"
   resolved "https://registry.npm.taobao.org/fuse.js/download/fuse.js-5.2.3.tgz?cache=0&sync_timestamp=1587450145724&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffuse.js%2Fdownload%2Ffuse.js-5.2.3.tgz#fdf3aa62859782b3f73ddfa57a9ca81517280c91"
   integrity sha1-/fOqYoWXgrP3Pd+lepyoFRcoDJE=
@@ -10602,9 +10602,9 @@ webpack-sources@*, webpack-sources@^1.0.1, webpack-sources@^1.1.0, webpack-sourc
     source-map "~0.6.1"
 
 webpack-theme-color-replacer@^1.3.5:
-  version "1.3.10"
-  resolved "https://registry.npm.taobao.org/webpack-theme-color-replacer/download/webpack-theme-color-replacer-1.3.10.tgz?cache=0&sync_timestamp=1588341411768&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-theme-color-replacer%2Fdownload%2Fwebpack-theme-color-replacer-1.3.10.tgz#2d61336ae4ba288cf8704457cdf8568525b10fca"
-  integrity sha1-LWEzauS6KIz4cERXzfhWhSWxD8o=
+  version "1.3.11"
+  resolved "https://registry.npm.taobao.org/webpack-theme-color-replacer/download/webpack-theme-color-replacer-1.3.11.tgz#52d76a068783364db0b53edabf689fb4a3fb7f2d"
+  integrity sha1-UtdqBoeDNk2wtT7av2iftKP7fy0=
   dependencies:
     webpack-sources "*"
 
