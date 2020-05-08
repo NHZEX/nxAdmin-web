@@ -145,15 +145,6 @@ module.exports = {
     config.resolve.alias
       .set('@api', resolve('src/api'))
       .set('@ivu', resolve('node_modules/view-design/src/components'))
-    // 判断环境加入模拟数据
-    // 已适配多页
-    if (process.env.VUE_APP_BUILD_MODE !== 'NOMOCK') {
-      const multiEntry = keys(pages || {})
-      const entries = multiEntry.length ? multiEntry : ['app']
-      each(entries, entry => {
-        config.entry(entry).add('@/mock').end()
-      })
-    }
     // 分析工具
     if (process.env.npm_config_report) {
       config
