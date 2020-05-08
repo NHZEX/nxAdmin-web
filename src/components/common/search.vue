@@ -76,7 +76,7 @@
     methods: {
       // 初始搜索条件
       initParams () {
-        let tmp = {}
+        const tmp = {}
         this.config.forEach((item) => {
           if (item.tag === 'select') {
             tmp[item.key] = undefined
@@ -91,8 +91,8 @@
       submit () {
         this.origin_search_params = cloneDeep(this.search_params)
         this.need_submit = false
-        let tmp = {}
-        for (let i in this.search_params) {
+        const tmp = {}
+        for (const i in this.search_params) {
           if (this.search_params[i] === undefined) {
             tmp[i] = null
           } else {

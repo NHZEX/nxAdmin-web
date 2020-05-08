@@ -41,7 +41,7 @@
       iPageTable,
       RoleEdit
     },
-    mixins: [ pageOption ],
+    mixins: [pageOption],
     data () {
       return {
         dayjs,

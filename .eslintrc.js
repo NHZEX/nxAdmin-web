@@ -24,7 +24,7 @@ module.exports = {
     // const 变量声明
     'prefer-const': 'warn',
     // array-bracket-spacing
-    'array-bracket-spacing': 'off',
+    'array-bracket-spacing': 'warn',
     // no-async-promise-executor
     'no-async-promise-executor': 'warn',
     // quote-props
