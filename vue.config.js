@@ -39,6 +39,7 @@ module.exports = {
   devServer: {
     publicPath, // 和 publicPath 保持一致
     disableHostCheck: process.env.NODE_ENV === 'development', // 关闭 host check，方便使用 ngrok 之类的内网转发工具
+    port: process.env.VUE_DEV_SERVER_PORT || 8080,
   },
   css: {
     loaderOptions: {
@@ -100,7 +101,7 @@ module.exports = {
           ...forElementUI.getElementUISeries(process.env.VUE_APP_ELEMENT_COLOR), // element-ui 主色系列
           // ...forElementUI.getElementUISeries('#2d8cf0'), // iview-ui 主色系列 (样式暂时无法完全兼任)
         ],
-        externalCssFiles: [ './node_modules/element-ui/lib/theme-chalk/index.css' ], // optional, String or string array. Set external css files (such as cdn css) to extract colors.
+        externalCssFiles: ['./node_modules/element-ui/lib/theme-chalk/index.css'], // optional, String or string array. Set external css files (such as cdn css) to extract colors.
         changeSelector: forElementUI.changeSelector,
       }])
     config
