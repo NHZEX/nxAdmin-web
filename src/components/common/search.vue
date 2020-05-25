@@ -17,7 +17,7 @@
       <i-select v-else-if="item.tag === 'select'" v-model.trim="search_params[item.key]"
                 :placeholder="'请选择' + item.label" clearable transfer>
         <i-option v-for="(list_item) in item.list" :key="list_item.value" :value="list_item.value">
-              {{ list_item.label }}({{ list_item.value }})
+              {{ list_item.label }}
         </i-option>
       </i-select>
     </span>
