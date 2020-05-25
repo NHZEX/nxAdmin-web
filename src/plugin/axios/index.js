@@ -41,7 +41,7 @@ function errorLog (error) {
 // 创建一个 axios 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_API,
-  timeout: 5000, // 请求超时时间
+  timeout: 30 * 1000, // 请求超时时间
   withCredentials: true,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
@@ -85,10 +85,16 @@ service.interceptors.response.use(
       userInfo.recallerSign = response.headers['x-recaller-sign']
       store.dispatch('d2admin/user/set', userInfo, { root: true })
     }
+    if (response.request.responseType === 'blob' || response.data instanceof Blob) {
+      return response
+    }
     // 直接抽取 axios 返回数据中的 data
     return response.data
   },
   error => {
+    if (error.response === undefined) {
+      throw error
+    }
     if (error.response.status === 401) {
       // 删除cookie
       util.cookies.remove('token')
