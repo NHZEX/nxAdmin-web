@@ -1,0 +1,15 @@
+td.monospace {
+  @extend .nx-monospace
+}
+
+td.nx-monospace {
+  div {
+    font-family: 'Lucida Console', Monaco, Consolas, Menlo, "Courier New", Courier, monospace;
+  }
+}
+
+.nx-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
