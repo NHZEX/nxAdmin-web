@@ -17,13 +17,13 @@
           </i-select>
         </form-item>
         <form-item label="账号" prop="username">
-          <i-input v-model="formData.username" :readonly="!!id"></i-input>
+          <i-input v-model.trim="formData.username" :readonly="!!id"></i-input>
         </form-item>
         <form-item label="昵称" prop="nickname">
-          <i-input v-model="formData.nickname"></i-input>
+          <i-input v-model.trim="formData.nickname"></i-input>
         </form-item>
         <form-item label="密码" prop="password">
-          <i-input v-model="formData.password" placeholder="为空则不更改用户密码"></i-input>
+          <i-input v-model.trim="formData.password" placeholder="为空则不更改用户密码"></i-input>
         </form-item>
         <form-item label="状态" prop="status">
           <checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></checkbox>
@@ -48,6 +48,8 @@
   import Spin from '@ivu/spin'
   import { getUser, getRolesSelect, saveUser } from '@api/admin/admin'
   import { ADMIN_USERS_GENRE } from '@/store/constant'
+  import { cloneDeep } from 'lodash'
+  import { hash } from '@/libs/util.crypto'
 
   export default {
     name: 'UserEdit',
@@ -130,7 +132,11 @@
         this.$refs.form.validate(valid => {
           this.loading = true
           if (valid) {
-            saveUser(this.id, this.formData).then(() => {
+            const data = cloneDeep(this.formData)
+            if (data.password) {
+              data.password = hash('sha256', data.password)
+            }
+            saveUser(this.id, data).then(() => {
               this.visible = false
             }).finally(() => {
               this.loading = false

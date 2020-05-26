@@ -115,6 +115,7 @@
   import { randomString } from '@/libs/util.common'
   import { SYS_URLS } from '@api/sys'
   import { Loading } from 'element-ui'
+  import { hash } from '@/libs/util.crypto'
 
   export default {
     mixins: [
@@ -181,11 +182,9 @@
           if (valid) {
             const loadingInstance = Loading.service({ fullscreen: true })
             // 登录
-            // 注意 这里的演示没有传验证码
-            // 具体需要传递的数据请自行修改代码
             this.login({
               username: this.formLogin.username,
-              password: this.formLogin.password,
+              password: hash('sha256', this.formLogin.password),
               lasting: this.formLogin.lasting,
               code: this.formLogin.code,
               token: this.loginToken,
