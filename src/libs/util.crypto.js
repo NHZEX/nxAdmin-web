@@ -7,9 +7,10 @@ import md from 'node-forge/lib/md.all'
  * @return {String}
  */
 export function hash (algo, data, rawOutput = false) {
-  console.log(md, md[algo])
+  // import forgeUtil from 'node-forge/lib/util'
+  // todo forgeUtil.encodeUtf8(data) != (new TextEncoder('utf-8')).encode(data)
   const hash = md[algo].create()
-  hash.update(false)
+  hash.update(data, 'utf8')
   const result = hash.digest()
   return rawOutput ? result.getBytes() : result.toHex()
 }
