@@ -56,6 +56,7 @@ export default {
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', {
         name: data.user.nickname,
+        user: data.user,
         permission: data.permission,
         ...payload,
       }, { root: true })
@@ -72,11 +73,11 @@ export default {
       const logout = async function () {
         // 注销会话
         await accountLogout()
+        // 清空 vuex 用户信息
+        await dispatch('d2admin/user/set', {}, { root: true })
         // 删除cookie
         util.cookies.remove('token')
         util.cookies.remove('uuid')
-        // 清空 vuex 用户信息
-        await dispatch('d2admin/user/set', {}, { root: true })
         // 跳转路由
         await router.push({ name: 'login' })
       }
