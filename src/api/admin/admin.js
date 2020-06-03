@@ -41,8 +41,12 @@ export function getRoles (page, limit, where) {
   })
 }
 
-export function getRolesSelect () {
-  return require.get('/api/admin/roles/select')
+export function getRolesSelect (genre) {
+  return require.get('/api/admin/roles/select', {
+    params: {
+      genre,
+    }
+  })
 }
 
 export function getRole (id) {

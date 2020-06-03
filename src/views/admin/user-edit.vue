@@ -8,7 +8,7 @@
       <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
         <form-item label="账户类型" prop="genre" v-show="!id">
           <i-select v-model="formData.genre" placeholder="请选择角色类型">
-            <i-option v-for="(value, key) in usersGenre" :key="key" :value="parseInt(key)">{{ value }}</i-option>
+            <i-option v-for="item in usersGenre" :key="item.value" :value="item.value" :selected="item.disabled">{{ item.label }}</i-option>
           </i-select>
         </form-item>
         <form-item label="账户角色" prop="role_id">
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+  import store from '@/store/index'
   import Modal from '@ivu/modal'
   import iInput from '@ivu/input'
   import iForm from '@ivu/form'
@@ -47,7 +48,7 @@
   import iButton from '@ivu/button'
   import Spin from '@ivu/spin'
   import { getUser, getRolesSelect, saveUser } from '@api/admin/admin'
-  import { ADMIN_USERS_GENRE } from '@/store/constant'
+  import { ADMIN_USER_ROLE_MAPPING, ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
   import { cloneDeep } from 'lodash'
   import { hash } from '@/libs/util.crypto'
 
@@ -72,12 +73,15 @@
     },
     data () {
       return {
-        usersGenre: ADMIN_USERS_GENRE,
+        usersGenre: toLabelValue(ADMIN_USERS_GENRE).filter(d => {
+          const genre = store.state.d2admin.user.info.user.genre
+          return d.value >= genre
+        }),
         visible: false,
         loading: false,
         roleList: [],
         formData: {
-          genre: null,
+          genre: store.state.d2admin.user.info.user.genre,
           username: '',
           nickname: '',
           password: '',
@@ -105,6 +109,16 @@
         },
       },
     },
+    watch: {
+      'formData.genre' (v) {
+        this.loading = true
+        getRolesSelect(ADMIN_USER_ROLE_MAPPING[v]).then(d => {
+          this.roleList = d
+        }).finally(() => {
+          this.loading = false
+        })
+      }
+    },
     methods: {
       onVisible (visible) {
         if (visible) {
@@ -116,7 +130,7 @@
       loadData () {
         this.loading = true
         Promise.all([
-          getRolesSelect(),
+          getRolesSelect(ADMIN_USER_ROLE_MAPPING[this.formData.genre]),
           getUser(this.id),
         ]).then(values => {
           this.roleList = values[0]
@@ -145,8 +159,6 @@
           }
         })
       },
-    },
-    watch: {
     },
   }
 </script>

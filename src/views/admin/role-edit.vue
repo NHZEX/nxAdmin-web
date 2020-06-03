@@ -8,7 +8,7 @@
       <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
         <form-item label="类型" prop="genre" v-show="!id">
           <i-select v-model="formDataGenre" placeholder="请选择角色类型">
-            <i-option v-for="(value, key) in rolesGenre" :key="key" :value="parseInt(key)">{{ value }}</i-option>
+            <i-option v-for="item in rolesGenre" :key="item.value" :value="item.value">{{ item.label }}</i-option>
           </i-select>
         </form-item>
         <form-item label="名称" prop="name">
@@ -42,7 +42,8 @@
   import iButton from '@ivu/button'
   import Spin from '@ivu/spin'
   import { saveRole, getRole, getPermissions } from '@api/admin/admin'
-  import { ADMIN_ROLES_GENRE } from '@/store/constant'
+  import { ADMIN_ROLES_GENRE, ADMIN_USER_ROLE_MAPPING, toLabelValue } from '@/store/constant'
+  import store from '@/store'
 
   export default {
     name: 'RoleEdit',
@@ -66,11 +67,14 @@
     },
     data () {
       return {
-        rolesGenre: ADMIN_ROLES_GENRE,
+        rolesGenre: toLabelValue(ADMIN_ROLES_GENRE).filter(d => {
+          const genre = store.state.d2admin.user.info.user.genre
+          return d.value >= ADMIN_USER_ROLE_MAPPING[genre]
+        }),
         visible: false,
         loading: false,
         formData: {
-          genre: 0,
+          genre: ADMIN_USER_ROLE_MAPPING[store.state.d2admin.user.info.user.genre],
           name: '',
           status: 0,
           ext: {

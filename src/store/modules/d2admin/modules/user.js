@@ -8,6 +8,11 @@ export default {
       name: '',
       permission: {},
       recallerSign: '',
+      user: {
+        id: 0,
+        genre: 0,
+        role_id: 0,
+      }
     },
     routeMapping: {},
   },
