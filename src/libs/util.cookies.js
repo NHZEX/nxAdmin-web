@@ -16,6 +16,8 @@ cookies.set = function (name = 'default', value = '', cookieSetting = {}) {
     case 'uuid':
     case 'token':
       currentCookieSetting.SameSite = 'Lax'
+      // 设置为会话有效
+      delete currentCookieSetting.expires
       break
   }
   Object.assign(currentCookieSetting, cookieSetting)

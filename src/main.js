@@ -49,6 +49,8 @@ new Vue({
   i18n,
   render: h => h(App),
   created () {
+    // 初始化机器码
+    this.$store.dispatch('d2admin/config/loadMachineCode')
     // 处理路由 得到每一级的路由设置
     this.$store.commit('d2admin/page/init', frameInRoutes)
     // 设置顶栏菜单

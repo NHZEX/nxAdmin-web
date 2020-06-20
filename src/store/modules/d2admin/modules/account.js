@@ -2,7 +2,6 @@ import { Message, MessageBox } from 'element-ui'
 import util from '@/libs/util.js'
 import router from '@/router'
 import { accountLogin, accountLogout, userInfo } from '@/api/sys.login'
-import { hasOwnProperty } from '@/libs/util.common'
 
 export default {
   namespaced: true,
@@ -33,9 +32,7 @@ export default {
       util.cookies.set('uuid', res.uuid)
       util.cookies.set('token', res.token)
       // 刷新用户信息
-      await dispatch('refresh', {
-        recallerSign: res.recallerSign,
-      })
+      await dispatch('refresh', {})
       // 用户登录后从持久化数据加载一系列的设置
       await dispatch('load')
     },
@@ -48,11 +45,7 @@ export default {
      */
     async refresh ({ dispatch, rootState }, payload = {}) {
       const data = await userInfo()
-      const user = rootState.d2admin.user
-      // 查询用户数据
-      if (!hasOwnProperty(payload, 'recallerSign') && user.info && user.info.recallerSign) {
-        payload.recallerSign = user.info.recallerSign
-      }
+
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', {
         name: data.user.nickname,

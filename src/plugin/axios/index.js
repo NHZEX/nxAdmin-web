@@ -54,12 +54,14 @@ service.interceptors.request.use(
     // 处理鉴权
     const token = util.cookies.get('token')
     const uuid = util.cookies.get('uuid')
+    let authorization = ''
     if (token && uuid) {
-      config.headers['X-Token'] = token
+      authorization += `TK="${token}" `
     }
-    if (store.state.d2admin.user.info.recallerSign) {
-      config.headers['X-Recaller-Sign'] = store.state.d2admin.user.info.recallerSign
+    if (store.state.d2admin.config.machine) {
+      authorization += `MC="${store.state.d2admin.config.machine}" `
     }
+    config.headers.Authorization = `AT1 ${authorization}`.trim()
     return config
   },
   error => {
@@ -77,12 +79,6 @@ service.interceptors.response.use(
       util.cookies.set('uuid', response.headers['x-uuid'])
       util.cookies.set('token', response.headers['x-token'])
       // todo 刷新用户远程状态
-    }
-    // 更新用户记住令牌
-    if (hasOwnProperty(response.headers, 'x-recaller-sign')) {
-      const userInfo = store.state.d2admin.user.info
-      userInfo.recallerSign = response.headers['x-recaller-sign']
-      store.dispatch('d2admin/user/set', userInfo, { root: true })
     }
     if (response.request.responseType === 'blob' || response.data instanceof Blob) {
       return response

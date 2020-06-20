@@ -7,7 +7,6 @@ export default {
     info: {
       name: '',
       permission: {},
-      recallerSign: '',
       user: {
         id: 0,
         genre: 0,
