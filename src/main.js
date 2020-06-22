@@ -16,7 +16,7 @@ import { menuAside } from '@/menu'
 import { frameInRoutes } from '@/router/routes'
 
 // auth
-import auth from '@/plugin/auth'
+import auth, { isLogin } from '@/plugin/auth'
 
 // dayjs
 import dayjs from 'dayjs'
@@ -60,13 +60,17 @@ new Vue({
     // 初始化菜单搜索功能
     this.$store.commit('d2admin/search/init', menuAside)
   },
-  mounted () {
+  async mounted () {
     // 加载系统信息
     this.$store.dispatch('d2admin/config/load')
     // 展示系统信息
     this.$store.commit('d2admin/releases/versionShow')
     // 用户登录后从数据库加载一系列的设置
     this.$store.dispatch('d2admin/account/load')
+    // 判断是否已经登录 若已登录则refresh用户数据，重新加载
+    if (await isLogin(true)) {
+      await this.$store.dispatch('d2admin/account/load')
+    }
     // 获取并记录用户 UA
     this.$store.commit('d2admin/ua/get')
     // 初始化全屏监听

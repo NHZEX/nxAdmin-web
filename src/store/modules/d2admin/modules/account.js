@@ -44,6 +44,11 @@ export default {
      * @return {Promise<unknown>}
      */
     async refresh ({ dispatch, rootState }, payload = {}) {
+      // 若未登录则抛出错误 不执行后面的代码
+      const token = util.cookies.get('token')
+      if (!token || token === 'undefined') {
+        throw new Error()
+      }
       const data = await userInfo()
 
       // 设置 vuex 用户信息

@@ -6,6 +6,11 @@ import { filterMenu } from '@/plugin/auth'
 export default {
   namespaced: true,
   state: {
+    // 菜单数据
+    original: {
+      header: [],
+      aside: [],
+    },
     // 顶栏菜单
     header: [],
     // 侧栏菜单
@@ -99,8 +104,8 @@ export default {
      * @param {Object} context
      */
     async filterMenu ({ state }) {
-      state.aside = filterMenu(state.aside)
-      state.header = filterMenu(state.header)
+      state.aside = filterMenu(state.original.aside)
+      state.header = filterMenu(state.original.header)
     }
   },
   mutations: {
@@ -111,7 +116,7 @@ export default {
      */
     headerSet (state, menu) {
       // store 赋值
-      state.header = filterMenu(menu)
+      state.original.header = menu
     },
     /**
      * @description 设置侧边栏菜单
@@ -120,7 +125,7 @@ export default {
      */
     asideSet (state, menu) {
       // store 赋值
-      state.aside = filterMenu(menu)
+      state.original.aside = menu
     }
   }
 }

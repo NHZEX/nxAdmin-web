@@ -69,7 +69,12 @@ router.beforeEach(async (to, from, next) => {
       type: 'warning',
       duration: 5 * 1000,
     })
-    next(false)
+    if (await isLogin() && from.name === 'login') {
+      next({ path: '/index' })
+      return
+    } else {
+      next(false)
+    }
   }
   // https://github.com/d2-projects/d2-admin/issues/138
   NProgress.done()
