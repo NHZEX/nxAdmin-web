@@ -29,3 +29,13 @@
 .el-table colgroup.gutter {
   display: table-cell !important;
 }
+
+// 启用 fixed 后最后一行单元格高度可能出现一半的情况
+.el-table {
+  .el-table__fixed {
+    height: 100% !important;
+  }
+  .el-table__fixed-right {
+    height: 100% !important;
+  }
+}

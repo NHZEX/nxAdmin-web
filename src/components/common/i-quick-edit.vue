@@ -3,7 +3,7 @@
     <span @click="open()">
       <slot/>
     </span>
-    <modal :title="title" v-model="visible" @on-visible-change="onVisible" @on-ok="quickSubmit()">
+    <modal :title="i_title" v-model="visible" @on-visible-change="onVisible" @on-ok="quickSubmit()">
       <i-form>
         <form-item>
           <i-input ref="input" v-if="i_type === 'text' || i_type === 'number'" :type="i_type" v-model="quick.value" @on-enter="quickSubmit()"/>
@@ -63,6 +63,7 @@
         visible: false,
         i_data: [],
         i_type: null,
+        i_title: '快速编辑',
         quick: {
           id: 0,
           field: '',
@@ -77,8 +78,9 @@
         }
       },
       // 打开快速编辑
-      open (id = this.id, field = this.field, value = this.value, type = this.type) {
+      open (id = this.id, field = this.field, value = this.value, type = this.type, title = this.title) {
         this.i_type = type
+        this.i_title = title
         this.quick.id = id
         this.quick.field = field
         this.quick.value = value
@@ -89,6 +91,9 @@
             el.getElementsByTagName('input')[0].focus()
           })
         }
+      },
+      openEx (id = this.id, field = this.field, value = this.value, options = {}) {
+        this.open(id, field, value, options.type || this.type, options.title || this.title)
       },
       quickSubmit () {
         this.visible = false

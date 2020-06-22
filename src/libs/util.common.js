@@ -24,6 +24,23 @@ export function hasOwnProperty (object, key) {
   return Object.prototype.hasOwnProperty.call(object, key)
 }
 
+/**
+ * @param blob
+ * @returns {Promise<unknown>}
+ */
+export function blobToString (blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      resolve(reader.result)
+    }
+    reader.onerror = () => {
+      reject(reader.error)
+    }
+    reader.readAsText(blob)
+  })
+}
+
 const common = {}
 
 export default common

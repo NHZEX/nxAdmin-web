@@ -1,38 +1,40 @@
 <template>
   <span v-bind:class="[{'float-right': float}]">
     <divider type="vertical"/>
-    <span v-for="(item, index) in config" :key="index" class="ivu-input-wrapper"
-         :style="{'padding-right': '4px', 'width': (item.width ? item.width : 150) + 'px'}">
-      <!--    输入框    -->
-      <i-input v-if="item.tag === 'input'" :type="(item.type ? item.type : 'text')"
-               v-model.trim="search_params[item.key]"
-               :placeholder="item.placeholder ? item.placeholder : '请输入'" clearable>
-        <span slot="prepend">{{item.label}}</span>
-      </i-input>
-      <!--    日期选择    -->
-      <date-picker v-else-if="item.tag === 'date-picker'" type="datetimerange" format="yyyy-MM-dd HH:mm"
-                   v-model="search_params[item.key]" :placeholder="item.label" clearable
-                   :style="{'padding-right': '4px', 'width': (item.width ? item.width : 150) + 'px'}"/>
-      <!--    下拉框    -->
-      <i-select v-else-if="item.tag === 'select'" v-model.trim="search_params[item.key]"
-                :placeholder="'请选择' + item.label" clearable transfer>
-        <i-option v-for="(list_item) in item.list" :key="list_item.value" :value="list_item.value">
-              {{ list_item.label }}
-        </i-option>
-      </i-select>
+    <span v-for="(item, index) in configOne" :key="index" :style="{'padding-right': '4px'}">
+      <span class="ivu-input-wrapper" :style="{'width': (item.width ? item.width : 150) + 'px'}">
+        <search-item :item="item" :search_params="search_params"
+                     :change="(key, val) => {return change(key, val)}"
+        />
+      </span>
     </span>
-    <i-button :type="need_submit ? 'success' : 'default'" @click="submit()" icon="md-search">搜索</i-button>
+    <poptip v-if="configMoreCount > 0" transfer placement="bottom-end" title="更多筛选">
+      <i-button :type="configMoreValueCount > 0 ? 'primary' : 'default'" icon="md-more"/>
+      <div slot="content">
+        <div v-for="(item, index) in configMore" :key="index" :style="{'margin-bottom': '5px'}">
+          <div :style="{'width': '100%'}">
+            <search-item :item="item" :search_params="search_params"
+                         :change="(key, val) => {return change(key, val)}"
+            />
+          </div>
+        </div>
+      </div>
+    </poptip>
+    <i-button :type="needSubmit ? 'success' : 'default'" @click="submit()" icon="md-search">搜索</i-button>
   </span>
 </template>
 
 <script>
-  import { isEqual, cloneDeep } from 'lodash'
+  import { isEqual, cloneDeep, isArray, trim } from 'lodash'
+  import { hasOwnProperty } from '@/libs/util.common'
   import Divider from '@ivu/divider'
   import iInput from '@ivu/input'
   import iButton from '@ivu/button'
   import iSelect from '@ivu/select'
   import iOption from '@ivu/option'
   import DatePicker from '@ivu/date-picker'
+  import Poptip from '@ivu/poptip'
+  import SearchItem from './search-item'
 
   export default {
     name: 'Search',
@@ -43,10 +45,12 @@
       iSelect,
       iOption,
       DatePicker,
+      Poptip,
+      SearchItem
     },
     data () {
       return {
-        need_submit: false,
+        trim,
         search_params: {}, // 搜索条件
         origin_search_params: {},
       }
@@ -60,37 +64,101 @@
         type: Array,
         require: true,
         default () {
-          return [] // {tag: 'input|date-picker|select', label: '标签名称', key: '返回数据命名', type: '输入框类型', list: [], width: 200},
+          return [] // {tag: 'input|date-picker|select', label: '标签名称', key: '返回数据命名', type: '输入框类型', list: [], width: 200, more: true, multiple: true},
         },
       },
+    },
+    computed: {
+      configOne () {
+        const one = []
+        for (const item of this.config) {
+          if (!hasOwnProperty(item, 'more')) {
+            one.push(item)
+          }
+        }
+        return one
+      },
+      configMore () {
+        const more = []
+        for (const item of this.config) {
+          if (hasOwnProperty(item, 'more') && item.more) {
+            more.push(item)
+          }
+        }
+        return more
+      },
+      configMoreCount () {
+        return this.configMore.length
+      },
+      configMoreValueCount () {
+        let value_count = 0
+        for (const item of this.configMore) {
+          const tmp = this.search_params[item.key]
+          let flag = true
+          if (isArray(tmp)) {
+            if (tmp.length > 0) {
+              for (const val of tmp) {
+                if (!val) {
+                  flag = false
+                  break
+                }
+              }
+              if (flag) {
+                value_count++
+              }
+            }
+          } else if (tmp) {
+            value_count++
+          }
+        }
+        return value_count
+      },
+      needSubmit () {
+        return !isEqual(this.search_params, this.origin_search_params) // 搜索条件是否改变
+      }
     },
     watch: {
-      // 监听搜索条件
-      search_params: {
-        handler: function (val, oldVal) {
-          this.need_submit = !isEqual(val, this.origin_search_params)
+      config: {
+        handler (data) {
+          const tmp = {}
+          for (const item of data) {
+            if (item.tag === 'select') {
+              if (hasOwnProperty(item, 'multiple')) {
+                // 多选
+                tmp[item.key] = []
+              } else {
+                tmp[item.key] = undefined
+              }
+            } else if (item.tag === 'date-picker' && (item.type === 'datetimerange' || item.type === 'daterange')) {
+              // 时间范围
+              tmp[item.key] = ['', '']
+            } else {
+              tmp[item.key] = ''
+            }
+          }
+          this.search_params = tmp
+          this.origin_search_params = cloneDeep(this.search_params)
         },
-        deep: true,
-      },
+        immediate: true,
+        deep: true
+      }
     },
     methods: {
-      // 初始搜索条件
-      initParams () {
-        const tmp = {}
-        this.config.forEach((item) => {
-          if (item.tag === 'select') {
-            tmp[item.key] = undefined
+      // 输入值，返回对应的key, val，并去空处理
+      change (key, val) {
+        if (!Array.isArray(val)) {
+          if (typeof (val) === 'string') {
+            this.search_params[key] = trim(val)
           } else {
-            tmp[item.key] = ''
+            this.search_params[key] = val
           }
-        })
-        this.search_params = tmp
-        this.origin_search_params = cloneDeep(this.search_params)
+        } else {
+          this.search_params[key] = val
+        }
       },
       // 提交搜索
       submit () {
         this.origin_search_params = cloneDeep(this.search_params)
-        this.need_submit = false
         const tmp = {}
         for (const i in this.search_params) {
           if (this.search_params[i] === undefined) {
@@ -101,9 +169,6 @@
         }
         this.$emit('on-search', tmp)
       },
-    },
-    mounted () {
-      this.initParams()
     },
   }
 </script>

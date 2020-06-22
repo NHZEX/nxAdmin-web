@@ -103,7 +103,7 @@
         if (this.rememberChecked && this.primaryKey) {
           this.selected[row[this.primaryKey]] = false
         }
-        this.$emit('on-select-cancel', [selection, row])
+        this.$emit('on-select-cancel', selection, row)
         this.triggerSelected()
       },
       onSelectAll (selection) {
@@ -117,7 +117,7 @@
       },
       onSelectAllCancel (selection) {
         if (this.rememberChecked && this.primaryKey) {
-          for (const d of selection) {
+          for (const d of this.$attrs.data) {
             this.selected[d[this.primaryKey]] = false
           }
         }

@@ -4,7 +4,7 @@ import ivuMessage from '@ivu/message'
 import util from '@/libs/util'
 import router from '@/router'
 import { isPlainObject } from 'lodash'
-import { hasOwnProperty } from '@/libs/util.common'
+import { blobToString, hasOwnProperty } from '@/libs/util.common'
 
 // 创建一个错误
 function errorCreate (msg, code, dataAxios, response) {
@@ -86,7 +86,7 @@ service.interceptors.response.use(
     // 直接抽取 axios 返回数据中的 data
     return response.data
   },
-  error => {
+  async error => {
     if (error.response === undefined) {
       throw error
     }
@@ -95,14 +95,28 @@ service.interceptors.response.use(
       util.cookies.remove('token')
       util.cookies.remove('uuid')
       // 清空 vuex 用户信息
-      store.dispatch('d2admin/user/set', {}, { root: true })
-      router.push({ name: 'login' })
+      await store.dispatch('d2admin/user/set', {}, { root: true })
+      await router.push({ name: 'login' })
     }
     if (error && error.response) {
       if (isPlainObject(error.response.data)) {
         const errno = error.response.data.errno ? error.response.data.errno : -1
         const message = error.response.data.message ? error.response.data.message : 'Undefined'
         throw errorCreate(`${message} (${error.config.url})`, errno, error.response.data, error.response)
+      } else if (error.response.data instanceof Blob) {
+        const result = await blobToString(error.response.data)
+        let message = 'Undefined'
+        let errno = -1
+        try {
+          const data = JSON.parse(result)
+          if (isPlainObject(data)) {
+            errno = data.errno
+            message = data.message
+          }
+        } catch (e) {
+          message = e.message
+        }
+        throw errorCreate(`${message}（${error.config.url}）`, errno, result, error.response)
       } else {
         switch (error.response.status) {
           case 400: error.message = '请求错误'; break
