@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  /* eslint-disable vue/no-unused-components */
+
   import { isEqual, cloneDeep, isArray, trim } from 'lodash'
   import { hasOwnProperty } from '@/libs/util.common'
   import Divider from '@ivu/divider'
@@ -39,6 +41,7 @@
   export default {
     name: 'Search',
     components: {
+      // 函数式组件需要依赖组件引入
       Divider,
       iInput,
       iButton,
