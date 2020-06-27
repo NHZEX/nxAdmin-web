@@ -7,12 +7,14 @@ import { isPlainObject } from 'lodash'
 import { blobToString, hasOwnProperty } from '@/libs/util.common'
 
 // 创建一个错误
-function errorCreate (msg, code, dataAxios, response) {
+function errorCreate (msg, code, dataAxios, response, silent) {
   const error = new Error(msg)
   error.code = code
   error.data = dataAxios
   error.resp = response
-  errorLog(error)
+  if (silent) {
+    errorLog(error)
+  }
   return error
 }
 
@@ -98,11 +100,14 @@ service.interceptors.response.use(
       await store.dispatch('d2admin/user/set', {}, { root: true })
       await router.push({ name: 'login' })
     }
+    // 静默异常标志
+    const silent = !!error.config.silent
+    // 异常处理分支
     if (error && error.response) {
       if (isPlainObject(error.response.data)) {
         const errno = error.response.data.errno ? error.response.data.errno : -1
         const message = error.response.data.message ? error.response.data.message : 'Undefined'
-        throw errorCreate(`${message} (${error.config.url})`, errno, error.response.data, error.response)
+        throw errorCreate(`${message} (${error.config.url})`, errno, error.response.data, error.response, silent)
       } else if (error.response.data instanceof Blob) {
         const result = await blobToString(error.response.data)
         let message = 'Undefined'
@@ -116,7 +121,7 @@ service.interceptors.response.use(
         } catch (e) {
           message = e.message
         }
-        throw errorCreate(`${message}（${error.config.url}）`, errno, result, error.response)
+        throw errorCreate(`${message}（${error.config.url}）`, errno, result, error.response, silent)
       } else {
         switch (error.response.status) {
           case 400: error.message = '请求错误'; break
@@ -133,7 +138,7 @@ service.interceptors.response.use(
           default: break
         }
       }
-      throw errorCreate(`${error.message} (${error.config.url})`, error.response.status, error.response.data, error.response)
+      throw errorCreate(`${error.message} (${error.config.url})`, error.response.status, error.response.data, error.response, silent)
     }
   }
 )

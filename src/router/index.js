@@ -50,7 +50,7 @@ router.beforeEach(async (to, from, next) => {
   if (!needAuthorize(to)) {
     // 该路由不需要任何验证
     next()
-  } else if (await isLogin() === false) {
+  } else if (await isLogin(true) === false) {
     // 没有登录的时候跳转到登录界面
     // 携带上登陆成功之后需要跳转的页面完整路径
     next({

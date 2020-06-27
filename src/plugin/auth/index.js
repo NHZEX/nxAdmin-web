@@ -22,7 +22,9 @@ export async function isLogin (tryRemote = false) {
   if (tryRemote) {
     // 测试登录状态是否完全无效
     try {
-      await store.dispatch('d2admin/account/refresh')
+      await store.dispatch('d2admin/account/refresh', {
+        silent: true,
+      })
     } catch (e) {
       return false
     }

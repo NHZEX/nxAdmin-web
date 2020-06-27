@@ -14,6 +14,11 @@ export function accountLogout () {
   return request.get('/api/admin/logout')
 }
 
-export function userInfo () {
-  return request.get('/api/admin/user-info')
+/**
+ * @param silent 静默
+ */
+export function userInfo (silent = false) {
+  return request.get('/api/admin/user-info', {
+    silent: silent,
+  })
 }
