@@ -62,18 +62,21 @@ new Vue({
   },
   async mounted () {
     // 加载系统信息
-    this.$store.dispatch('d2admin/config/load')
+    await this.$store.dispatch('d2admin/config/load')
     // 展示系统信息
-    this.$store.commit('d2admin/releases/versionShow')
+    await this.$store.commit('d2admin/releases/versionShow')
+    // 尝试刷新用户数据
+    /**
+     * todo 存在重复请求问题
+     * 1. mounted 请求一次
+     * 2. 路由守卫 请求一次
+     */
+    await isLogin(true)
     // 用户登录后从数据库加载一系列的设置
-    this.$store.dispatch('d2admin/account/load')
-    // 判断是否已经登录 若已登录则refresh用户数据，重新加载
-    if (await isLogin(true)) {
-      await this.$store.dispatch('d2admin/account/load')
-    }
+    await this.$store.dispatch('d2admin/account/load')
     // 获取并记录用户 UA
-    this.$store.commit('d2admin/ua/get')
+    await this.$store.commit('d2admin/ua/get')
     // 初始化全屏监听
-    this.$store.dispatch('d2admin/fullscreen/listen')
+    await this.$store.dispatch('d2admin/fullscreen/listen')
   },
 }).$mount('#app')

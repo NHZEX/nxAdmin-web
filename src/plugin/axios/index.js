@@ -5,6 +5,7 @@ import util from '@/libs/util'
 import router from '@/router'
 import { isPlainObject } from 'lodash'
 import { blobToString, hasOwnProperty } from '@/libs/util.common'
+import { INVALID_SESSION } from '@/plugin/auth'
 
 // 创建一个错误
 function errorCreate (msg, code, dataAxios, response, silent) {
@@ -12,7 +13,7 @@ function errorCreate (msg, code, dataAxios, response, silent) {
   error.code = code
   error.data = dataAxios
   error.resp = response
-  if (silent) {
+  if (!silent) {
     errorLog(error)
   }
   return error
@@ -89,6 +90,9 @@ service.interceptors.response.use(
     return response.data
   },
   async error => {
+    // 静默异常标志
+    const silent = !!error.config.silent
+    // 响应处理分支
     if (error.response === undefined) {
       throw error
     }
@@ -96,12 +100,16 @@ service.interceptors.response.use(
       // 删除cookie
       util.cookies.remove('token')
       util.cookies.remove('uuid')
-      // 清空 vuex 用户信息
+      // 清空用户信息
       await store.dispatch('d2admin/user/set', {}, { root: true })
-      await router.push({ name: 'login' })
+      // 跳转到登录页面
+      router.push({
+        name: 'login',
+        params: {
+          status: INVALID_SESSION,
+        },
+      })
     }
-    // 静默异常标志
-    const silent = !!error.config.silent
     // 异常处理分支
     if (error && error.response) {
       if (isPlainObject(error.response.data)) {

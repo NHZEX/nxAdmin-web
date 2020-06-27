@@ -4,6 +4,8 @@ import { frameInRoutes } from '@/router/routes'
 import { cloneDeep, isBoolean, isEmpty, isPlainObject } from 'lodash'
 import { hasOwnProperty } from '@/libs/util.common'
 
+export const INVALID_SESSION = '401'
+
 /**
  * 需要授权验证
  * @param to {Route}

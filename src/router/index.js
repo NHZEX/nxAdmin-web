@@ -12,7 +12,7 @@ import util from '@/libs/util.js'
 import routes from './routes'
 
 // 鉴权
-import { needAuthorize, isLogin, canAccessRoute } from '@/plugin/auth/index'
+import { needAuthorize, isLogin, canAccessRoute, INVALID_SESSION } from '@/plugin/auth'
 import { Message } from 'element-ui'
 import { hasOwnProperty } from '@/libs/util.common'
 
@@ -48,15 +48,22 @@ router.beforeEach(async (to, from, next) => {
   store.commit('d2admin/search/set', false)
   // 认证缓存
   let isLoginCache = false
+  // console.log(from.fullPath, to.fullPath, from, to)
   // 验证当前路由所有的匹配模式
-  if (to.name === 'login' && (isLoginCache = await isLogin(true))) {
+  if (to.name === 'login' && from.fullPath === '/') {
+    // 忽略特定跳转的鉴权
+    next()
+  } else if (to.name === 'login' && to.params.status === INVALID_SESSION) {
+    // 进入该分支说明会话无效
+    next()
+  } else if (to.name === 'login' && (isLoginCache = await isLogin(true))) {
     // 会话有效，回到上次页面
     await store.dispatch('d2admin/account/load')
     next(from.fullPath)
   } else if (!needAuthorize(to)) {
     // 该路由不需要任何验证
     next()
-  } else if ((isLoginCache || await isLogin(true)) === false) {
+  } else if ((isLoginCache || await isLogin()) === false) {
     // 没有登录的时候跳转到登录界面
     // 携带上登陆成功之后需要跳转的页面完整路径
     next({
