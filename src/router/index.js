@@ -46,15 +46,21 @@ router.beforeEach(async (to, from, next) => {
   NProgress.start()
   // 关闭搜索面板
   store.commit('d2admin/search/set', false)
-  // 验证当前路由所有的匹配中是否需要有登录验证的
-  if (!needAuthorize(to)) {
+  // 认证缓存
+  let isLoginCache = false
+  // 验证当前路由所有的匹配模式
+  if (to.name === 'login' && (isLoginCache = await isLogin(true))) {
+    // 会话有效，回到上次页面
+    await store.dispatch('d2admin/account/load')
+    next(from.fullPath)
+  } else if (!needAuthorize(to)) {
     // 该路由不需要任何验证
     next()
-  } else if (await isLogin(true) === false) {
+  } else if ((isLoginCache || await isLogin(true)) === false) {
     // 没有登录的时候跳转到登录界面
     // 携带上登陆成功之后需要跳转的页面完整路径
     next({
-      name: 'login',
+      path: '/login',
       query: {
         redirect: to.fullPath,
       },
@@ -63,14 +69,15 @@ router.beforeEach(async (to, from, next) => {
     // 该路由验证通过
     next()
   } else {
-    // 该路由验证未通过, 取消导航
+    // 该路由验证未通过，取消导航
     Message({
       message: '你没有获得此页面授权',
       type: 'warning',
       duration: 5 * 1000,
     })
+    // 如果从登录页面进入且目标页面没有授权，则跳到主页
     if (await isLogin() && from.name === 'login') {
-      next({ path: '/index' })
+      next('/index')
       return
     } else {
       next(false)
