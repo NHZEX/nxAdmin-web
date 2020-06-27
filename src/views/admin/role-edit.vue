@@ -1,8 +1,5 @@
 <template>
   <span>
-    <span @click="visible = true">
-      <slot/>
-    </span>
     <modal v-model="visible" @on-visible-change="onVisible" title="角色编辑" width="450px" footer-hide :styles="{top: '20px'}">
       <spin fix v-if="loading"/>
       <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
@@ -60,13 +57,10 @@
       Spin,
     },
     props: {
-      id: {
-        type: Number,
-        default: null,
-      },
     },
     data () {
       return {
+        id: 0,
         rolesGenre: toLabelValue(ADMIN_ROLES_GENRE).filter(d => {
           const genre = store.state.d2admin.user.info.user.genre
           return d.value >= ADMIN_USER_ROLE_MAPPING[genre]
@@ -112,10 +106,13 @@
       },
     },
     methods: {
+      open (id = 0) {
+        this.id = id
+        this.render()
+        this.visible = true
+      },
       onVisible (visible) {
-        if (visible) {
-          this.render()
-        } else {
+        if (!visible) {
           this.$refs.form.resetFields()
         }
       },

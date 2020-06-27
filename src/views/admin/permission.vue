@@ -1,21 +1,28 @@
 <template>
-  <d2-container>
+  <d2-container ref="container">
     <div style="margin-bottom: 5px">
       <i-button type="primary" icon="md-refresh" :loading="loading.render" @click="load">刷新</i-button>
       <i-button v-access="'admin.permission.scan'" type="warning" icon="md-refresh" :loading="loading.scan" @click="scan()">扫描权限</i-button>
     </div>
-    <i-table border :loading="loading.render" :columns="columns" :data="data" row-key="name">
-      <template v-slot:title="{ row, column }">
-        <span>{{ row[column.key] }}</span>
-      </template>
+    <vxe-virtual-tree
+      ref="tree"
+      show-overflow
+      row-key
+      row-id="name"
+      :height="tableHeight"
+      :loading="loading.render"
+      :columns="columns"
+      :data="data"
+      :tree-config="{children: 'children'}"
+    >
       <template v-slot:sort="{ row, column }">
-        <a @click="quickEdit(row.name, column.key, row[column.key])">
-          <icon type="md-create" :size="15"/><span style="color: #515a6e">&nbsp;{{ row[column.key] }}</span>
+        <a @click="quickEdit(row.name, column.property, row[column.property])">
+          <icon type="md-create" :size="15"/><span style="color: #515a6e">&nbsp;{{ row[column.property] }}</span>
         </a>
       </template>
       <template v-slot:desc="{ row, column }">
-        <a @click="quickEdit(row.name, column.key, row[column.key])">
-          <icon type="md-create" :size="15"/><span style="color: #515a6e">&nbsp;{{ row[column.key] ? row[column.key] : '[无注释]' }}</span>
+        <a @click="quickEdit(row.name, column.property, row[column.property])">
+          <icon type="md-create" :size="15"/><span style="color: #515a6e">&nbsp;{{ row[column.property] ? row[column.property] : '[无注释]' }}</span>
         </a>
       </template>
       <template v-slot:action="{ row }">
@@ -23,36 +30,25 @@
           <i-button type="primary" size="small">查看</i-button>
         </admin-permission-view>
       </template>
-    </i-table>
-    <i-qucik-edit ref="quick" :title="quickTitle" @submit="quickSubmit"/>
+    </vxe-virtual-tree>
+    <i-qucik-edit ref="quick" @submit="quickSubmit"/>
   </d2-container>
 </template>
 
 <script>
   import IQucikEdit from '@/components/common/i-quick-edit'
   import iButton from '@ivu/button'
-  import iTable from '@ivu/table'
   import Icon from '@ivu/icon'
   import adminPermissionView from './permission-view'
   import { getPermissions, savePermission, scanPermission } from '@api/admin/admin'
+  import resize from '@/plugin/resize'
 
-  /**
-   * @param h {CreateElement}
-   * @param p {Object}
-   * @returns {*}
-   */
-  function renderTpl (h, p) {
-    const text = p.row[p.column.key]
-    return h('span', {
-      domProps: { innerHTML: p.row.children && p.row.children.length > 0 ? `&nbsp;&nbsp;${text}` : text },
-    })
-  }
+  const erd = resize()
 
   export default {
     name: 'admin-permission',
     components: {
       iButton,
-      iTable,
       Icon,
       IQucikEdit,
       adminPermissionView,
@@ -64,14 +60,14 @@
           scan: false,
         },
         columns: [
-          { title: '权限', key: 'title', tree: true, width: 350, render: renderTpl },
-          { title: '排序', slot: 'sort', key: 'sort', width: 130 },
-          { title: '注释', slot: 'desc', key: 'desc' },
-          { title: '查看', slot: 'action', width: 80 },
+          { title: '权限', field: 'title', treeNode: true, width: 350 },
+          { title: '排序', field: 'sort', width: 130, slots: { default: 'sort' } },
+          { title: '注释', field: 'desc', minWidth: 150, slots: { default: 'desc' } },
+          { title: '查看', minWidth: 80, slots: { default: 'action' } },
         ],
         data: [
         ],
-        quickTitle: '',
+        tableHeight: 500,
       }
     },
     methods: {
@@ -88,6 +84,9 @@
             })
           }
           this.data = recursion(data)
+          this.$nextTick(() => {
+            this.$refs.tree.setAllTreeExpand(true)
+          })
         }).finally(() => {
           this.loading.render = false
         })
@@ -100,8 +99,9 @@
         })
       },
       quickEdit (name, field, value) {
-        this.quickTitle = (field === 'sort' ? '更改排序' : '更改注释')
-        this.$refs.quick.open(name, field, value)
+        this.$refs.quick.openEx(name, field, value, {
+          title: field === 'sort' ? '更改排序' : '更改注释'
+        })
       },
       quickSubmit ({ id, field, value }) {
         console.log(id, field, value)
@@ -116,7 +116,13 @@
     },
     mounted () {
       this.load()
+      erd.listenTo(this.$refs.container.$el, (el) => {
+        this.tableHeight = el.offsetHeight - 65
+      })
     },
+    beforeDestroy () {
+      erd.uninstall()
+    }
   }
 </script>
 

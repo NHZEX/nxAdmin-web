@@ -10557,6 +10557,21 @@ vuex@^3.4.0:
   resolved "https://registry.npm.taobao.org/vuex/download/vuex-3.4.0.tgz#20cc086062d750769fce1febb34e7fceeaebde45"
   integrity sha1-IMwIYGLXUHafzh/rs05/zurr3kU=
 
+vxe-table-plugin-iview@^1.8.8:
+  version "1.8.8"
+  resolved "https://registry.npm.taobao.org/vxe-table-plugin-iview/download/vxe-table-plugin-iview-1.8.8.tgz#ad9e8e1fcc2ca972f48516a5c2b120af9e0fcc7e"
+  integrity sha1-rZ6OH8wsqXL0hRalwrEgr54PzH4=
+
+vxe-table-plugin-virtual-tree@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.npm.taobao.org/vxe-table-plugin-virtual-tree/download/vxe-table-plugin-virtual-tree-0.3.1.tgz#f7cfb2f4fab4a0dab18cbb1a82d22b327c872574"
+  integrity sha1-98+y9Pq0oNqxjLsagtIrMnyHJXQ=
+
+vxe-table@^2.9.13:
+  version "2.9.13"
+  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-2.9.13.tgz#619cd585160dde9b526b90ce552a358ecb3a6060"
+  integrity sha1-YZzVhRYN3ptSa5DOVSo1jss6YGA=
+
 w3c-hr-time@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npm.taobao.org/w3c-hr-time/download/w3c-hr-time-1.0.2.tgz?cache=0&sync_timestamp=1583455604765&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fw3c-hr-time%2Fdownload%2Fw3c-hr-time-1.0.2.tgz#0a89cdf5cc15822df9c360543676963e0cc308cd"
@@ -10932,6 +10947,11 @@ ws@^7.0.0:
   version "7.2.3"
   resolved "https://registry.npm.taobao.org/ws/download/ws-7.2.3.tgz#a5411e1fb04d5ed0efee76d26d5c46d830c39b46"
   integrity sha1-pUEeH7BNXtDv7nbSbVxG2DDDm0Y=
+
+xe-utils@^2.4.8:
+  version "2.4.8"
+  resolved "https://registry.npm.taobao.org/xe-utils/download/xe-utils-2.4.8.tgz#0efda3ca81f6b55f68a8a31e276fb17da59c98b3"
+  integrity sha1-Dv2jyoH2tV9oqKMeJ2+xfaWcmLM=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"

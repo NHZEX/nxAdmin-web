@@ -10,6 +10,9 @@ import store from '@/store/index'
 // iviewui
 import iviewMini from '@/plugin/iview/index'
 
+// vxe-table
+import '@/plugin/vxe-table'
+
 // 菜单和路由设置
 import router from './router'
 import { menuAside } from '@/menu'

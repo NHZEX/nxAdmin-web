@@ -1,39 +1,34 @@
 <template>
-  <span>
-    <span @click="visible = true">
-      <slot/>
-    </span>
-    <modal v-model="visible" @on-visible-change="onVisible" title="用户编辑" width="450px" footer-hide :styles="{top: '20px'}">
-      <spin fix v-if="loading"/>
-      <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
-        <form-item label="账户类型" prop="genre" v-show="!id">
-          <i-select v-model="formData.genre" placeholder="请选择角色类型">
-            <i-option v-for="item in usersGenre" :key="item.value" :value="item.value" :selected="item.disabled">{{ item.label }}</i-option>
-          </i-select>
-        </form-item>
-        <form-item label="账户角色" prop="role_id">
-          <i-select v-model="formDataRoleId" placeholder="请选择用户角色">
-            <i-option v-for="item in roleList" :key="item.value" :value="item.value">{{ item.label }}</i-option>
-          </i-select>
-        </form-item>
-        <form-item label="账号" prop="username">
-          <i-input v-model.trim="formData.username" :readonly="!!id"></i-input>
-        </form-item>
-        <form-item label="昵称" prop="nickname">
-          <i-input v-model.trim="formData.nickname"></i-input>
-        </form-item>
-        <form-item label="密码" prop="password">
-          <i-input v-model.trim="formData.password" placeholder="为空则不更改用户密码"></i-input>
-        </form-item>
-        <form-item label="状态" prop="status">
-          <checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></checkbox>
-        </form-item>
-        <form-item>
-          <i-button type="primary" @click="submit">提交</i-button>
-        </form-item>
-      </i-form>
-    </modal>
-  </span>
+  <modal v-model="visible" @on-visible-change="onVisible" title="用户编辑" width="450px" footer-hide :styles="{top: '20px'}">
+    <spin fix v-if="loading"/>
+    <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
+      <form-item label="账户类型" prop="genre" v-show="!id">
+        <i-select v-model="formData.genre" placeholder="请选择角色类型">
+          <i-option v-for="item in usersGenre" :key="item.value" :value="item.value" :selected="item.disabled">{{ item.label }}</i-option>
+        </i-select>
+      </form-item>
+      <form-item label="账户角色" prop="role_id">
+        <i-select v-model="formDataRoleId" placeholder="请选择用户角色">
+          <i-option v-for="item in roleList" :key="item.value" :value="item.value">{{ item.label }}</i-option>
+        </i-select>
+      </form-item>
+      <form-item label="账号" prop="username">
+        <i-input v-model.trim="formData.username" :readonly="!!id"></i-input>
+      </form-item>
+      <form-item label="昵称" prop="nickname">
+        <i-input v-model.trim="formData.nickname"></i-input>
+      </form-item>
+      <form-item label="密码" prop="password">
+        <i-input v-model.trim="formData.password" placeholder="为空则不更改用户密码"></i-input>
+      </form-item>
+      <form-item label="状态" prop="status">
+        <checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></checkbox>
+      </form-item>
+      <form-item>
+        <i-button type="primary" @click="submit">提交</i-button>
+      </form-item>
+    </i-form>
+  </modal>
 </template>
 
 <script>
@@ -66,13 +61,10 @@
       Spin,
     },
     props: {
-      id: {
-        type: Number,
-        default: 0,
-      },
     },
     data () {
       return {
+        id: 0,
         usersGenre: toLabelValue(ADMIN_USERS_GENRE).filter(d => {
           const genre = store.state.d2admin.user.info.user.genre
           return d.value >= genre
@@ -120,10 +112,13 @@
       }
     },
     methods: {
+      open (id = 0) {
+        this.id = id
+        this.loadData()
+        this.visible = true
+      },
       onVisible (visible) {
-        if (visible) {
-          this.loadData()
-        } else {
+        if (!visible) {
           this.$refs.form.resetFields()
         }
       },
