@@ -2,7 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 作用于IE浏览器 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- 强制Chromium内核，作用于各种多核浏览器 -->
+    <meta content=always name=referrer>
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>icon.ico">
     <!-- 使用 CDN 加速的 CSS 文件，配置在 vue.config.js 下 -->
@@ -16,7 +21,7 @@
     <% } %>
     <title><%= VUE_APP_TITLE %></title>
     <style>
-      html, body, #app { height: 100%; margin: 0px; padding: 0px; width: 100%; }
+      html, body, #app { height: 100%; margin: 0; padding: 0; width: 100%; }
       .d2-home { background-color: #303133; height: 100%; display: flex; flex-direction: column; }
       .d2-home__main { user-select: none; width: 100%; flex-grow: 1; display: flex; justify-content: center; align-items: center; flex-direction: column; }
       .d2-home__footer { width: 100%; flex-grow: 0; text-align: center; padding: 1em 0; }
@@ -27,7 +32,7 @@
   <body>
     <noscript>
       <strong>
-        Sorry, D2Admin will not work properly without JavaScript support. Enable JavaScript for browsers and continue.
+        Sorry, <%= VUE_APP_TITLE %> will not work properly without JavaScript support. Enable JavaScript for browsers and continue.
       </strong>
     </noscript>
     <div id="app">
@@ -47,6 +52,17 @@
         </div>
       </div>
     </div>
+    <script>
+      if (!!window.ActiveXObject || 'ActiveXObject' in window) {
+        document.write("<h1>本系统不支持IE浏览器</h1>");
+        document.write("<h1>This system does not support IE browser</h1>");
+        document.close();
+        <!-- 删除app节点 -->
+        var self = document.getElementById('app');
+        var parent = self.parentElement;
+        parent.removeChild(self);
+      }
+    </script>
     <!-- 使用 CDN 加速的 JS 文件，配置在 vue.config.js 下 -->
     <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>
     <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
