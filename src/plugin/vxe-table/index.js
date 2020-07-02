@@ -19,6 +19,9 @@ VXETable.setup({
     filterConfig: {
       remote: true,
     },
+    showOverflow: 'ellipsis',
+    showHeaderOverflow: 'title',
+    showFooterOverflow: 'title',
   },
   grid: {
   },
