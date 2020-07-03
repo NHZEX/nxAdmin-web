@@ -51,17 +51,17 @@ new Vue({
   store,
   i18n,
   render: h => h(App),
-  created () {
+  async created () {
     // 初始化机器码
-    this.$store.dispatch('d2admin/config/loadMachineCode')
+    await this.$store.dispatch('d2admin/config/loadMachineCode')
     // 处理路由 得到每一级的路由设置
-    this.$store.commit('d2admin/page/init', frameInRoutes)
+    await this.$store.commit('d2admin/page/init', frameInRoutes)
     // 设置顶栏菜单
-    this.$store.commit('d2admin/menu/headerSet', [])
+    await this.$store.commit('d2admin/menu/headerSet', [])
     // 设置侧边栏菜单
-    this.$store.commit('d2admin/menu/asideSet', menuAside)
+    await this.$store.commit('d2admin/menu/asideSet', menuAside)
     // 初始化菜单搜索功能
-    this.$store.commit('d2admin/search/init', menuAside)
+    await this.$store.commit('d2admin/search/init', menuAside)
   },
   async mounted () {
     // 加载系统信息

@@ -11,8 +11,13 @@ export default {
     // 机器码
     machine: null,
   },
+  mutations: {
+    updateMachine (state, code) {
+      state.machine = code
+    }
+  },
   actions: {
-    async loadMachineCode ({ state, dispatch }) {
+    async loadMachineCode ({ dispatch, commit }) {
       let machine = await dispatch('d2admin/db/get', {
         dbName: 'sys',
         path: 'machine',
@@ -29,7 +34,7 @@ export default {
         }, { root: true })
       }
 
-      state.machine = machine
+      commit('updateMachine', machine)
     },
     load ({ state }) {
       sysCongig().then(config => {
