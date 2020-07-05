@@ -3,7 +3,7 @@ import axios from 'axios'
 import ivuMessage from '@ivu/message'
 import util from '@/libs/util'
 import router from '@/router'
-import { isPlainObject } from 'lodash'
+import { isPlainObject, get } from 'lodash'
 import { blobToString, hasOwnProperty } from '@/libs/util.common'
 import { INVALID_SESSION } from '@/plugin/auth'
 
@@ -54,6 +54,9 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   config => {
+    if (get(config, 'authorization') === false) {
+      return config
+    }
     // 处理鉴权
     const token = util.cookies.get('token')
     const uuid = util.cookies.get('uuid')

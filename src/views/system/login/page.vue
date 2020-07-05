@@ -56,7 +56,7 @@
                     autocomplete="off">
                     <template slot="append">
                       <!--suppress HtmlUnknownTarget -->
-                      <img class="login-code" :src="codeUrl" @click="refrushCode" alt="logo code">
+                      <img class="login-code" :src="captchaUrl" @click="refrushCode(true)" alt="logo code">
                     </template>
                   </el-input>
                 </el-form-item>
@@ -112,8 +112,8 @@
 <script>
   import { mapActions, mapState } from 'vuex'
   import localeMixin from '@/locales/mixin.js'
-  import { randomString } from '@/libs/util.common'
-  import { SYS_URLS } from '@api/sys'
+  import { blobToDataURL } from '@/libs/util.common'
+  import { captcha } from '@api/sys'
   import { Loading } from 'element-ui'
   import { hash } from '@/libs/util.crypto'
 
@@ -124,8 +124,8 @@
     data () {
       return {
         // 验证码
-        codeUrl: '',
-        loginToken: randomString(32),
+        captchaUrl: '',
+        captchaToken: '',
         // 表单
         formLogin: {
           username: '',
@@ -187,7 +187,7 @@
               password: hash('sha256', this.formLogin.password),
               lasting: this.formLogin.lasting,
               code: this.formLogin.code,
-              token: this.loginToken,
+              token: this.captchaToken,
             }).then(() => {
               // 重定向对象不存在则返回顶层路径
               this.$router.replace(this.$route.query.redirect || '/')
@@ -199,9 +199,7 @@
                 this.refrushCode()
               }
               if (err.code === 1001) {
-                this.formLogin.code = ''
-                this.$refs['form-code'].focus()
-                this.refrushCode()
+                this.refrushCode(true)
               }
             }).finally(() => {
               loadingInstance.close()
@@ -212,8 +210,14 @@
           }
         })
       },
-      refrushCode () {
-        this.codeUrl = `${SYS_URLS.GET_CAPTCHA}?token=${this.loginToken}&rand=${Math.random()}`
+      async refrushCode (focus) {
+        const result = await captcha()
+        this.captchaToken = result.headers['x-captcha-token']
+        this.captchaUrl = await blobToDataURL(result.data)
+        this.formLogin.code = ''
+        if (focus) {
+          this.$refs['form-code'].focus()
+        }
       },
     },
   }

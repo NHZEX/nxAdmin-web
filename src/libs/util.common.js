@@ -26,7 +26,7 @@ export function hasOwnProperty (object, key) {
 
 /**
  * @param blob
- * @returns {Promise<unknown>}
+ * @returns {Promise<string>}
  */
 export function blobToString (blob) {
   return new Promise((resolve, reject) => {
@@ -38,6 +38,23 @@ export function blobToString (blob) {
       reject(reader.error)
     }
     reader.readAsText(blob)
+  })
+}
+
+/**
+ * @param blob
+ * @returns {Promise<string>}
+ */
+export function blobToDataURL (blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      resolve(reader.result)
+    }
+    reader.onerror = () => {
+      reject(reader.error)
+    }
+    reader.readAsDataURL(blob)
   })
 }
 
