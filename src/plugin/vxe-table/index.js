@@ -22,6 +22,8 @@ VXETable.setup({
     showOverflow: 'ellipsis',
     showHeaderOverflow: 'title',
     showFooterOverflow: 'title',
+    highlightCurrentRow: true,
+    highlightHoverRow: true,
   },
   grid: {
   },
