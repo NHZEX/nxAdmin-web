@@ -133,7 +133,7 @@
       })
     },
     beforeDestroy () {
-      erd.uninstall()
+      erd.removeAllListeners(this.$refs.container.$el)
     }
   }
 </script>
