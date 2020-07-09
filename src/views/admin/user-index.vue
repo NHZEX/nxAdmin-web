@@ -63,11 +63,6 @@
           { title: '更新时间', field: 'update_time', width: 135, formatter: 'unixTime' },
           { title: '操作', minWidth: 200, fixed: 'right', slots: { default: 'action' } },
         ],
-        tablePage: {
-          total: 0,
-          currentPage: 1,
-          pageSize: 10,
-        },
         data: [],
         where: {
           genre: 0,

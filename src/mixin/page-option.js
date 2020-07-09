@@ -7,6 +7,11 @@ export default {
         size: 10,
         opts: [10, 30, 50, 100],
       },
+      tablePage: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 20,
+      },
     }
   }
 }
