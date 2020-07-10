@@ -9,7 +9,7 @@
       show-overflow
       row-key
       row-id="name"
-      :height="tableHeight"
+      :height="targetHeight"
       :loading="loading.render"
       :columns="columns"
       :data="data"
@@ -41,9 +41,7 @@
   import Icon from '@ivu/icon'
   import adminPermissionView from './permission-view'
   import { getPermissions, savePermission, scanPermission } from '@api/admin/admin'
-  import resize from '@/plugin/resize'
-
-  const erd = resize()
+  import ContainerResize from '@/mixin/container-resize'
 
   export default {
     name: 'admin-permission',
@@ -53,6 +51,7 @@
       IQucikEdit,
       adminPermissionView,
     },
+    mixins: [ContainerResize],
     data () {
       return {
         loading: {
@@ -67,7 +66,6 @@
         ],
         data: [
         ],
-        tableHeight: 500,
       }
     },
     methods: {
@@ -116,12 +114,8 @@
     },
     mounted () {
       this.load()
-      erd.listenTo(this.$refs.container.$el, (el) => {
-        this.tableHeight = el.offsetHeight - 65
-      })
     },
     beforeDestroy () {
-      erd.removeAllListeners(this.$refs.container.$el)
     }
   }
 </script>

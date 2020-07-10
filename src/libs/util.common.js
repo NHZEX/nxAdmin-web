@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 export function randomString (length) {
   let result = ''
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -56,6 +58,15 @@ export function blobToDataURL (blob) {
     }
     reader.readAsDataURL(blob)
   })
+}
+
+/**
+ * @param timestamp
+ * @param format
+ * @returns {string}
+ */
+export function formatUnix (timestamp, format) {
+  return dayjs.unix(timestamp).format(format || 'YYYY-MM-DD HH:mm')
 }
 
 const common = {}

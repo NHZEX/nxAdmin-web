@@ -7,7 +7,7 @@
     <vxe-grid
       ref="table"
       row-id="id"
-      :height="tableHeight"
+      :height="targetHeight"
       :loading="loading"
       :columns="columns"
       :data="data"
@@ -33,9 +33,7 @@
   import pageOption from '@/mixin/page-option'
   import { deleteUser, getRolesSelect, getUsers } from '@api/admin/admin'
   import { ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
-  import resize from '@/plugin/resize'
-
-  const erd = resize()
+  import ContainerResize from '@/mixin/container-resize'
 
   export default {
     name: 'admin-user-index',
@@ -44,13 +42,12 @@
       Poptip,
       UserEdit
     },
-    mixins: [pageOption],
+    mixins: [pageOption, ContainerResize],
     watch: {
     },
     data () {
       return {
         loading: false,
-        tableHeight: 500,
         columns: [
           { title: 'id', field: 'id', width: 80, fixed: 'left' },
           { title: '账号', field: 'username', width: 180, fixed: 'left' },
@@ -123,12 +120,8 @@
     },
     mounted () {
       this.init()
-      erd.listenTo(this.$refs.container.$el, (el) => {
-        this.tableHeight = el.offsetHeight - 65
-      })
     },
     beforeDestroy () {
-      erd.removeAllListeners(this.$refs.container.$el)
     }
   }
 </script>

@@ -7,7 +7,7 @@
     <vxe-grid
       ref="table"
       row-id="id"
-      :height="tableHeight"
+      :height="targetHeight"
       :loading="loading"
       :columns="columns"
       :data="data"
@@ -33,9 +33,7 @@
   import pageOption from '@/mixin/page-option'
   import { deleteRole, getRoles } from '@api/admin/admin'
   import { ADMIN_ROLES_GENRE, toLabelValue } from '@/store/constant'
-  import resize from '@/plugin/resize'
-
-  const erd = resize()
+  import ContainerResize from '@/mixin/container-resize'
 
   export default {
     name: 'admin-role-index',
@@ -44,7 +42,7 @@
       Poptip,
       RoleEdit
     },
-    mixins: [pageOption],
+    mixins: [pageOption, ContainerResize],
     data () {
       return {
         loading: false,
@@ -61,7 +59,6 @@
         where: {
           genre: 0,
         },
-        tableHeight: 500,
       }
     },
     methods: {
@@ -108,12 +105,8 @@
     },
     mounted () {
       this.init()
-      erd.listenTo(this.$refs.container.$el, (el) => {
-        this.tableHeight = el.offsetHeight - 65
-      })
     },
     beforeDestroy () {
-      erd.removeAllListeners(this.$refs.container.$el)
     }
   }
 </script>

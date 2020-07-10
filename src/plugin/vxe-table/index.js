@@ -3,7 +3,7 @@ import 'xe-utils'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/index.css'
 
-import dayjs from 'dayjs'
+import { formatUnix } from '@/libs/util.common'
 
 import VXETablePluginIView from 'vxe-table-plugin-iview'
 import 'vxe-table-plugin-iview/dist/style.css'
@@ -12,11 +12,14 @@ import VXETablePluginVirtualTree from 'vxe-table-plugin-virtual-tree'
 import 'vxe-table-plugin-virtual-tree/dist/style.css'
 
 VXETable.setup({
-  size: 'small',
+  size: 'mini',
   table: {
     border: 'full',
     resizable: true,
     filterConfig: {
+      remote: true,
+    },
+    sortConfig: {
       remote: true,
     },
     showOverflow: 'ellipsis',
@@ -24,11 +27,14 @@ VXETable.setup({
     showFooterOverflow: 'title',
     highlightCurrentRow: true,
     highlightHoverRow: true,
+    scrollY: {
+      gt: 20,
+    },
   },
   grid: {
   },
   pager: {
-    pageSize: 10,
+    pageSize: 20,
     pageSizes: [10, 20, 30, 50, 100, 200, 300],
     align: 'left',
     layouts: ['Sizes', 'PrevJump', 'PrevPage', 'Number', 'NextPage', 'NextJump', 'FullJump', 'Total'],
@@ -37,7 +43,7 @@ VXETable.setup({
 })
 
 VXETable.formats.add('unixTime', ({ cellValue }, format = 'YYYY-MM-DD HH:mm') => {
-  return dayjs.unix(cellValue).format(format)
+  return formatUnix(cellValue, format)
 })
 
 Vue.use(VXETable)
