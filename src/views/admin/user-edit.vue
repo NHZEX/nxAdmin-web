@@ -1,7 +1,7 @@
 <template>
   <modal v-model="visible" @on-visible-change="onVisible" title="用户编辑" width="450px" footer-hide :styles="{top: '20px'}">
     <spin fix v-if="loading"/>
-    <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
+    <i-form ref="form" :model="formData" :rules="rules" :label-width="90">
       <form-item label="账户类型" prop="genre" v-show="!id">
         <i-select v-model="formData.genre" placeholder="请选择角色类型">
           <i-option v-for="item in usersGenre" :key="item.value" :value="item.value" :selected="item.disabled">{{ item.label }}</i-option>
@@ -13,13 +13,16 @@
         </i-select>
       </form-item>
       <form-item label="账号" prop="username">
-        <i-input v-model.trim="formData.username" :readonly="!!id"></i-input>
+        <i-input name="username"  v-model.trim="formData.username" :readonly="!!id"></i-input>
       </form-item>
       <form-item label="昵称" prop="nickname">
-        <i-input v-model.trim="formData.nickname"></i-input>
+        <i-input name="nickname" v-model.trim="formData.nickname"></i-input>
       </form-item>
       <form-item label="密码" prop="password">
-        <i-input v-model.trim="formData.password" placeholder="为空则不更改用户密码"></i-input>
+        <i-input type="password" v-model.trim="formData.password" placeholder="为空则不更改用户密码" password></i-input>
+      </form-item>
+      <form-item label="二次确认" prop="repeatPassword" v-show="!!formData.password">
+        <i-input type="password" v-model.trim="formData.repeatPassword" placeholder="为空则不更改用户密码" password></i-input>
       </form-item>
       <form-item label="状态" prop="status">
         <checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></checkbox>
@@ -79,8 +82,34 @@
           password: '',
           role_id: 0,
           status: 0,
+          repeatPassword: '',
         },
-        rules: {},
+        rules: {
+          genre: [
+            { required: true },
+          ],
+          username: [
+            { required: true, min: 2, max: 64 },
+          ],
+          nickname: [
+            { required: true, min: 2, max: 64 },
+          ],
+          password: [
+            // { required: !this.id }, iview表单动态规则响应不完善
+            { min: 6, max: 64 },
+          ],
+          repeatPassword: [
+            {
+              validator: (rule, value, callback) => {
+                if (value === undefined) {
+                  return true
+                }
+                return value === this.formData.password
+              },
+              message: '两次输入的密码要一致',
+            }
+          ]
+        },
       }
     },
     computed: {
@@ -128,6 +157,7 @@
           getRolesSelect(ADMIN_USER_ROLE_MAPPING[this.formData.genre]),
           getUser(this.id),
         ]).then(values => {
+          this.$refs.form.resetFields()
           this.roleList = values[0]
           if (values[1]) {
             values[1].password = ''
@@ -139,18 +169,21 @@
       },
       submit () {
         this.$refs.form.validate(valid => {
-          this.loading = true
           if (valid) {
+            this.loading = true
             const data = cloneDeep(this.formData)
             if (data.password) {
               data.password = hash('sha256', data.password)
             }
+            delete data.repeatPassword
             saveUser(this.id, data).then(() => {
               this.visible = false
             }).finally(() => {
               this.loading = false
               this.$emit('on-submit')
             })
+          } else {
+            this.$ivuMessage.error('请输入正确的表单')
           }
         })
       },
