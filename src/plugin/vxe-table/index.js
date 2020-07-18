@@ -35,7 +35,7 @@ VXETable.setup({
   },
   pager: {
     pageSize: 20,
-    pageSizes: [10, 20, 30, 50, 100, 200, 300],
+    pageSizes: [20, 30, 50, 100, 200, 300],
     align: 'left',
     layouts: ['Sizes', 'PrevJump', 'PrevPage', 'Number', 'NextPage', 'NextJump', 'FullJump', 'Total'],
     perfect: true,

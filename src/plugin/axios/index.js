@@ -130,7 +130,7 @@ service.interceptors.response.use(
             message = data.message
           }
         } catch (e) {
-          message = e.message
+          message = result
         }
         throw errorCreate(`${message}（${error.config.url}）`, errno, result, error.response, silent)
       } else {
