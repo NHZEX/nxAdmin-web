@@ -1,6 +1,6 @@
 <template>
   <span>
-    <modal v-model="visible" @on-visible-change="onVisible" title="角色编辑" width="450px" footer-hide :styles="{top: '20px'}">
+    <modal v-model="visible" @on-visible-change="onVisible" title="角色编辑" width="500px" footer-hide :styles="{top: '20px'}">
       <spin fix v-if="loading"/>
       <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
         <form-item label="类型" prop="genre" v-show="!id">
@@ -16,7 +16,14 @@
         </form-item>
         <form-item label="权限">
           <div class="radius">
-            <tree :data="treeData" :render="treeRender" @on-check-change="onTreeCheck" show-checkbox multiple></tree>
+            <el-tree ref="tree"
+                     show-checkbox
+                     highlight-current
+                     :render-content="renderContent"
+                     node-key="name"
+                     :data="treeData"
+                     :props="{children: 'children',label: 'name'}"
+            ></el-tree>
           </div>
         </form-item>
         <form-item>
@@ -28,7 +35,6 @@
 </template>
 
 <script>
-  import Tree from '@ivu/tree'
   import Modal from '@ivu/modal'
   import iInput from '@ivu/input'
   import iForm from '@ivu/form'
@@ -45,7 +51,6 @@
   export default {
     name: 'RoleEdit',
     components: {
-      Tree,
       Modal,
       iInput,
       iForm,
@@ -116,16 +121,13 @@
           this.$refs.form.resetFields()
         }
       },
-      treeRender (h, { data }) { // root, node
+      renderContent (h, { node, data, store }) {
         return h('span', {
           style: {
             display: 'inline-block',
             width: '100%',
           },
         }, `${data.name} (${data.desc ? data.desc : 'null'})`)
-      },
-      onTreeCheck (checkeds) {
-        this.treeCheckedKeys = checkeds.map(v => v.name)
       },
       render () {
         this.loading = true
@@ -140,12 +142,20 @@
               this.treeCheckedKeys = role.ext.permission
             }
           }
-          this.treeData = this.checkTreeData(values[1], this.treeCheckedKeys)
+          this.treeData = values[1]
+          this.$nextTick(() => {
+            this.$refs.tree.setCheckedKeys(this.treeCheckedKeys.filter(key => {
+              const node = this.$refs.tree.getNode(key)
+              return node.isLeaf
+            }))
+          })
         }).finally(() => {
           this.loading = false
         })
       },
       submit () {
+        this.treeCheckedKeys = this.$refs.tree.getCheckedKeys().concat(this.$refs.tree.getHalfCheckedKeys())
+
         this.$refs.form.validate((valid) => {
           if (valid) {
             this.loading = true
@@ -162,23 +172,6 @@
           }
         })
       },
-      checkTreeData (treeData, checked) {
-        const cfun = (tree) => {
-          for (const node of tree) {
-            node.checked = checked.includes(node.name)
-
-            if (node.children && node.children.length > 0) {
-              node.children = cfun(node.children)
-            }
-          }
-          return tree
-        }
-        if (Array.isArray(checked)) {
-          return cfun(treeData)
-        } else {
-          return treeData
-        }
-      }
     },
   }
 </script>
