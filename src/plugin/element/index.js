@@ -29,6 +29,7 @@ import {
   TableColumn,
   TabPane,
   Tabs,
+  Tag,
   Tooltip,
   Tree,
 } from 'element-ui'
@@ -54,6 +55,7 @@ const components = [
   TableColumn,
   Tabs,
   TabPane,
+  Tag,
   Form,
   FormItem,
   Input,

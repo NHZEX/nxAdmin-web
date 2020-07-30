@@ -26,12 +26,11 @@
         </a>
       </template>
       <template v-slot:action="{ row }">
-        <admin-permission-view :id="row.name">
-          <i-button type="primary" size="small">查看</i-button>
-        </admin-permission-view>
+          <i-button type="primary" size="small" @click="permissionView(row.name)">查看</i-button>
       </template>
     </vxe-virtual-tree>
     <i-qucik-edit ref="quick" @submit="quickSubmit"/>
+    <admin-permission-view ref="view" ></admin-permission-view>
   </d2-container>
 </template>
 
@@ -69,6 +68,9 @@
       }
     },
     methods: {
+      permissionView (id) {
+        this.$refs.view.open(id)
+      },
       load () {
         this.loading.render = true
         getPermissions().then(data => {
@@ -102,7 +104,6 @@
         })
       },
       quickSubmit ({ id, field, value }) {
-        console.log(id, field, value)
         this.loading.render = true
         savePermission(id, {
           [field]: value,
