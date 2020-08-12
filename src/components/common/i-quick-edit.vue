@@ -21,88 +21,88 @@
 </template>
 
 <script>
-  import Modal from '@ivu/modal'
-  import iInput from '@ivu/input'
-  import iForm from '@ivu/form'
-  import iSelect from '@ivu/select'
-  import iOption from '@ivu/option'
-  import FormItem from '@ivu/form-item'
+import Modal from '@ivu/modal'
+import iInput from '@ivu/input'
+import iForm from '@ivu/form'
+import iSelect from '@ivu/select'
+import iOption from '@ivu/option'
+import FormItem from '@ivu/form-item'
 
-  export default {
-    name: 'i-quick-edit',
-    components: {
-      Modal,
-      iInput,
-      iForm,
-      FormItem,
-      iSelect,
-      iOption,
+export default {
+  name: 'i-quick-edit',
+  components: {
+    Modal,
+    iInput,
+    iForm,
+    FormItem,
+    iSelect,
+    iOption,
+  },
+  props: {
+    title: {
+      default: '快速编辑'
     },
-    props: {
-      title: {
-        default: '快速编辑'
+    id: {
+      default: 0,
+    },
+    type: {
+      default: 'text', // text number select
+    },
+    field: {
+      default: '',
+    },
+    value: {
+      default: '',
+    },
+    data: {
+      default: null,
+    }
+  },
+  data: function () {
+    return {
+      visible: false,
+      i_data: [],
+      i_type: null,
+      i_title: '快速编辑',
+      quick: {
+        id: 0,
+        field: '',
+        value: '',
       },
-      id: {
-        default: 0,
-      },
-      type: {
-        default: 'text', // text number select
-      },
-      field: {
-        default: '',
-      },
-      value: {
-        default: '',
-      },
-      data: {
-        default: null,
+    }
+  },
+  methods: {
+    onVisible (v) {
+      if (v) {
+        this.i_data = this.data
       }
     },
-    data: function () {
-      return {
-        visible: false,
-        i_data: [],
-        i_type: null,
-        i_title: '快速编辑',
-        quick: {
-          id: 0,
-          field: '',
-          value: '',
-        },
-      }
-    },
-    methods: {
-      onVisible (v) {
-        if (v) {
-          this.i_data = this.data
-        }
-      },
-      // 打开快速编辑
-      open (id = this.id, field = this.field, value = this.value, type = this.type, title = this.title) {
-        this.i_type = type
-        this.i_title = title
-        this.quick.id = id
-        this.quick.field = field
-        this.quick.value = value
-        this.visible = true
-        if (type === 'text' || type === 'number') {
-          this.$nextTick(() => {
-            const el = this.$refs.input.$el
-            el.getElementsByTagName('input')[0].focus()
-          })
-        }
-      },
-      openEx (id = this.id, field = this.field, value = this.value, options = {}) {
-        this.open(id, field, value, options.type || this.type, options.title || this.title)
-      },
-      quickSubmit () {
-        this.visible = false
-        this.$emit('submit', {
-          ...this.quick
+    // 打开快速编辑
+    open (id = this.id, field = this.field, value = this.value, type = this.type, title = this.title) {
+      this.i_type = type
+      this.i_title = title
+      this.quick.id = id
+      this.quick.field = field
+      this.quick.value = value
+      this.visible = true
+      if (type === 'text' || type === 'number') {
+        this.$nextTick(() => {
+          const el = this.$refs.input.$el
+          el.getElementsByTagName('input')[0].focus()
         })
       }
+    },
+    openEx (id = this.id, field = this.field, value = this.value, options = {}) {
+      this.open(id, field, value, options.type || this.type, options.title || this.title)
+    },
+    quickSubmit () {
+      this.visible = false
+      this.$emit('submit', {
+        ...this.quick
+      })
     }
   }
+}
 </script>
 
 <style scoped>

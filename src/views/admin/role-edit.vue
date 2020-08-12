@@ -35,145 +35,145 @@
 </template>
 
 <script>
-  import Modal from '@ivu/modal'
-  import iInput from '@ivu/input'
-  import iForm from '@ivu/form'
-  import FormItem from '@ivu/form-item'
-  import iSelect from '@ivu/select'
-  import iOption from '@ivu/option'
-  import Checkbox from '@ivu/checkbox'
-  import iButton from '@ivu/button'
-  import Spin from '@ivu/spin'
-  import { saveRole, getRole, getPermissions } from '@api/admin/admin'
-  import { ADMIN_ROLES_GENRE, ADMIN_USER_ROLE_MAPPING, toLabelValue } from '@/store/constant'
-  import store from '@/store'
+import Modal from '@ivu/modal'
+import iInput from '@ivu/input'
+import iForm from '@ivu/form'
+import FormItem from '@ivu/form-item'
+import iSelect from '@ivu/select'
+import iOption from '@ivu/option'
+import Checkbox from '@ivu/checkbox'
+import iButton from '@ivu/button'
+import Spin from '@ivu/spin'
+import { saveRole, getRole, getPermissions } from '@api/admin/admin'
+import { ADMIN_ROLES_GENRE, ADMIN_USER_ROLE_MAPPING, toLabelValue } from '@/store/constant'
+import store from '@/store'
 
-  export default {
-    name: 'RoleEdit',
-    components: {
-      Modal,
-      iInput,
-      iForm,
-      FormItem,
-      iSelect,
-      iOption,
-      Checkbox,
-      iButton,
-      Spin,
-    },
-    props: {
-    },
-    data () {
-      return {
-        id: 0,
-        rolesGenre: toLabelValue(ADMIN_ROLES_GENRE).filter(d => {
-          const genre = store.state.d2admin.user.info.user.genre
-          return d.value >= ADMIN_USER_ROLE_MAPPING[genre]
-        }),
-        visible: false,
-        loading: false,
-        formData: {
-          genre: ADMIN_USER_ROLE_MAPPING[store.state.d2admin.user.info.user.genre],
-          name: '',
-          status: 0,
-          ext: {
-            permission: [],
-          },
+export default {
+  name: 'RoleEdit',
+  components: {
+    Modal,
+    iInput,
+    iForm,
+    FormItem,
+    iSelect,
+    iOption,
+    Checkbox,
+    iButton,
+    Spin,
+  },
+  props: {
+  },
+  data () {
+    return {
+      id: 0,
+      rolesGenre: toLabelValue(ADMIN_ROLES_GENRE).filter(d => {
+        const genre = store.state.d2admin.user.info.user.genre
+        return d.value >= ADMIN_USER_ROLE_MAPPING[genre]
+      }),
+      visible: false,
+      loading: false,
+      formData: {
+        genre: ADMIN_USER_ROLE_MAPPING[store.state.d2admin.user.info.user.genre],
+        name: '',
+        status: 0,
+        ext: {
+          permission: [],
         },
-        rules: {
-          genre: [
-            { type: 'number', min: 1, message: '请选择一个项目', required: true },
-          ],
-          name: [
-            { type: 'string', min: 2, message: '请填写角色名称（最少两个字符）', required: true },
-          ],
-        },
-        treeData: [],
-        treeCheckedKeys: [],
+      },
+      rules: {
+        genre: [
+          { type: 'number', min: 1, message: '请选择一个项目', required: true },
+        ],
+        name: [
+          { type: 'string', min: 2, message: '请填写角色名称（最少两个字符）', required: true },
+        ],
+      },
+      treeData: [],
+      treeCheckedKeys: [],
+    }
+  },
+  computed: {
+    formDataStatus: {
+      get: function () {
+        return this.formData.status === 0
+      },
+      set: function (newValue) {
+        this.formData.status = newValue ? 0 : 1
+      },
+    },
+    formDataGenre: {
+      get: function () {
+        return this.formData.genre === 0 ? null : this.formData.genre
+      },
+      set: function (newValue) {
+        this.formData.genre = newValue || 0
+      },
+    },
+  },
+  methods: {
+    open (id = 0) {
+      this.id = id
+      this.render()
+      this.visible = true
+    },
+    onVisible (visible) {
+      if (!visible) {
+        this.$refs.form.resetFields()
       }
     },
-    computed: {
-      formDataStatus: {
-        get: function () {
-          return this.formData.status === 0
+    renderContent (h, { node, data, store }) {
+      return h('span', {
+        style: {
+          display: 'inline-block',
+          width: '100%',
         },
-        set: function (newValue) {
-          this.formData.status = newValue ? 0 : 1
-        },
-      },
-      formDataGenre: {
-        get: function () {
-          return this.formData.genre === 0 ? null : this.formData.genre
-        },
-        set: function (newValue) {
-          this.formData.genre = newValue || 0
-        },
-      },
+      }, `${data.name} (${data.desc ? data.desc : 'null'})`)
     },
-    methods: {
-      open (id = 0) {
-        this.id = id
-        this.render()
-        this.visible = true
-      },
-      onVisible (visible) {
-        if (!visible) {
-          this.$refs.form.resetFields()
+    render () {
+      this.loading = true
+      Promise.all([getRole(this.id), getPermissions()]).then(values => {
+        const role = values[0]
+        if (role) {
+          if (Array.isArray(role.ext)) {
+            role.ext = {}
+          }
+          this.formData = role
+          if (Array.isArray(role.ext.permission)) {
+            this.treeCheckedKeys = role.ext.permission
+          }
         }
-      },
-      renderContent (h, { node, data, store }) {
-        return h('span', {
-          style: {
-            display: 'inline-block',
-            width: '100%',
-          },
-        }, `${data.name} (${data.desc ? data.desc : 'null'})`)
-      },
-      render () {
-        this.loading = true
-        Promise.all([getRole(this.id), getPermissions()]).then(values => {
-          const role = values[0]
-          if (role) {
-            if (Array.isArray(role.ext)) {
-              role.ext = {}
-            }
-            this.formData = role
-            if (Array.isArray(role.ext.permission)) {
-              this.treeCheckedKeys = role.ext.permission
-            }
-          }
-          this.treeData = values[1]
-          this.$nextTick(() => {
-            this.$refs.tree.setCheckedKeys(this.treeCheckedKeys.filter(key => {
-              const node = this.$refs.tree.getNode(key)
-              return node.isLeaf
-            }))
-          })
-        }).finally(() => {
-          this.loading = false
+        this.treeData = values[1]
+        this.$nextTick(() => {
+          this.$refs.tree.setCheckedKeys(this.treeCheckedKeys.filter(key => {
+            const node = this.$refs.tree.getNode(key)
+            return node.isLeaf
+          }))
         })
-      },
-      submit () {
-        this.treeCheckedKeys = this.$refs.tree.getCheckedKeys().concat(this.$refs.tree.getHalfCheckedKeys())
-
-        this.$refs.form.validate((valid) => {
-          if (valid) {
-            this.loading = true
-            this.formData.ext.permission = this.treeCheckedKeys
-            saveRole(this.id, this.formData)
-              .then(() => {
-                this.visible = false
-              }).finally(() => {
-                this.loading = false
-                this.$emit('on-submit')
-              })
-          } else {
-            return false
-          }
-        })
-      },
+      }).finally(() => {
+        this.loading = false
+      })
     },
-  }
+    submit () {
+      this.treeCheckedKeys = this.$refs.tree.getCheckedKeys().concat(this.$refs.tree.getHalfCheckedKeys())
+
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.loading = true
+          this.formData.ext.permission = this.treeCheckedKeys
+          saveRole(this.id, this.formData)
+            .then(() => {
+              this.visible = false
+            }).finally(() => {
+              this.loading = false
+              this.$emit('on-submit')
+            })
+        } else {
+          return false
+        }
+      })
+    },
+  },
+}
 </script>
 
 <style scoped>

@@ -29,64 +29,64 @@
 </template>
 
 <script>
-  import dayjs from 'dayjs'
-  import iInput from '@ivu/input'
-  import iSelect from '@ivu/select'
-  import iOption from '@ivu/option'
-  import DatePicker from '@ivu/date-picker'
+import dayjs from 'dayjs'
+import iInput from '@ivu/input'
+import iSelect from '@ivu/select'
+import iOption from '@ivu/option'
+import DatePicker from '@ivu/date-picker'
 
-  export default {
-    name: 'search-item',
-    components: {
-      iInput,
-      iSelect,
-      iOption,
-      DatePicker,
-    },
-    props: {
-      item: {
-        type: Object,
-        default () {
-          return {}
-        }
-      },
-      search_params: {
-        type: Object,
-        default () {
-          return {}
-        }
-      },
-      change: {
-        type: Function,
-        required: true,
-      },
-    },
-    dayjs,
-    methods: {
-      // 时间戳转时间字符串
-      timestampToDate (timestamp) {
-        if (timestamp && Array.isArray(timestamp) && timestamp.length === 2) {
-          return timestamp.map((item) => {
-            if (item) {
-              return dayjs.unix(item).format('YYYY-MM-DD HH:mm:ss')
-            }
-            return item
-          })
-        }
-        return ['', '']
-      },
-      // 时间字符串转时间戳
-      dateToTimestamp (date) {
-        if (date && Array.isArray(date) && date.length === 2) {
-          return date.map((item) => {
-            if (item) {
-              return dayjs(item).unix()
-            }
-            return item
-          })
-        }
-        return date
+export default {
+  name: 'search-item',
+  components: {
+    iInput,
+    iSelect,
+    iOption,
+    DatePicker,
+  },
+  props: {
+    item: {
+      type: Object,
+      default () {
+        return {}
       }
+    },
+    search_params: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
+    change: {
+      type: Function,
+      required: true,
+    },
+  },
+  dayjs,
+  methods: {
+    // 时间戳转时间字符串
+    timestampToDate (timestamp) {
+      if (timestamp && Array.isArray(timestamp) && timestamp.length === 2) {
+        return timestamp.map((item) => {
+          if (item) {
+            return dayjs.unix(item).format('YYYY-MM-DD HH:mm:ss')
+          }
+          return item
+        })
+      }
+      return ['', '']
+    },
+    // 时间字符串转时间戳
+    dateToTimestamp (date) {
+      if (date && Array.isArray(date) && date.length === 2) {
+        return date.map((item) => {
+          if (item) {
+            return dayjs(item).unix()
+          }
+          return item
+        })
+      }
+      return date
     }
   }
+}
 </script>

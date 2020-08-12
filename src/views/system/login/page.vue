@@ -110,117 +110,117 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
-  import localeMixin from '@/locales/mixin.js'
-  import { blobToDataURL } from '@/libs/util.common'
-  import { captcha } from '@api/sys'
-  import { Loading } from 'element-ui'
-  import { hash } from '@/libs/util.crypto'
+import { mapActions, mapState } from 'vuex'
+import localeMixin from '@/locales/mixin.js'
+import { blobToDataURL } from '@/libs/util.common'
+import { captcha } from '@api/sys'
+import { Loading } from 'element-ui'
+import { hash } from '@/libs/util.crypto'
 
-  export default {
-    mixins: [
-      localeMixin,
-    ],
-    data () {
-      return {
-        // 验证码
-        captchaUrl: '',
-        captchaToken: '',
-        // 表单
-        formLogin: {
-          username: '',
-          password: '',
-          code: '',
-          lasting: false,
-        },
-        // 表单校验
-        rules: {
-          username: [
-            {
-              required: true,
-              message: '请输入用户名',
-              trigger: 'blur',
-            },
-          ],
-          password: [
-            {
-              required: true,
-              message: '请输入密码',
-              trigger: 'blur',
-            },
-          ],
-          code: [
-            {
-              required: true,
-              message: '请输入验证码',
-              trigger: 'blur',
-            },
-          ],
-        },
+export default {
+  mixins: [
+    localeMixin,
+  ],
+  data () {
+    return {
+      // 验证码
+      captchaUrl: '',
+      captchaToken: '',
+      // 表单
+      formLogin: {
+        username: '',
+        password: '',
+        code: '',
+        lasting: false,
+      },
+      // 表单校验
+      rules: {
+        username: [
+          {
+            required: true,
+            message: '请输入用户名',
+            trigger: 'blur',
+          },
+        ],
+        password: [
+          {
+            required: true,
+            message: '请输入密码',
+            trigger: 'blur',
+          },
+        ],
+        code: [
+          {
+            required: true,
+            message: '请输入验证码',
+            trigger: 'blur',
+          },
+        ],
+      },
+    }
+  },
+  mounted () {
+    this.refrushCode()
+  },
+  beforeDestroy () {
+  },
+  computed: {
+    ...mapState('d2admin/config', [
+      'loginCaptcha',
+    ]),
+  },
+  methods: {
+    ...mapActions('d2admin/account', [
+      'login',
+    ]),
+    /**
+     * @description 提交表单
+     */
+    // 提交登录信息
+    submit () {
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          const loadingInstance = Loading.service({ fullscreen: true })
+          // 登录
+          this.login({
+            username: this.formLogin.username,
+            password: hash('sha256', this.formLogin.password),
+            lasting: this.formLogin.lasting,
+            code: this.formLogin.code,
+            token: this.captchaToken,
+          }).then(() => {
+            // 重定向对象不存在则返回顶层路径
+            this.$router.replace(this.$route.query.redirect || '/')
+          }).catch(err => {
+            console.dir(err)
+            if (err.code === 1103) {
+              this.formLogin.password = ''
+              this.$refs['form-password'].focus()
+              this.refrushCode()
+            }
+            if (err.code === 1001) {
+              this.refrushCode(true)
+            }
+          }).finally(() => {
+            loadingInstance.close()
+          })
+        } else {
+          // 登录表单校验失败
+          this.$message.error('表单校验失败，请检查')
+        }
+      })
+    },
+    async refrushCode (focus) {
+      const result = await captcha()
+      this.captchaToken = result.headers['x-captcha-token']
+      this.captchaUrl = await blobToDataURL(result.data)
+      this.formLogin.code = ''
+      if (focus) {
+        this.$refs['form-code'].focus()
       }
     },
-    mounted () {
-      this.refrushCode()
-    },
-    beforeDestroy () {
-    },
-    computed: {
-      ...mapState('d2admin/config', [
-        'loginCaptcha',
-      ]),
-    },
-    methods: {
-      ...mapActions('d2admin/account', [
-        'login',
-      ]),
-      /**
-       * @description 提交表单
-       */
-      // 提交登录信息
-      submit () {
-        this.$refs.loginForm.validate((valid) => {
-          if (valid) {
-            const loadingInstance = Loading.service({ fullscreen: true })
-            // 登录
-            this.login({
-              username: this.formLogin.username,
-              password: hash('sha256', this.formLogin.password),
-              lasting: this.formLogin.lasting,
-              code: this.formLogin.code,
-              token: this.captchaToken,
-            }).then(() => {
-              // 重定向对象不存在则返回顶层路径
-              this.$router.replace(this.$route.query.redirect || '/')
-            }).catch(err => {
-              console.dir(err)
-              if (err.code === 1103) {
-                this.formLogin.password = ''
-                this.$refs['form-password'].focus()
-                this.refrushCode()
-              }
-              if (err.code === 1001) {
-                this.refrushCode(true)
-              }
-            }).finally(() => {
-              loadingInstance.close()
-            })
-          } else {
-            // 登录表单校验失败
-            this.$message.error('表单校验失败，请检查')
-          }
-        })
-      },
-      async refrushCode (focus) {
-        const result = await captcha()
-        this.captchaToken = result.headers['x-captcha-token']
-        this.captchaUrl = await blobToDataURL(result.data)
-        this.formLogin.code = ''
-        if (focus) {
-          this.$refs['form-code'].focus()
-        }
-      },
-    },
-  }
+  },
+}
 </script>
 
 <style lang="scss">

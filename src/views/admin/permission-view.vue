@@ -26,58 +26,58 @@
 </template>
 
 <script>
-  import iInput from '@ivu/input'
-  import iForm from '@ivu/form'
-  import formItem from '@ivu/form-item'
-  import modal from '@ivu/modal'
-  import { getPermission } from '@api/admin/admin'
+import iInput from '@ivu/input'
+import iForm from '@ivu/form'
+import formItem from '@ivu/form-item'
+import modal from '@ivu/modal'
+import { getPermission } from '@api/admin/admin'
 
-  export default {
-    name: 'admin-permission-view',
-    components: {
-      iInput,
-      iForm,
-      formItem,
-      modal,
-    },
-    data: function () {
-      return {
-        id: '',
-        loading: false,
-        visible: false,
-        formData: {
-          pid: '',
-          name: '',
-          sort: 0,
-          control: {},
-        },
-        formRule: {
-        },
-        controlLoading: false,
-        controlColumns: [
-          { title: '节点', field: 'name', width: 280 },
-          { title: '注解', field: 'desc' },
-        ],
-        controlData: [],
-      }
-    },
-    methods: {
-      open (id) {
-        this.id = id
-        this.visible = true
-        this.render()
+export default {
+  name: 'admin-permission-view',
+  components: {
+    iInput,
+    iForm,
+    formItem,
+    modal,
+  },
+  data: function () {
+    return {
+      id: '',
+      loading: false,
+      visible: false,
+      formData: {
+        pid: '',
+        name: '',
+        sort: 0,
+        control: {},
       },
-      render () {
-        this.loading = true
-        getPermission(this.id).then(data => {
-          this.formData = data
-          this.controlData = data.allow
-        }).finally(() => {
-          this.loading = false
-        })
+      formRule: {
       },
+      controlLoading: false,
+      controlColumns: [
+        { title: '节点', field: 'name', width: 280 },
+        { title: '注解', field: 'desc' },
+      ],
+      controlData: [],
+    }
+  },
+  methods: {
+    open (id) {
+      this.id = id
+      this.visible = true
+      this.render()
     },
-  }
+    render () {
+      this.loading = true
+      getPermission(this.id).then(data => {
+        this.formData = data
+        this.controlData = data.allow
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+  },
+}
 </script>
 
 <style scoped>

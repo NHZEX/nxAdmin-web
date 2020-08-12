@@ -19,15 +19,15 @@
 </template>
 
 <script>
-  import localeMixin from '@/locales/mixin.js'
-  export default {
-    mixins: [
-      localeMixin
-    ],
-    methods: {
-      iconName (name) {
-        return `far ${name === this.$i18n.locale ? 'dot-circle' : 'circle'}`
-      }
-    },
-  }
+import localeMixin from '@/locales/mixin.js'
+export default {
+  mixins: [
+    localeMixin
+  ],
+  methods: {
+    iconName (name) {
+      return `far ${name === this.$i18n.locale ? 'dot-circle' : 'circle'}`
+    }
+  },
+}
 </script>

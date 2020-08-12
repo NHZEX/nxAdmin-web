@@ -24,15 +24,15 @@
 </template>
 
 <script>
-  import themeList from './components/d2-theme-list'
-  export default {
-    components: {
-      'd2-theme-list': themeList
-    },
-    data () {
-      return {
-        dialogVisible: false
-      }
+import themeList from './components/d2-theme-list'
+export default {
+  components: {
+    'd2-theme-list': themeList
+  },
+  data () {
+    return {
+      dialogVisible: false
     }
   }
+}
 </script>

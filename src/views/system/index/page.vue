@@ -20,37 +20,37 @@
 
 <script>
 
-  import { sysinfo } from '@api/sys'
+import { sysinfo } from '@api/sys'
 
-  export default {
-    components: {},
-    data () {
-      return {
-        loading: false,
-        tableData: [],
-      }
+export default {
+  components: {},
+  data () {
+    return {
+      loading: false,
+      tableData: [],
+    }
+  },
+  methods: {
+    load () {
+      this.loading = true
+      sysinfo().then(data => {
+        const result = []
+        for (const key of Object.keys(data)) {
+          result.push({
+            name: data[key][0],
+            value: data[key][1],
+          })
+        }
+        this.tableData = result
+      }).finally(() => {
+        this.loading = false
+      })
     },
-    methods: {
-      load () {
-        this.loading = true
-        sysinfo().then(data => {
-          const result = []
-          for (const key of Object.keys(data)) {
-            result.push({
-              name: data[key][0],
-              value: data[key][1],
-            })
-          }
-          this.tableData = result
-        }).finally(() => {
-          this.loading = false
-        })
-      },
-    },
-    mounted () {
-      this.load()
-    },
-  }
+  },
+  mounted () {
+    this.load()
+  },
+}
 </script>
 
 <style lang="scss" scoped>

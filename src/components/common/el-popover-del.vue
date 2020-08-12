@@ -10,35 +10,35 @@
 </template>
 
 <script>
-  export default {
-    name: 'ElPopoverDel',
-    props: {
-      title: String,
-      okText: {
-        type: String,
-        default: '确定',
-      },
-      cancelText: {
-        type: String,
-        default: '取消',
-      },
+export default {
+  name: 'ElPopoverDel',
+  props: {
+    title: String,
+    okText: {
+      type: String,
+      default: '确定',
     },
-    data () {
-      return {
-        visible: false,
-      }
+    cancelText: {
+      type: String,
+      default: '取消',
     },
-    methods: {
-      clickOk () {
-        this.visible = false
-        this.$emit('on-ok')
-      },
-      clickCancel () {
-        this.visible = false
-        this.$emit('on-cancel')
-      },
+  },
+  data () {
+    return {
+      visible: false,
+    }
+  },
+  methods: {
+    clickOk () {
+      this.visible = false
+      this.$emit('on-ok')
     },
-  }
+    clickCancel () {
+      this.visible = false
+      this.$emit('on-cancel')
+    },
+  },
+}
 </script>
 
 <style scoped>

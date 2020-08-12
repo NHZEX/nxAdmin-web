@@ -15,8 +15,8 @@ module.exports = {
     'camelcase': 'off',
     // script 标签缩进设置
     "vue/script-indent": ["warn", 2, {
-      "baseIndent": 1,
-      "switchCase": 1,
+      "baseIndent": 0,
+      "switchCase": 0,
       "ignores": []
     }],
     // Object.prototype (https://eslint.org/docs/rules/no-prototype-builtins)

@@ -35,160 +35,160 @@
 </template>
 
 <script>
-  import store from '@/store/index'
-  import Modal from '@ivu/modal'
-  import iInput from '@ivu/input'
-  import iForm from '@ivu/form'
-  import FormItem from '@ivu/form-item'
-  import iSelect from '@ivu/select'
-  import iOption from '@ivu/option'
-  import Checkbox from '@ivu/checkbox'
-  import iButton from '@ivu/button'
-  import Spin from '@ivu/spin'
-  import { getUser, getRolesSelect, saveUser } from '@api/admin/admin'
-  import { ADMIN_USER_ROLE_MAPPING, ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
-  import { cloneDeep } from 'lodash'
-  import { hash } from '@/libs/util.crypto'
+import store from '@/store/index'
+import Modal from '@ivu/modal'
+import iInput from '@ivu/input'
+import iForm from '@ivu/form'
+import FormItem from '@ivu/form-item'
+import iSelect from '@ivu/select'
+import iOption from '@ivu/option'
+import Checkbox from '@ivu/checkbox'
+import iButton from '@ivu/button'
+import Spin from '@ivu/spin'
+import { getUser, getRolesSelect, saveUser } from '@api/admin/admin'
+import { ADMIN_USER_ROLE_MAPPING, ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
+import { cloneDeep } from 'lodash'
+import { hash } from '@/libs/util.crypto'
 
-  export default {
-    name: 'UserEdit',
-    components: {
-      Modal,
-      iInput,
-      iForm,
-      FormItem,
-      iSelect,
-      iOption,
-      Checkbox,
-      iButton,
-      Spin,
+export default {
+  name: 'UserEdit',
+  components: {
+    Modal,
+    iInput,
+    iForm,
+    FormItem,
+    iSelect,
+    iOption,
+    Checkbox,
+    iButton,
+    Spin,
+  },
+  props: {
+  },
+  data () {
+    return {
+      id: 0,
+      usersGenre: toLabelValue(ADMIN_USERS_GENRE).filter(d => {
+        const genre = store.state.d2admin.user.info.user.genre
+        return d.value >= genre
+      }),
+      visible: false,
+      loading: false,
+      roleList: [],
+      formData: {
+        genre: store.state.d2admin.user.info.user.genre,
+        username: '',
+        nickname: '',
+        password: '',
+        role_id: 0,
+        status: 0,
+        repeatPassword: '',
+      },
+      rules: {
+        genre: [
+          { required: true },
+        ],
+        username: [
+          { required: true, min: 2, max: 64 },
+        ],
+        nickname: [
+          { required: true, min: 2, max: 64 },
+        ],
+        password: [
+          // { required: !this.id }, iview表单动态规则响应不完善
+          { min: 6, max: 64 },
+        ],
+        repeatPassword: [
+          {
+            validator: (rule, value, callback) => {
+              if (value === undefined) {
+                return true
+              }
+              return value === this.formData.password
+            },
+            message: '两次输入的密码要一致',
+          }
+        ]
+      },
+    }
+  },
+  computed: {
+    formDataStatus: {
+      get: function () {
+        return this.formData.status === 0
+      },
+      set: function (newValue) {
+        this.formData.status = newValue ? 0 : 1
+      },
     },
-    props: {
+    formDataRoleId: {
+      get: function () {
+        return this.formData.role_id === 0 ? null : this.formData.role_id
+      },
+      set: function (newValue) {
+        this.formData.role_id = newValue || 0
+      },
     },
-    data () {
-      return {
-        id: 0,
-        usersGenre: toLabelValue(ADMIN_USERS_GENRE).filter(d => {
-          const genre = store.state.d2admin.user.info.user.genre
-          return d.value >= genre
-        }),
-        visible: false,
-        loading: false,
-        roleList: [],
-        formData: {
-          genre: store.state.d2admin.user.info.user.genre,
-          username: '',
-          nickname: '',
-          password: '',
-          role_id: 0,
-          status: 0,
-          repeatPassword: '',
-        },
-        rules: {
-          genre: [
-            { required: true },
-          ],
-          username: [
-            { required: true, min: 2, max: 64 },
-          ],
-          nickname: [
-            { required: true, min: 2, max: 64 },
-          ],
-          password: [
-            // { required: !this.id }, iview表单动态规则响应不完善
-            { min: 6, max: 64 },
-          ],
-          repeatPassword: [
-            {
-              validator: (rule, value, callback) => {
-                if (value === undefined) {
-                  return true
-                }
-                return value === this.formData.password
-              },
-              message: '两次输入的密码要一致',
-            }
-          ]
-        },
+  },
+  watch: {
+    'formData.genre' (v) {
+      this.loading = true
+      getRolesSelect(ADMIN_USER_ROLE_MAPPING[v]).then(d => {
+        this.roleList = d
+      }).finally(() => {
+        this.loading = false
+      })
+    }
+  },
+  methods: {
+    open (id = 0) {
+      this.id = id
+      this.loadData()
+      this.visible = true
+    },
+    onVisible (visible) {
+      if (!visible) {
+        this.$refs.form.resetFields()
       }
     },
-    computed: {
-      formDataStatus: {
-        get: function () {
-          return this.formData.status === 0
-        },
-        set: function (newValue) {
-          this.formData.status = newValue ? 0 : 1
-        },
-      },
-      formDataRoleId: {
-        get: function () {
-          return this.formData.role_id === 0 ? null : this.formData.role_id
-        },
-        set: function (newValue) {
-          this.formData.role_id = newValue || 0
-        },
-      },
-    },
-    watch: {
-      'formData.genre' (v) {
-        this.loading = true
-        getRolesSelect(ADMIN_USER_ROLE_MAPPING[v]).then(d => {
-          this.roleList = d
-        }).finally(() => {
-          this.loading = false
-        })
-      }
-    },
-    methods: {
-      open (id = 0) {
-        this.id = id
-        this.loadData()
-        this.visible = true
-      },
-      onVisible (visible) {
-        if (!visible) {
-          this.$refs.form.resetFields()
+    loadData () {
+      this.loading = true
+      Promise.all([
+        getRolesSelect(ADMIN_USER_ROLE_MAPPING[this.formData.genre]),
+        getUser(this.id),
+      ]).then(values => {
+        this.$refs.form.resetFields()
+        this.roleList = values[0]
+        if (values[1]) {
+          values[1].password = ''
+          this.formData = values[1]
         }
-      },
-      loadData () {
-        this.loading = true
-        Promise.all([
-          getRolesSelect(ADMIN_USER_ROLE_MAPPING[this.formData.genre]),
-          getUser(this.id),
-        ]).then(values => {
-          this.$refs.form.resetFields()
-          this.roleList = values[0]
-          if (values[1]) {
-            values[1].password = ''
-            this.formData = values[1]
-          }
-        }).finally(() => {
-          this.loading = false
-        })
-      },
-      submit () {
-        this.$refs.form.validate(valid => {
-          if (valid) {
-            this.loading = true
-            const data = cloneDeep(this.formData)
-            if (data.password) {
-              data.password = hash('sha256', data.password)
-            }
-            delete data.repeatPassword
-            saveUser(this.id, data).then(() => {
-              this.visible = false
-            }).finally(() => {
-              this.loading = false
-              this.$emit('on-submit')
-            })
-          } else {
-            this.$ivuMessage.error('请输入正确的表单')
-          }
-        })
-      },
+      }).finally(() => {
+        this.loading = false
+      })
     },
-  }
+    submit () {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.loading = true
+          const data = cloneDeep(this.formData)
+          if (data.password) {
+            data.password = hash('sha256', data.password)
+          }
+          delete data.repeatPassword
+          saveUser(this.id, data).then(() => {
+            this.visible = false
+          }).finally(() => {
+            this.loading = false
+            this.$emit('on-submit')
+          })
+        } else {
+          this.$ivuMessage.error('请输入正确的表单')
+        }
+      })
+    },
+  },
+}
 </script>
 
 <style scoped>
