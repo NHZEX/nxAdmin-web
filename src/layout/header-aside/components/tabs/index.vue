@@ -143,11 +143,11 @@ export default {
       if (tagName) this.contextmenuFlag = false
       const params = { pageSelect: tagName }
       switch (command) {
-      case 'left': this.closeLeft(params); break
-      case 'right': this.closeRight(params); break
-      case 'other': this.closeOther(params); break
-      case 'all': this.closeAll(); break
-      default: this.$message.error('无效的操作'); break
+        case 'left': this.closeLeft(params); break
+        case 'right': this.closeRight(params); break
+        case 'other': this.closeOther(params); break
+        case 'all': this.closeAll(); break
+        default: this.$message.error('无效的操作'); break
       }
     },
     /**

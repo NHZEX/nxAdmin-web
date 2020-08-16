@@ -85,11 +85,11 @@ export default {
     },
     handleFilterChange ({ property, values }) {
       switch (property) {
-      case 'genre_desc':
-        this.where.genre = values[0]
-        break
-      default:
-        break
+        case 'genre_desc':
+          this.where.genre = values[0]
+          break
+        default:
+          break
       }
       this.searchSubmit()
     },
