@@ -26,9 +26,7 @@
         </el-tabs>
       </div>
     </div>
-    <div
-      class="d2-multiple-page-control-btn"
-      flex-box="0">
+    <div class="d2-multiple-page-control-btn" flex-box="0">
       <el-dropdown
         size="default"
         split-button
@@ -61,6 +59,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import Sortable from 'sortablejs'
+
 export default {
   components: {
     D2Contextmenu: () => import('../contextmenu'),

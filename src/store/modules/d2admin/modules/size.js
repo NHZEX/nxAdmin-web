@@ -52,9 +52,7 @@ export default {
       if (state.value) return Promise.resolve()
       return new Promise(resolve => {
         const timer = setInterval(() => {
-          if (state.value) {
-            resolve(clearInterval(timer))
-          }
+          if (state.value) resolve(clearInterval(timer))
         }, 10)
       })
     },

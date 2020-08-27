@@ -10,6 +10,7 @@ import '@/assets/svg-icons'
 import i18n from '@/i18n.js'
 
 // 功能插件
+import pluginApi from '@/plugin/api'
 import pluginError from '@/plugin/error'
 import pluginLog from '@/plugin/log'
 import pluginOpen from '@/plugin/open'
@@ -32,6 +33,7 @@ export default {
       i18n: (key, value) => i18n.t(key, value)
     })
     // 插件
+    Vue.use(pluginApi)
     Vue.use(pluginError)
     Vue.use(pluginLog)
     Vue.use(pluginOpen)

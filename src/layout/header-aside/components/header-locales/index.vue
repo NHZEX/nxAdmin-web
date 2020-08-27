@@ -1,8 +1,5 @@
 <template>
-  <el-dropdown
-    placement="bottom"
-    size="small"
-    @command="onChangeLocale">
+  <el-dropdown placement="bottom" size="small" @command="onChangeLocale">
     <el-button class="d2-mr btn-text can-hover" type="text">
       <fa-icon iconx="fas language" size="lg"/>
     </el-button>

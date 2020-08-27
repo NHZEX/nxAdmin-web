@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash'
 import client from 'webpack-theme-color-replacer/client'
 import forElementUI from 'webpack-theme-color-replacer/forElementUI'
 
@@ -62,10 +63,8 @@ export default {
      */
     apply (state, { oldColor, newColor }) {
       var options = {
-        newColors: [
-          ...forElementUI.getElementUISeries(newColor),
-          // ...forElementUI.getElementUISeries(newColor), // iview 样式暂时无法完美兼任
-        ]
+        oldColors: cloneDeep(forElementUI.getElementUISeries(oldColor)),
+        newColors: cloneDeep(forElementUI.getElementUISeries(newColor))
       }
       client.changer.changeColor(options)
     }
