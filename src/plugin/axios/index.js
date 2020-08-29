@@ -67,7 +67,7 @@ service.interceptors.request.use(
     if (store.state.d2admin.config.machine) {
       authorization += `MC="${store.state.d2admin.config.machine}" `
     }
-    config.headers.Authorization = `Bearer AT1 ${authorization}`.trim()
+    config.headers.Authorization = `Bearer ${authorization}`.trim()
     return config
   },
   error => {
