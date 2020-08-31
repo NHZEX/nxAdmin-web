@@ -121,7 +121,7 @@ export default {
         this.$refs.form.resetFields()
       }
     },
-    renderContent (h, { node, data, store }) {
+    renderContent (h, { data }) {
       return h('span', {
         style: {
           display: 'inline-block',
@@ -146,6 +146,9 @@ export default {
         this.$nextTick(() => {
           this.$refs.tree.setCheckedKeys(this.treeCheckedKeys.filter(key => {
             const node = this.$refs.tree.getNode(key)
+            if (!node) {
+              return false
+            }
             return node.isLeaf
           }))
         })
