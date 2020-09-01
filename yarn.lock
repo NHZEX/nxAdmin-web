@@ -2001,9 +2001,9 @@
   integrity sha1-GHI1MNME9EMCHaIpLW7JUCgmEEo=
 
 "@vue/test-utils@^1.0.2":
-  version "1.0.4"
-  resolved "https://registry.npm.taobao.org/@vue/test-utils/download/@vue/test-utils-1.0.4.tgz#6341caccdf72da5914a5168e680ea12550fba98a"
-  integrity sha1-Y0HKzN9y2lkUpRaOaA6hJVD7qYo=
+  version "1.0.5"
+  resolved "https://registry.npm.taobao.org/@vue/test-utils/download/@vue/test-utils-1.0.5.tgz#676e1f986bb93ddc869d9c6cf1c820183d64d92f"
+  integrity sha1-Z24fmGu5PdyGnZxs8cggGD1k2S8=
   dependencies:
     dom-event-types "^1.0.0"
     lodash "^4.17.15"
@@ -11118,9 +11118,9 @@ vxe-table-plugin-virtual-tree@^0.3.1:
   integrity sha1-j6fXvBZDHhZp0RsIYMG0b5v7S5Q=
 
 vxe-table@^2.9.13:
-  version "2.9.18"
-  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-2.9.18.tgz#09e2eb3d26962765be71df1fefa0a7bc2d8015d1"
-  integrity sha1-CeLrPSaWJ2W+cd8f76CnvC2AFdE=
+  version "2.9.19"
+  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-2.9.19.tgz#9ff2c5e871b972103875990442c903dda13bedac"
+  integrity sha1-n/LF6HG5chA4dZkEQskD3aE77aw=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"

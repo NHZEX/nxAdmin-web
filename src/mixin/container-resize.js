@@ -10,7 +10,7 @@ export default {
       containerResizeOptions: {
         target: '$refs.container.$el',
         targetEl: null,
-        heightOffset: -65,
+        heightOffset: -45,
       },
     }
   },

@@ -4,7 +4,7 @@
       <i-button type="primary" icon="md-refresh" :loading="loading.render" @click="load">刷新</i-button>
       <i-button v-access="'admin.permission.scan'" type="warning" icon="md-refresh" :loading="loading.scan" @click="scan()">扫描权限</i-button>
     </div>
-    <vxe-virtual-tree
+    <vxe-grid
       ref="tree"
       show-overflow
       row-key
@@ -28,7 +28,7 @@
       <template v-slot:action="{ row }">
           <i-button type="primary" size="small" @click="permissionView(row.name)">查看</i-button>
       </template>
-    </vxe-virtual-tree>
+    </vxe-grid>
     <i-qucik-edit ref="quick" @submit="quickSubmit"/>
     <admin-permission-view ref="view" ></admin-permission-view>
   </d2-container>
@@ -41,6 +41,16 @@ import Icon from '@ivu/icon'
 import adminPermissionView from './permission-view'
 import { getPermissions, savePermission, scanPermission } from '@api/admin/admin'
 import ContainerResize from '@/mixin/container-resize'
+
+const recursionTree = (d) => {
+  return d.map(el => {
+    if (el.children && el.children.length) {
+      el._showChildren = true
+      el.children = recursionTree(el.children)
+    }
+    return el
+  })
+}
 
 export default {
   name: 'admin-permission',
@@ -71,25 +81,17 @@ export default {
     permissionView (id) {
       this.$refs.view.open(id)
     },
-    load () {
+    async load () {
       this.loading.render = true
-      getPermissions().then(data => {
-        const recursion = (d) => {
-          return d.map(el => {
-            if (el.children && el.children.length) {
-              el._showChildren = true
-              el.children = recursion(el.children)
-            }
-            return el
-          })
-        }
-        this.data = recursion(data)
-        this.$nextTick(() => {
-          this.$refs.tree.setAllTreeExpand(true)
-        })
-      }).finally(() => {
+      let data
+      try {
+        data = await getPermissions()
+      } finally {
         this.loading.render = false
-      })
+      }
+      this.data = recursionTree(data)
+      await this.$nextTick()
+      this.$refs.tree.setAllTreeExpand(true)
     },
     scan () {
       this.loading.scan = true
@@ -113,8 +115,9 @@ export default {
       })
     }
   },
-  mounted () {
-    this.load()
+  async mounted () {
+    await this.$nextTick()
+    await this.load()
   },
   beforeDestroy () {
   }
