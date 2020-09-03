@@ -14,13 +14,5 @@ module.exports = {
       },
       'view-design'
     ],
-    [
-      'import',
-      {
-        libraryName: 'element-ui',
-        libraryDirectory: 'lib'
-      },
-      'element-ui'
-    ],
   ]
 }
