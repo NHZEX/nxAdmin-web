@@ -30,6 +30,7 @@ import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faCog } from '@fortawesome/free-solid-svg-icons/faCog'
 import { faKeyboard } from '@fortawesome/free-solid-svg-icons/faKeyboard'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons/faUserCircle'
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons/faSyncAlt'
 // far
 import { faDotCircle } from '@fortawesome/free-regular-svg-icons/faDotCircle'
 import { faCircle } from '@fortawesome/free-regular-svg-icons/faCircle'
@@ -41,7 +42,7 @@ import { faCopyright } from '@fortawesome/free-regular-svg-icons/faCopyright'
 export function install () {
   // solid
   library.add(faLanguage, faFont, faInbox, faBug, faSearch)
-  library.add(faArrowLeft, faArrowRight, faTimes, faTimesCircle)
+  library.add(faArrowLeft, faArrowRight, faTimes, faTimesCircle, faSyncAlt)
   library.add(faCompressArrowsAlt, faExpandArrowsAlt)
   library.add(faPowerOff, faCloudUploadAlt, faBars)
   library.add(faQuestionCircle, faKeyboard, faUserCircle)
