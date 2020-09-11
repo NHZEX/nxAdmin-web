@@ -76,7 +76,8 @@
               <div class="d2-theme-container-main-body" flex-box="1">
                 <transition :name="transitionActive ? 'fade-transverse' : ''">
                   <keep-alive :include="keepAlive">
-                    <router-view :key="routerViewKey" />
+                    <!-- :key="routerViewKey" 导致热加载白屏问题  -->
+                    <router-view />
                   </keep-alive>
                 </transition>
               </div>
@@ -145,6 +146,7 @@ export default {
     routerViewKey () {
       // 默认情况下 key 类似 __transition-n-/foo
       // 这里的字符串操作是为了最终 key 的格式和原来相同 类似 __transition-n-__stamp-time-/foo
+      console.log(this.$route)
       const stamp = this.$route.meta[`__stamp-${this.$route.path}`] || ''
       return `${stamp ? `__stamp-${stamp}-` : ''}${this.$route.path}`
     },
