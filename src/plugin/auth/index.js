@@ -71,11 +71,11 @@ export function canAccess (to, some = false) {
  */
 export function canAccessRoute (to) {
   return to.matched.some(r => {
-    if (to.path !== r.path) {
-      return false
-    }
     if (r.meta.auth === true) {
       return true
+    }
+    if (!r.regex.test(to.path)) {
+      return false
     }
     return canAccess(r.meta.auth)
   })
