@@ -4052,9 +4052,9 @@ data-urls@^1.0.0, data-urls@^1.1.0:
     whatwg-url "^7.0.0"
 
 dayjs@^1.8.17:
-  version "1.8.34"
-  resolved "https://registry.npm.taobao.org/dayjs/download/dayjs-1.8.34.tgz?cache=0&sync_timestamp=1597892492786&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdayjs%2Fdownload%2Fdayjs-1.8.34.tgz#d3ad33cc43d6b0f24cb8686b90aad2c653708069"
-  integrity sha1-060zzEPWsPJMuGhrkKrSxlNwgGk=
+  version "1.8.36"
+  resolved "https://registry.npm.taobao.org/dayjs/download/dayjs-1.8.36.tgz#be36e248467afabf8f5a86bae0de0cdceecced50"
+  integrity sha1-vjbiSEZ6+r+PWoa64N4M3O7M7VA=
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -7771,10 +7771,10 @@ node-forge@0.9.0:
   resolved "https://registry.npm.taobao.org/node-forge/download/node-forge-0.9.0.tgz#d624050edbb44874adca12bb9a52ec63cb782579"
   integrity sha1-1iQFDtu0SHStyhK7mlLsY8t4JXk=
 
-node-forge@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.npm.taobao.org/node-forge/download/node-forge-0.9.1.tgz#775368e6846558ab6676858a4d8c6e8d16c677b5"
-  integrity sha1-d1No5oRlWKtmdoWKTYxujRbGd7U=
+node-forge@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.npm.taobao.org/node-forge/download/node-forge-0.10.0.tgz?cache=0&sync_timestamp=1599010719234&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnode-forge%2Fdownload%2Fnode-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
+  integrity sha1-Mt6ir7Ppkm8C7lzoeUkCaRpna/M=
 
 node-int64@^0.4.0:
   version "0.4.0"
@@ -10710,9 +10710,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 ua-parser-js@^0.7.20:
-  version "0.7.21"
-  resolved "https://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
-  integrity sha1-hTz5zpP2QvZxdCc8w0Vlrm8wh3c=
+  version "0.7.22"
+  resolved "https://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.22.tgz#960df60a5f911ea8f1c818f3747b99c6e177eae3"
+  integrity sha1-lg32Cl+RHqjxyBjzdHuZxuF36uM=
 
 uglify-js@3.4.x:
   version "3.4.10"
@@ -11018,9 +11018,9 @@ vue-i18n-extract@1.0.2:
     yargs "^13.2.2"
 
 vue-i18n@^8.15.1:
-  version "8.21.0"
-  resolved "https://registry.npm.taobao.org/vue-i18n/download/vue-i18n-8.21.0.tgz#526450525fdbb9c877685b5ba6cb9573b73d3940"
-  integrity sha1-UmRQUl/buch3aFtbpsuVc7c9OUA=
+  version "8.21.1"
+  resolved "https://registry.npm.taobao.org/vue-i18n/download/vue-i18n-8.21.1.tgz#afa8e6390a5de3b65bd17533c4269181f86f1d61"
+  integrity sha1-r6jmOQpd47Zb0XUzxCaRgfhvHWE=
 
 vue-i18n@^8.17.0:
   version "8.18.2"
@@ -11108,9 +11108,9 @@ vuex@^3.4.0:
   integrity sha1-8bjc6mSbwlJUz09DWAgdv12hiz0=
 
 vxe-table-plugin-iview@^1.8.8:
-  version "1.9.1"
-  resolved "https://registry.npm.taobao.org/vxe-table-plugin-iview/download/vxe-table-plugin-iview-1.9.1.tgz#7141ea01e68b53b6cf951c1c8ce65d8145d9e5b0"
-  integrity sha1-cUHqAeaLU7bPlRwcjOZdgUXZ5bA=
+  version "1.9.2"
+  resolved "https://registry.npm.taobao.org/vxe-table-plugin-iview/download/vxe-table-plugin-iview-1.9.2.tgz#d8650953190ef31b5fe4a0255ab69e8af0382c4b"
+  integrity sha1-2GUJUxkO8xtf5KAlWraeivA4LEs=
 
 vxe-table-plugin-virtual-tree@^0.5.4:
   version "0.5.4"
