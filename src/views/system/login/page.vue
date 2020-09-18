@@ -192,7 +192,6 @@ export default {
             // 重定向对象不存在则返回顶层路径
             this.$router.replace(this.$route.query.redirect || '/')
           }).catch(err => {
-            console.dir(err)
             if (err.code === 1103) {
               this.formLogin.password = ''
               this.$refs['form-password'].focus()

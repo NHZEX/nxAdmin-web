@@ -48,7 +48,6 @@ router.beforeEach(async (to, from, next) => {
   store.commit('d2admin/search/set', false)
   // 认证缓存
   let isLoginCache = false
-  // console.log(from.fullPath, to.fullPath, from, to)
   // 验证当前路由所有的匹配模式
   if (to.name === 'login' && from.fullPath === '/') {
     // 忽略特定跳转的鉴权

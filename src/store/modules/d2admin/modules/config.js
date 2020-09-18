@@ -1,5 +1,6 @@
 import { sysCongig } from '@/api/sys'
 import { randomHex } from '@/libs/util.crypto'
+import { Notification } from 'element-ui'
 
 const MACHINE_CODE_LEN = 64
 
@@ -39,6 +40,13 @@ export default {
     load ({ state }) {
       sysCongig().then(config => {
         state.loginCaptcha = config.loginCaptcha
+      }).catch(err => {
+        Notification.error({
+          title: '系统初始化失败',
+          message: '请检测网络或服务器异常<br>' + err,
+          dangerouslyUseHTMLString: true,
+          duration: 8 * 1000,
+        })
       })
     },
   },
