@@ -11112,15 +11112,15 @@ vxe-table-plugin-iview@^1.8.8:
   resolved "https://registry.npm.taobao.org/vxe-table-plugin-iview/download/vxe-table-plugin-iview-1.9.1.tgz#7141ea01e68b53b6cf951c1c8ce65d8145d9e5b0"
   integrity sha1-cUHqAeaLU7bPlRwcjOZdgUXZ5bA=
 
-vxe-table-plugin-virtual-tree@^0.3.1:
-  version "0.3.3"
-  resolved "https://registry.npm.taobao.org/vxe-table-plugin-virtual-tree/download/vxe-table-plugin-virtual-tree-0.3.3.tgz#8fa7d7bc16431e1669d11b0860c1b46f9bfb4b94"
-  integrity sha1-j6fXvBZDHhZp0RsIYMG0b5v7S5Q=
+vxe-table-plugin-virtual-tree@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.npm.taobao.org/vxe-table-plugin-virtual-tree/download/vxe-table-plugin-virtual-tree-0.5.4.tgz#f1dfe272e4fbe77b9c850ff0b06b3a90f4d9f040"
+  integrity sha1-8d/icuT753uchQ/wsGs6kPTZ8EA=
 
-vxe-table@^2.9.13:
-  version "2.9.19"
-  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-2.9.19.tgz#9ff2c5e871b972103875990442c903dda13bedac"
-  integrity sha1-n/LF6HG5chA4dZkEQskD3aE77aw=
+vxe-table@^2.9.22:
+  version "2.9.22"
+  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-2.9.22.tgz#8191225dfd6a4cf35a75533730d9028ea2209770"
+  integrity sha1-gZEiXf1qTPNadVM3MNkCjqIgl3A=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
@@ -11487,10 +11487,10 @@ ws@^7.0.0:
   resolved "https://registry.npm.taobao.org/ws/download/ws-7.3.0.tgz#4b2f7f219b3d3737bc1a2fbf145d825b94d38ffd"
   integrity sha1-Sy9/IZs9Nze8Gi+/FF2CW5TTj/0=
 
-xe-utils@^2.4.8:
-  version "2.7.8"
-  resolved "https://registry.npm.taobao.org/xe-utils/download/xe-utils-2.7.8.tgz#c8df5ac56be3c47a76ea9e8af55b4a051d89ea5e"
-  integrity sha1-yN9axWvjxHp26p6K9VtKBR2J6l4=
+xe-utils@^2.7.11:
+  version "2.7.11"
+  resolved "https://registry.npm.taobao.org/xe-utils/download/xe-utils-2.7.11.tgz#bad271b887318d2537f2ed0c4b3536dff15a69bc"
+  integrity sha1-utJxuIcxjSU38u0MSzU23/Faabw=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
