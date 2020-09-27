@@ -1227,10 +1227,10 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.30"
 
-"@fortawesome/vue-fontawesome@^0.1.9":
-  version "0.1.10"
-  resolved "https://registry.npm.taobao.org/@fortawesome/vue-fontawesome/download/@fortawesome/vue-fontawesome-0.1.10.tgz#eeeec1e4e8850bed0468f938292b06cda793bf34"
-  integrity sha1-7u7B5OiFC+0EaPk4KSsGzaeTvzQ=
+"@fortawesome/vue-fontawesome@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/@fortawesome/vue-fontawesome/download/@fortawesome/vue-fontawesome-2.0.0.tgz#63da3e459147cebb0a8d58eed81d6071db9f5973"
+  integrity sha1-Y9o+RZFHzrsKjVju2B1gcdufWXM=
 
 "@hapi/address@2.x.x":
   version "2.1.4"
@@ -11067,9 +11067,9 @@ vue-loader@^15.9.2:
     vue-style-loader "^4.1.0"
 
 vue-router@^3.2.0:
-  version "3.4.3"
-  resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.4.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-router%2Fdownload%2Fvue-router-3.4.3.tgz#fa93768616ee338aa174f160ac965167fa572ffa"
-  integrity sha1-+pN2hhbuM4qhdPFgrJZRZ/pXL/o=
+  version "3.4.5"
+  resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.4.5.tgz#d396ec037b35931bdd1e9b7edd86f9788dc15175"
+  integrity sha1-05bsA3s1kxvdHpt+3Yb5eI3BUXU=
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"
@@ -11118,9 +11118,9 @@ vxe-table-plugin-virtual-tree@^0.5.4:
   integrity sha1-8d/icuT753uchQ/wsGs6kPTZ8EA=
 
 vxe-table@^2.9.22:
-  version "2.9.22"
-  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-2.9.22.tgz#8191225dfd6a4cf35a75533730d9028ea2209770"
-  integrity sha1-gZEiXf1qTPNadVM3MNkCjqIgl3A=
+  version "2.9.23"
+  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-2.9.23.tgz#5119e818b3ce16cabe8e60c7251e50d6d493637e"
+  integrity sha1-URnoGLPOFsq+jmDHJR5Q1tSTY34=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
@@ -11488,9 +11488,9 @@ ws@^7.0.0:
   integrity sha1-Sy9/IZs9Nze8Gi+/FF2CW5TTj/0=
 
 xe-utils@^2.7.11:
-  version "2.7.11"
-  resolved "https://registry.npm.taobao.org/xe-utils/download/xe-utils-2.7.11.tgz#bad271b887318d2537f2ed0c4b3536dff15a69bc"
-  integrity sha1-utJxuIcxjSU38u0MSzU23/Faabw=
+  version "2.7.13"
+  resolved "https://registry.npm.taobao.org/xe-utils/download/xe-utils-2.7.13.tgz#78c214bda2b1b5b3f2af0313ec656b5d5e848cff"
+  integrity sha1-eMIUvaKxtbPyrwMT7GVrXV6EjP8=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
