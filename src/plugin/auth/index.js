@@ -77,7 +77,7 @@ export function canAccessRoute (to) {
     if (!r.regex.test(to.path)) {
       return false
     }
-    return canAccess(r.meta.auth)
+    return canAccess(r.meta.auth, true)
   })
 }
 
@@ -126,7 +126,7 @@ export function filterMenu (menu) {
         item.children = filter(value.children)
       }
       if (hasOwnProperty(routeMapping, item.path)) {
-        if (!isBoolean(routeMapping[item.path]) && !hasOwnProperty(permission, routeMapping[item.path])) {
+        if (!isBoolean(routeMapping[item.path]) && !canAccess(routeMapping[item.path], true)) {
           // 无权限访问
           return
         }
