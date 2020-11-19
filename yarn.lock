@@ -5255,9 +5255,9 @@ file-loader@^4.2.0:
     schema-utils "^2.5.0"
 
 file-saver@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.npm.taobao.org/file-saver/download/file-saver-2.0.2.tgz#06d6e728a9ea2df2cce2f8d9e84dfcdc338ec17a"
-  integrity sha1-BtbnKKnqLfLM4vjZ6E383DOOwXo=
+  version "2.0.5"
+  resolved "https://registry.npm.taobao.org/file-saver/download/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
+  integrity sha1-1hz+LOBZ9BTYmendbUEH7iVnDDg=
 
 file-uri-to-path@1.0.0:
   version "1.0.0"
@@ -11197,9 +11197,9 @@ vue-i18n-extract@1.0.2:
     yargs "^13.2.2"
 
 vue-i18n@^8.15.1:
-  version "8.22.1"
-  resolved "https://registry.npm.taobao.org/vue-i18n/download/vue-i18n-8.22.1.tgz#b9dd098a17e1f5adb91bdf9611f0385310da7cb1"
-  integrity sha1-ud0Jihfh9a25G9+WEfA4UxDafLE=
+  version "8.22.2"
+  resolved "https://registry.npm.taobao.org/vue-i18n/download/vue-i18n-8.22.2.tgz#58299a5a050e67b4f799d96fee7dd8bd269e0907"
+  integrity sha1-WCmaWgUOZ7T3mdlv7n3YvSaeCQc=
 
 vue-i18n@^8.17.0:
   version "8.18.2"
