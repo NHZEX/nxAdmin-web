@@ -19,6 +19,8 @@ module.exports = {
       "switchCase": 1,
       "ignores": []
     }],
+    // vue
+    'vue/custom-event-name-casing': 'warn',
     // Object.prototype (https://eslint.org/docs/rules/no-prototype-builtins)
     'no-prototype-builtins': 'warn',
     // const 变量声明
@@ -34,7 +36,7 @@ module.exports = {
     // quotes
     'quotes': 'warn',
     // object-curly-newline
-    'object-curly-newline': 'off'
+    'object-curly-newline': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint'

@@ -41,7 +41,9 @@
                     type="password"
                     v-model="formLogin.password"
                     ref="form-password"
-                    placeholder="密码">
+                    placeholder="密码"
+                    @keyup.enter.native.stop.prevent="submit"
+                  >
                     <fa-icon slot="prepend" iconx="fas keyboard"/>
                   </el-input>
                 </el-form-item>
@@ -179,6 +181,12 @@ export default {
     // 提交登录信息
     submit () {
       this.$refs.loginForm.validate((valid) => {
+        if (!(this.formLogin.username && this.formLogin.password)) {
+          return
+        }
+        if (this.loginCaptcha && !this.formLogin.code) {
+          return
+        }
         if (valid) {
           const loadingInstance = Loading.service({ fullscreen: true })
           // 登录
@@ -188,16 +196,15 @@ export default {
             lasting: this.formLogin.lasting,
             code: this.formLogin.code,
             token: this.captchaToken,
-          }).then(() => {
+          }).then(async () => {
             // 重定向对象不存在则返回顶层路径
-            this.$router.replace(this.$route.query.redirect || '/')
+            await this.$router.replace(this.$route.query.redirect || '/')
           }).catch(err => {
             if (err.code === 1103) {
               this.formLogin.password = ''
               this.$refs['form-password'].focus()
               this.refrushCode()
-            }
-            if (err.code === 1001) {
+            } else if (err.code === 1001) {
               this.refrushCode(true)
             }
           }).finally(() => {
