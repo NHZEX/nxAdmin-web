@@ -2334,7 +2334,7 @@ aws4@^1.8.0:
   resolved "https://registry.npm.taobao.org/aws4/download/aws4-1.11.0.tgz?cache=0&sync_timestamp=1604101340021&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Faws4%2Fdownload%2Faws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha1-1h9G2DslGSUOJ4Ta9bCUeai0HFk=
 
-axios@0.21.0:
+axios@^0.21.0:
   version "0.21.0"
   resolved "https://registry.npm.taobao.org/axios/download/axios-0.21.0.tgz#26df088803a2350dff2c27f96fef99fe49442aca"
   integrity sha1-Jt8IiAOiNQ3/LCf5b++Z/klEKso=
@@ -10885,9 +10885,9 @@ vxe-table-plugin-virtual-tree@^0.5.6:
   integrity sha1-tnV7ubIgzJ/CrL7zrybWwa+NTzI=
 
 vxe-table@^2.10.0:
-  version "2.10.2"
-  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-2.10.2.tgz#17d3cc4a282ec2f596d09a4bfb77fc9c8d7d9a6c"
-  integrity sha1-F9PMSiguwvWW0JpL+3f8nI19mmw=
+  version "2.10.3"
+  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-2.10.3.tgz#10ccb3a7eb9e50c0537ac0a371b0f704ab789a4e"
+  integrity sha1-EMyzp+ueUMBTesCjcbD3BKt4mk4=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
@@ -11252,9 +11252,9 @@ ws@^7.0.0, ws@^7.3.1:
   integrity sha1-pd12okGXlA1Ki7ng4VK7RQN2Tac=
 
 xe-utils@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.npm.taobao.org/xe-utils/download/xe-utils-3.0.1.tgz#034a6549262bfb3bf23a32d9e35ebc9477e821e3"
-  integrity sha1-A0plSSYr+zvyOjLZ4168lHfoIeM=
+  version "3.0.2"
+  resolved "https://registry.npm.taobao.org/xe-utils/download/xe-utils-3.0.2.tgz#37aab91c1fe6ae7ba49fa130b0797e8577faddfd"
+  integrity sha1-N6q5HB/mrnukn6EwsHl+hXf63f0=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
