@@ -3,7 +3,7 @@ module.exports = {
   env: {
     node: true
   },
-  'extends': [
+  extends: [
     'plugin:vue/essential',
     '@vue/standard'
   ],
@@ -11,13 +11,13 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // 暂时关闭对逗号的检查
-    'comma-dangle': ["off", "always-multiline"],
+    'comma-dangle': ['off', "always-multiline"],
     'camelcase': 'off',
     // script 标签缩进设置
-    "vue/script-indent": ["warn", 2, {
-      "baseIndent": 0,
-      "switchCase": 1,
-      "ignores": []
+    'vue/script-indent': ['warn', 2, {
+      baseIndent: 0,
+      switchCase: 1,
+      ignores: []
     }],
     // vue
     'vue/custom-event-name-casing': 'warn',
@@ -52,9 +52,14 @@ module.exports = {
       }
     }, {
       // 关闭对 vue 文件的缩进检测
-      files: ["*.vue"],
+      files: ['*.vue'],
       rules: {
-        indent: "off",
+        indent: 'off',
+      }
+    }, {
+      files: ['*.js'],
+      rules: {
+        'vue/custom-event-name-casing': 'off',
       }
     }
   ]
