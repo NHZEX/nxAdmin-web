@@ -7,6 +7,10 @@ export default {
       close: 'esc'
     }
   },
+  // tabs
+  tabs: {
+    enable: false,
+  },
   // 侧边栏默认配置
   menu: {
     asideCollapse: false,

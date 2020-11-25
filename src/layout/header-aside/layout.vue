@@ -69,7 +69,7 @@
           <transition name="fade-scale">
             <div v-if="!searchActive" class="d2-theme-container-main-layer" flex="dir:top">
               <!-- tab -->
-              <div class="d2-theme-container-main-header" flex-box="0">
+              <div class="d2-theme-container-main-header" flex-box="0" v-if="settingTabs.enable">
                 <d2-tabs/>
               </div>
               <!-- 页面 -->
@@ -90,6 +90,7 @@
 </template>
 
 <script>
+import setting from '@/setting.js'
 import d2MenuSide from './components/menu-side'
 import d2MenuHeader from './components/menu-header'
 import d2Tabs from './components/tabs'
@@ -123,6 +124,7 @@ export default {
   },
   data () {
     return {
+      settingTabs: setting.tabs,
       // [侧边栏宽度] 正常状态
       asideWidth: '200px',
       // [侧边栏宽度] 折叠状态
