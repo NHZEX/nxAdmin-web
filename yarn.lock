@@ -10885,9 +10885,9 @@ vxe-table-plugin-virtual-tree@^0.5.6:
   integrity sha1-tnV7ubIgzJ/CrL7zrybWwa+NTzI=
 
 vxe-table@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-3.0.2.tgz#3437dc57d044ff6ee588b3c39e6e08b184c458d0"
-  integrity sha1-NDfcV9BE/27liLPDnm4IsYTEWNA=
+  version "3.0.3"
+  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-3.0.3.tgz#25c002c62f5172786756156f96a980d6b4db30fc"
+  integrity sha1-JcACxi9RcnhnVhVvlqmA1rTbMPw=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
