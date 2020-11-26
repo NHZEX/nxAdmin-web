@@ -19,8 +19,6 @@ module.exports = {
       switchCase: 1,
       ignores: []
     }],
-    // vue
-    'vue/custom-event-name-casing': 'warn',
     // Object.prototype (https://eslint.org/docs/rules/no-prototype-builtins)
     'no-prototype-builtins': 'warn',
     // const 变量声明
@@ -55,11 +53,6 @@ module.exports = {
       files: ['*.vue'],
       rules: {
         indent: 'off',
-      }
-    }, {
-      files: ['*.js'],
-      rules: {
-        'vue/custom-event-name-casing': 'off',
       }
     }
   ]
