@@ -7,9 +7,16 @@ export default {
       close: 'esc'
     }
   },
-  // tabs
-  tabs: {
-    enable: false,
+  // 功能特性开关
+  features: {
+    tabs: false,
+    headers: {
+      fullscreen: true,
+      theme: true,
+      size: false,
+      locales: false,
+      color: false,
+    },
   },
   // 侧边栏默认配置
   menu: {

@@ -34,11 +34,11 @@
           <!-- 如果你只想在开发环境显示这个按钮请添加 v-if="$env === 'development'" -->
           <d2-header-search @click="handleSearchClick"/>
           <d2-header-log/>
-          <d2-header-fullscreen/>
-          <d2-header-theme/>
-          <d2-header-size/>
-          <d2-header-locales/>
-<!--          <d2-header-color/>-->
+          <d2-header-fullscreen v-if="settingFeatures.headers.fullscreen"/>
+          <d2-header-theme v-if="settingFeatures.headers.theme"/>
+          <d2-header-size v-if="settingFeatures.headers.size"/>
+          <d2-header-locales v-if="settingFeatures.headers.locales"/>
+          <d2-header-color v-if="settingFeatures.headers.color"/>
           <d2-header-user/>
         </div>
       </div>
@@ -69,7 +69,7 @@
           <transition name="fade-scale">
             <div v-if="!searchActive" class="d2-theme-container-main-layer" flex="dir:top">
               <!-- tab -->
-              <div class="d2-theme-container-main-header" flex-box="0" v-if="settingTabs.enable">
+              <div class="d2-theme-container-main-header" flex-box="0" v-if="settingFeatures.tabs">
                 <d2-tabs/>
               </div>
               <!-- 页面 -->
@@ -101,7 +101,7 @@ import d2HeaderSize from './components/header-size'
 import d2HeaderTheme from './components/header-theme'
 import d2HeaderUser from './components/header-user'
 import d2HeaderLog from './components/header-log'
-// import d2HeaderColor from './components/header-color'
+import d2HeaderColor from './components/header-color'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import mixinSearch from './mixins/search'
 export default {
@@ -120,11 +120,11 @@ export default {
     d2HeaderTheme,
     d2HeaderUser,
     d2HeaderLog,
-    // d2HeaderColor
+    d2HeaderColor,
   },
   data () {
     return {
-      settingTabs: setting.tabs,
+      settingFeatures: setting.features,
       // [侧边栏宽度] 正常状态
       asideWidth: '200px',
       // [侧边栏宽度] 折叠状态
