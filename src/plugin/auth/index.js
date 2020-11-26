@@ -125,7 +125,9 @@ export function filterMenu (menu) {
       let originalChildrenLength = 0
       if (hasOwnProperty(value, 'children') && Array.isArray(value.children)) {
         originalChildrenLength = item.children.length
-        item.children = filter(value.children)
+        if (originalChildrenLength > 0) {
+          item.children = filter(value.children)
+        }
       }
       if (hasOwnProperty(routeMapping, item.path)) {
         if (!isBoolean(routeMapping[item.path]) && !canAccess(routeMapping[item.path], true)) {

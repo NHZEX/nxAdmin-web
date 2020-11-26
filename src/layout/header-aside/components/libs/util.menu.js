@@ -41,6 +41,8 @@ export function elSubmenu (h, menu) {
  * @param {Object} menu 菜单项
  */
 export function createMenu (h, menu) {
-  if (menu.children === undefined) return elMenuItem.call(this, h, menu)
+  if (menu.children === undefined || (Array.isArray(menu.children) && menu.children.length === 0)) {
+    return elMenuItem.call(this, h, menu)
+  }
   return elSubmenu.call(this, h, menu)
 }
