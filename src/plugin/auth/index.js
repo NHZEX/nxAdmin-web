@@ -122,7 +122,9 @@ export function filterMenu (menu) {
     const newTree = []
     tree.forEach(value => {
       const item = cloneDeep(value)
+      let originalChildrenLength = 0
       if (hasOwnProperty(value, 'children') && Array.isArray(value.children)) {
+        originalChildrenLength = item.children.length
         item.children = filter(value.children)
       }
       if (hasOwnProperty(routeMapping, item.path)) {
@@ -131,7 +133,7 @@ export function filterMenu (menu) {
           return
         }
       }
-      if (Array.isArray(item.children) && item.children.length === 0) {
+      if (originalChildrenLength > 0 && item.children.length === 0) {
         // 空的父节点
         return
       }
