@@ -104,7 +104,7 @@ service.interceptors.response.use(
       util.cookies.remove('token')
       util.cookies.remove('uuid')
       // 清空用户信息
-      await store.dispatch('d2admin/user/set', {}, { root: true })
+      await store.dispatch('d2admin/user/clean', {}, { root: true })
       // 跳转到登录页面
       router.push({
         name: 'login',

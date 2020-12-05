@@ -24,13 +24,15 @@ export default {
     Vue.prototype.$env = process.env.NODE_ENV
     // 当前的 baseUrl
     Vue.prototype.$baseUrl = process.env.BASE_URL
+    // Api Url
+    Vue.prototype.$apiUrl = process.env.VUE_APP_API
     // 当前版本
     Vue.prototype.$version = process.env.VUE_APP_VERSION
     // 构建时间
     Vue.prototype.$buildTime = process.env.VUE_APP_BUILD_TIME
     // Element
     Vue.use(ElementUI, {
-      i18n: (key, value) => i18n.t(key, value)
+      i18n: (key, value) => i18n.t(key, value),
     })
     // 插件
     Vue.use(pluginError)

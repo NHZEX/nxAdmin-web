@@ -67,7 +67,7 @@ export default {
         // 注销会话
         await accountLogout()
         // 清空 vuex 用户信息
-        await dispatch('d2admin/user/set', {}, { root: true })
+        await dispatch('d2admin/user/clean', {}, { root: true })
         // 删除cookie
         util.cookies.remove('token')
         util.cookies.remove('uuid')

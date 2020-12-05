@@ -1,21 +1,60 @@
 import { generateRouteMapping } from '@/plugin/auth'
+import { ADMIN_USER_GENRE_DICT } from '@/store/constant'
+import { cloneDeep, isEmpty } from 'lodash'
+
+const DEFAULT_STATE_INFO = {
+  name: '',
+  permission: {},
+  user: {
+    id: 0,
+    genre: 0,
+    role_id: 0,
+    username: '',
+    nickname: '',
+  }
+}
 
 export default {
   namespaced: true,
   state: {
     // 用户信息
-    info: {
-      name: '',
-      permission: {},
-      user: {
-        id: 0,
-        genre: 0,
-        role_id: 0,
-      }
-    },
+    info: cloneDeep(DEFAULT_STATE_INFO),
     routeMapping: {},
   },
+  getters: {
+    isActivity: state => {
+      return !isEmpty(state.info.user) && state.info.user.id > 0
+    },
+    isSuper: (state, getters) => {
+      if (!getters.isActivity) {
+        return null
+      }
+      return state.info.user.genre === ADMIN_USER_GENRE_DICT.SUPER_ADMIN
+    },
+    isAgent: (state, getters) => {
+      if (!getters.isActivity) {
+        return null
+      }
+      const genre = state.info.user.genre
+      return genre === ADMIN_USER_GENRE_DICT.AGENT || genre === ADMIN_USER_GENRE_DICT.AGENT_SUB
+    },
+    isAgentRoot: (state, getters) => {
+      if (!getters.isActivity) {
+        return null
+      }
+      return state.info.user.genre === ADMIN_USER_GENRE_DICT.AGENT
+    },
+    accessAdmin: (state, getters) => {
+      if (!getters.isActivity) {
+        return null
+      }
+      return state.info.user.genre <= ADMIN_USER_GENRE_DICT.ADMIN
+    },
+  },
   actions: {
+    async clean ({ dispatch }) {
+      await dispatch('set', cloneDeep(DEFAULT_STATE_INFO))
+    },
     /**
      * @description 设置用户数据
      * @param {Object} context
