@@ -14,13 +14,13 @@ function errorCreate (msg, code, dataAxios, response, silent) {
   error.data = dataAxios
   error.resp = response
   if (!silent) {
-    errorLog(error)
+    handleError(error)
   }
   return error
 }
 
 // 记录和显示错误
-function errorLog (error) {
+function handleError (error) {
   // 添加到日志
   store.dispatch('d2admin/log/push', {
     message: '数据请求异常',
@@ -151,6 +151,8 @@ service.interceptors.response.use(
       }
       throw errorCreate(`${error.message} (${error.config.url})`, error.response.status, error.response.data, error.response, silent)
     }
+    handleError(error)
+    throw error
   }
 )
 
