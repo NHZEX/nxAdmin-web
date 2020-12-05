@@ -131,7 +131,7 @@ export default {
     },
     render () {
       this.loading = true
-      Promise.all([getRole(this.id), getPermissions()]).then(values => {
+      Promise.all([getRole(this.id), getPermissions()]).then(async values => {
         const role = values[0]
         if (role) {
           if (Array.isArray(role.ext)) {
@@ -143,15 +143,14 @@ export default {
           }
         }
         this.treeData = values[1]
-        this.$nextTick(() => {
-          this.$refs.tree.setCheckedKeys(this.treeCheckedKeys.filter(key => {
-            const node = this.$refs.tree.getNode(key)
-            if (!node) {
-              return false
-            }
-            return node.isLeaf
-          }))
-        })
+        await this.$nextTick()
+        this.$refs.tree.setCheckedKeys(this.treeCheckedKeys.filter(key => {
+          const node = this.$refs.tree.getNode(key)
+          if (!node) {
+            return false
+          }
+          return node.isLeaf
+        }))
       }).finally(() => {
         this.loading = false
       })
