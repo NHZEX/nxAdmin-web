@@ -2,8 +2,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 // const VueFilenameInjector = require('@d2-projects/vue-filename-injector')
 const ThemeColorReplacer = require('webpack-theme-color-replacer')
 const forElementUI = require('webpack-theme-color-replacer/forElementUI')
-const cdnDependencies = require('./dependencies-cdn')
-const { chain, set, each } = require('lodash')
+const { set, each, compact, map, keys } = require('lodash')
 
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
@@ -15,22 +14,37 @@ process.env.VUE_APP_BUILD_TIME = require('dayjs')().format('YYYY-M-D HH:mm:ss')
 // 基础路径 注意发布之前要先修改这里
 const publicPath = process.env.VUE_APP_PUBLIC_PATH || '/'
 
-// 设置不参与构建的库
-const externals = {}
-cdnDependencies.forEach(cdnPackage => { externals[cdnPackage.name] = cdnPackage.library })
+// 多页配置，默认未开启，如需要请参考 https://cli.vuejs.org/zh/config/#pages
+const pages = {
+  index: {
+    entry: 'src/main.js',
+    template: 'public/index.html',
+    filename: 'index.html',
+    chunks: [
+      'manifest',
+      'index',
+      'chunk-index',
+      'chunk-vendor',
+      'chunk-common',
+      'chunk-vue',
+      'chunk-element',
+      'chunk-vxe',
+    ]
+  },
+}
 
 // 引入文件的 cdn 链接
 const cdn = {
-  css: cdnDependencies.map(e => e.css).filter(e => e),
-  js: cdnDependencies.map(e => e.js).filter(e => e)
+  index: []
 }
 
-// 多页配置，默认未开启，如需要请参考 https://cli.vuejs.org/zh/config/#pages
-const pages = undefined
-// const pages = {
-//   index: './src/main.js',
-//   subpage: './src/subpage.js'
-// }
+// 设置不参与构建的库
+const externals = {}
+keys(pages).forEach(name => {
+  cdn[name].forEach(p => {
+    externals[p.name] = p.library
+  })
+})
 
 module.exports = {
   // 根据你的实际情况更改这里
@@ -69,30 +83,94 @@ module.exports = {
   },
   // 默认设置: https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-service/lib/config/base.js
   chainWebpack: config => {
-    /**
-     * 添加 CDN 参数到 htmlWebpackPlugin 配置中
-     * 已适配多页
-     */
-    const htmlPluginNames = chain(pages).keys().map(page => 'html-' + page).value()
-    const targetHtmlPluginNames = htmlPluginNames.length ? htmlPluginNames : ['html']
-    each(targetHtmlPluginNames, name => {
-      config.plugin(name).tap(options => {
-        set(options, '[0].cdn', process.env.NODE_ENV === 'production' ? cdn : [])
+    config.optimization.runtimeChunk({
+      name: 'manifest'
+    })
+    config.optimization.splitChunks({
+      cacheGroups: {
+        // External dependencies common to all pages
+        libs: {
+          name: 'chunk-vendor',
+          chunks: 'initial',
+          minChunks: 1,
+          test: /[\\/]node_modules[\\/]/,
+          priority: 1,
+          reuseExistingChunk: true,
+          enforce: true
+        },
+        // Code common to all pages
+        common: {
+          name: 'chunk-common',
+          chunks: 'initial',
+          minChunks: 2,
+          maxInitialRequests: 5,
+          minSize: 0,
+          priority: 2,
+          reuseExistingChunk: true,
+          enforce: true
+        },
+        // External dependencies that are only used by the index page
+        index: {
+          name: 'chunk-index',
+          chunks: 'all',
+          minChunks: 1,
+          test: /[\\/]node_modules[\\/](sortablejs|screenfull|nprogress|hotkeys-js|fuse\.js|better-scroll|lowdb|shortid)[\\/]/,
+          priority: 3,
+          reuseExistingChunk: true,
+          enforce: true
+        },
+        // Vue family packages
+        vue: {
+          name: 'chunk-vue',
+          test: /[\\/]node_modules[\\/](vue|vue-router|vuex)[\\/]/,
+          chunks: 'all',
+          priority: 3,
+          reuseExistingChunk: true,
+          enforce: true
+        },
+        // only element-ui
+        element: {
+          name: 'chunk-element',
+          test: /[\\/]node_modules[\\/]element-ui[\\/]/,
+          chunks: 'all',
+          priority: 3,
+          reuseExistingChunk: true,
+          enforce: true
+        },
+        // only vxe
+        vxe: {
+          name: 'chunk-vxe',
+          test: /[\\/]node_modules[\\/](vxe-table(-plugin.+)?|xe-utils)[\\/]/,
+          chunks: 'all',
+          priority: 3,
+          reuseExistingChunk: true,
+          enforce: true
+        }
+      }
+    })
+    // Add the CDN settings to the settings of the htmlwebpackplugin plug-in
+    keys(pages).forEach(name => {
+      const packages = cdn[name]
+      config.plugin(`html-${name}`).tap(options => {
+        const setting = {
+          css: compact(map(packages, 'css')),
+          js: compact(map(packages, 'js'))
+        }
+        set(options, '[0].cdn', process.env.NODE_ENV === 'production' ? setting : [])
         return options
       })
     })
     /**
      * 删除懒加载模块的 prefetch preload，降低带宽压力
+     * Remove prefetch preload settings for lazy load modules
      * https://cli.vuejs.org/zh/guide/html-and-static-assets.html#prefetch
      * https://cli.vuejs.org/zh/guide/html-and-static-assets.html#preload
      * 而且预渲染时生成的 prefetch 标签是 modern 版本的，低版本浏览器是不需要的
      */
-    config.plugins
-      .delete('prefetch')
-      .delete('preload')
-    // 解决 cli3 热更新失效 https://github.com/vuejs/vue-cli/issues/1559
-    config.resolve
-      .symlinks(true)
+    each(keys(pages), name => {
+      config.plugins.delete(`prefetch-${name}`)
+      config.plugins.delete(`preload-${name}`)
+    })
     config
       .plugin('theme-color-replacer')
       .use(ThemeColorReplacer, [{
