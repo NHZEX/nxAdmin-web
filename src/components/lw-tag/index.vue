@@ -36,7 +36,7 @@ export default {
     fontSize: {
       type: String,
       required: false,
-      default: '14px'
+      default: '12px'
     },
     // 背景色减少的亮度
     lighten: {
@@ -54,7 +54,7 @@ export default {
     padding: {
       type: String,
       required: false,
-      default: '5px'
+      default: '3px'
     },
   },
   computed: {

@@ -16,9 +16,13 @@
       @filter-change="handleFilterChange"
     >
       <template v-slot:genre="{row}">
-        <tag-color :values="[1, 2, 3]" :colors="['green', 'blue', 'orange']" :val="row.genre">
-          {{ row.genre_desc }}
-        </tag-color>
+        <lw-tag
+          :mapping-values="[1, 2, 3]"
+          :color="['#67C23A', '#409EFF', '#E6A23C']"
+          :value="row.genre"
+          :label="row.genre_desc"
+        >
+        </lw-tag>
       </template>
       <template v-slot:action="{ row }">
         <el-button type="primary" size="mini" @click="tableEdit(row.id)">编辑</el-button>
@@ -32,11 +36,8 @@
 </template>
 
 <script>
-import iButton from '@ivu/button'
-import Poptip from '@ivu/poptip'
 import UserEdit from './user-edit'
 import pageOption from '@/mixin/page-option'
-import TagColor from '@/components/common/tag-color'
 import { deleteUser, getRolesSelect, getUsers } from '@api/admin/admin'
 import { ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 import ContainerResize from '@/mixin/container-resize'
@@ -44,10 +45,7 @@ import ContainerResize from '@/mixin/container-resize'
 export default {
   name: 'admin-user-index',
   components: {
-    iButton,
-    Poptip,
     UserEdit,
-    TagColor,
   },
   mixins: [pageOption, ContainerResize],
   watch: {
