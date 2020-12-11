@@ -14,30 +14,28 @@
       :columns="columns"
       :data="data"
       :tree-config="{children: 'children'}"
+      :edit-config="{trigger: 'dblclick', mode: 'row', autoClear: true }"
+      @edit-closed="editColumn"
     >
       <template v-slot:sort="{ row, column }">
-        <a @click="quickEdit(row.name, column.property, row[column.property])">
+<!--        <a @click="quickEdit(row.name, column.property, row[column.property])">-->
           <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] }}</span>
-        </a>
+<!--        </a>-->
       </template>
       <template v-slot:desc="{ row, column }">
-        <a @click="quickEdit(row.name, column.property, row[column.property])">
+<!--        <a @click="quickEdit(row.name, column.property, row[column.property])">-->
           <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] ? row[column.property] : '[无注释]' }}</span>
-        </a>
+<!--        </a>-->
       </template>
       <template v-slot:action="{ row }">
         <el-button type="primary" size="mini" @click="permissionView(row.name)">查看</el-button>
       </template>
     </vxe-grid>
-    <i-qucik-edit ref="quick" @submit="quickSubmit"/>
     <admin-permission-view ref="view" ></admin-permission-view>
   </d2-container>
 </template>
 
 <script>
-import IQucikEdit from '@/components/common/i-quick-edit'
-import iButton from '@ivu/button'
-import Icon from '@ivu/icon'
 import adminPermissionView from './permission-view'
 import { getPermissions, savePermission, scanPermission } from '@api/admin/admin'
 import ContainerResize from '@/mixin/container-resize'
@@ -55,9 +53,6 @@ const recursionTree = (d) => {
 export default {
   name: 'admin-permission',
   components: {
-    iButton,
-    Icon,
-    IQucikEdit,
     adminPermissionView,
   },
   mixins: [ContainerResize],
@@ -69,8 +64,26 @@ export default {
       },
       columns: [
         { title: '权限', field: 'title', treeNode: true, width: 350 },
-        { title: '排序', field: 'sort', width: 130, slots: { default: 'sort' } },
-        { title: '注释', field: 'desc', minWidth: 150, slots: { default: 'desc' } },
+        {
+          title: '排序',
+          field: 'sort',
+          width: 130,
+          slots: { default: 'sort' },
+          editRender: {
+            name: 'input',
+            attrs: { type: 'text' }
+          }
+        },
+        {
+          title: '注释',
+          field: 'desc',
+          minWidth: 150,
+          slots: { default: 'desc' },
+          editRender: {
+            name: 'input',
+            attrs: { type: 'text' }
+          }
+        },
         { title: '查看', minWidth: 80, slots: { default: 'action' } },
       ],
       data: [
@@ -100,16 +113,9 @@ export default {
         this.load()
       })
     },
-    quickEdit (name, field, value) {
-      this.$refs.quick.openEx(name, field, value, {
-        title: field === 'sort' ? '更改排序' : '更改注释'
-      })
-    },
-    quickSubmit ({ id, field, value }) {
+    editColumn ({ row }) {
       this.loading.render = true
-      savePermission(id, {
-        [field]: value,
-      }).finally(() => {
+      savePermission(row.name, row).finally(() => {
         this.loading.render = false
         this.load()
       })
