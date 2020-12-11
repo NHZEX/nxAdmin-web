@@ -1,8 +1,8 @@
 <template>
   <d2-container ref="container">
     <div style="margin-bottom: 10px">
-      <i-button type="primary" icon="md-refresh" :loading="loading" @click="refresh">刷新</i-button>
-      <i-button type="primary" icon="md-add" @click="tableEdit()">添加</i-button>
+      <el-button type="primary" :loading="loading" @click="refresh">刷新</el-button>
+      <el-button type="primary" @click="tableEdit()">添加</el-button>
     </div>
     <vxe-grid
       ref="table"
@@ -21,10 +21,10 @@
         </tag-color>
       </template>
       <template v-slot:action="{ row }">
-        <i-button type="primary" size="small" @click="tableEdit(row.id)">编辑</i-button>
-        <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="tableDelete(row.id)">
-          <i-button type="error" size="small">删除</i-button>
-        </poptip>
+        <el-button type="primary" size="mini" @click="tableEdit(row.id)">编辑</el-button>
+        <el-popconfirm title="确认删除?" @confirm="tableDelete(row.id)">
+          <el-button type="danger" size="mini" slot="reference">删除</el-button>
+        </el-popconfirm>
       </template>
     </vxe-grid>
     <user-edit ref="edit" @on-submit="refresh"></user-edit>

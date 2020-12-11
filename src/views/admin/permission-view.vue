@@ -1,45 +1,31 @@
 <template>
-  <span>
-    <modal v-model="visible" :footer-hide="true" :title="'查看权限'" width="600"
-           :styles="{top: '20px'}"
-    >
-      <i-form v-if="visible" ref="form" :model="formData" :rules="formRule" v-loading="loading" :label-width="90">
-        <form-item prop="name" label="权限名称">
-          <i-input v-model="formData.name" :readonly="true" placeholder="Enter something..."/>
-        </form-item>
-        <form-item prop="sort" label="显示排序">
-          <i-input v-model="formData.sort" type="number" :readonly="true" placeholder="Enter something..."/>
-        </form-item>
-        <form-item prop="control" label="授权分配">
+    <el-dialog :visible.sync="visible" title="查看权限" width="700px">
+      <el-form v-if="visible" ref="form" :model="formData" :rules="formRule" v-loading="loading" label-width="80px">
+        <el-form-item prop="name" label="权限名称">
+          <el-input v-model="formData.name" :readonly="true" placeholder="Enter something..."/>
+        </el-form-item>
+        <el-form-item prop="sort" label="显示排序">
+          <el-input v-model="formData.sort" type="number" :readonly="true" placeholder="Enter something..."/>
+        </el-form-item>
+        <el-form-item prop="control" label="授权分配">
           <div >
             <vxe-grid :loading="controlLoading" :columns="controlColumns" :data="controlData"
                      max-height="350px" :show-header="false">
             </vxe-grid>
           </div>
-        </form-item>
-        <form-item prop="desc" label="描述">
-          <i-input v-model="formData.desc" :maxlength="256" :readonly="true" show-word-limit type="textarea" placeholder="Enter something..."/>
-        </form-item>
-      </i-form>
-    </modal>
-  </span>
+        </el-form-item>
+        <el-form-item prop="desc" label="描述">
+          <el-input v-model="formData.desc" :readonly="true" show-word-limit type="textarea" placeholder="Enter something..."/>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
 </template>
 
 <script>
-import iInput from '@ivu/input'
-import iForm from '@ivu/form'
-import formItem from '@ivu/form-item'
-import modal from '@ivu/modal'
 import { getPermission } from '@api/admin/admin'
 
 export default {
   name: 'admin-permission-view',
-  components: {
-    iInput,
-    iForm,
-    formItem,
-    modal,
-  },
   data: function () {
     return {
       id: '',

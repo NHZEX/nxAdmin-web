@@ -1,8 +1,8 @@
 <template>
   <d2-container ref="container">
     <div style="margin-bottom: 10px">
-      <i-button type="primary" icon="md-refresh" :loading="loading" @click="refresh">刷新</i-button>
-      <i-button type="primary" icon="md-add" @click="roleEdit()">添加</i-button>
+      <el-button type="primary" :loading="loading" @click="refresh">刷新</el-button>
+      <el-button type="primary" @click="roleEdit()">添加</el-button>
     </div>
     <vxe-grid
       ref="table"
@@ -16,10 +16,10 @@
       @filter-change="handleFilterChange"
     >
       <template v-slot:action="{ row }">
-        <i-button type="primary" size="small" @click="roleEdit(row.id)">编辑</i-button>
-        <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="roleDelete(row.id)">
-          <i-button type="error" size="small">删除</i-button>
-        </poptip>
+        <el-button type="primary" size="mini" @click="roleEdit(row.id)">编辑</el-button>
+        <el-popconfirm title="确认删除?" @confirm="roleDelete(row.id)">
+          <el-button type="danger" size="mini" slot="reference">删除</el-button>
+        </el-popconfirm>
       </template>
     </vxe-grid>
     <role-edit ref="edit" @on-submit="refresh"></role-edit>
@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import iButton from '@ivu/button'
-import Poptip from '@ivu/poptip'
 import RoleEdit from './role-edit'
 import pageOption from '@/mixin/page-option'
 import { deleteRole, getRoles } from '@api/admin/admin'
@@ -38,8 +36,6 @@ import ContainerResize from '@/mixin/container-resize'
 export default {
   name: 'admin-role-index',
   components: {
-    iButton,
-    Poptip,
     RoleEdit
   },
   mixins: [pageOption, ContainerResize],

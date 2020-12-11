@@ -1,8 +1,8 @@
 <template>
   <d2-container ref="container">
     <div style="margin-bottom: 5px">
-      <i-button type="primary" icon="md-refresh" :loading="loading.render" @click="load">刷新</i-button>
-      <i-button v-access="'admin.permission.scan'" type="warning" icon="md-refresh" :loading="loading.scan" @click="scan()">扫描权限</i-button>
+      <el-button type="primary" :loading="loading.render" @click="load">刷新</el-button>
+      <el-button v-access="'admin.permission.scan'" type="warning" :loading="loading.scan" @click="scan()">扫描权限</el-button>
     </div>
     <vxe-grid
       ref="tree"
@@ -17,16 +17,16 @@
     >
       <template v-slot:sort="{ row, column }">
         <a @click="quickEdit(row.name, column.property, row[column.property])">
-          <icon type="md-create" :size="15"/><span style="color: #515a6e">&nbsp;{{ row[column.property] }}</span>
+          <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] }}</span>
         </a>
       </template>
       <template v-slot:desc="{ row, column }">
         <a @click="quickEdit(row.name, column.property, row[column.property])">
-          <icon type="md-create" :size="15"/><span style="color: #515a6e">&nbsp;{{ row[column.property] ? row[column.property] : '[无注释]' }}</span>
+          <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] ? row[column.property] : '[无注释]' }}</span>
         </a>
       </template>
       <template v-slot:action="{ row }">
-          <i-button type="primary" size="small" @click="permissionView(row.name)">查看</i-button>
+        <el-button type="primary" size="mini" @click="permissionView(row.name)">查看</el-button>
       </template>
     </vxe-grid>
     <i-qucik-edit ref="quick" @submit="quickSubmit"/>
