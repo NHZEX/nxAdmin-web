@@ -42,7 +42,7 @@ export default {
     lighten: {
       type: Number,
       required: false,
-      default: 0.1
+      default: 0.07
     },
     // 标签文字
     label: {
@@ -121,7 +121,8 @@ export default {
 .tag {
   font-size: var(--size);
   padding: var(--padding);
-  border-radius: 0.2em;
+  border-radius: 0.3em;
   border: var(--color) solid 1px;
+  filter: saturate(1.2);
 }
 </style>
