@@ -16,13 +16,13 @@
       @filter-change="handleFilterChange"
     >
       <template v-slot:genre="{row}">
-        <lw-tag
+        <nx-tag
           :mapping-values="[1, 2, 3]"
           :color="['#67C23A', '#409EFF', '#E6A23C']"
           :value="row.genre"
           :label="row.genre_desc"
         >
-        </lw-tag>
+        </nx-tag>
       </template>
       <template v-slot:action="{ row }">
         <el-button type="primary" size="mini" @click="tableEdit(row.id)">编辑</el-button>
