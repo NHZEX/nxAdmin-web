@@ -1,20 +1,18 @@
 <template>
-  <span>
-    <modal v-model="visible" @on-visible-change="onVisible" title="角色编辑" width="500px" footer-hide :styles="{top: '20px'}">
-      <spin fix v-if="loading"/>
-      <i-form ref="form" :model="formData" :rules="rules" :label-width="80">
-        <form-item label="类型" prop="genre" v-show="!id">
-          <i-select v-model="formDataGenre" placeholder="请选择角色类型">
-            <i-option v-for="item in rolesGenre" :key="item.value" :value="item.value">{{ item.label }}</i-option>
-          </i-select>
-        </form-item>
-        <form-item label="名称" prop="name">
-          <i-input type="text" v-model="formData.name"></i-input>
-        </form-item>
-        <form-item label="状态" prop="status">
-          <checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></checkbox>
-        </form-item>
-        <form-item label="权限">
+    <el-dialog :visible.sync="visible" @close="onClose" title="角色编辑" width="500px" footer-hide :styles="{top: '20px'}">
+      <el-form ref="form" :model="formData" :rules="rules" label-width="80px" v-loading="loading">
+        <el-form-item label="类型" prop="genre" v-show="!id">
+          <el-select v-model="formDataGenre" placeholder="请选择角色类型">
+            <el-option v-for="item in rolesGenre" :key="item.value" :value="item.value" :label="item.label"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="名称" prop="name">
+          <el-input type="text" v-model="formData.name"></el-input>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></el-checkbox>
+        </el-form-item>
+        <el-form-item label="权限">
           <div class="radius">
             <el-tree ref="tree"
                      show-checkbox
@@ -25,44 +23,21 @@
                      :props="{children: 'children',label: 'name'}"
             ></el-tree>
           </div>
-        </form-item>
-        <form-item>
-          <i-button type="primary" @click="submit">提交</i-button>
-        </form-item>
-      </i-form>
-    </modal>
-  </span>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submit">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
 </template>
 
 <script>
-import Modal from '@ivu/modal'
-import iInput from '@ivu/input'
-import iForm from '@ivu/form'
-import FormItem from '@ivu/form-item'
-import iSelect from '@ivu/select'
-import iOption from '@ivu/option'
-import Checkbox from '@ivu/checkbox'
-import iButton from '@ivu/button'
-import Spin from '@ivu/spin'
 import { saveRole, getRole, getPermissions } from '@api/admin/admin'
 import { ADMIN_ROLES_GENRE, ADMIN_USER_ROLE_MAPPING, toLabelValue } from '@/store/constant'
 import store from '@/store'
 
 export default {
   name: 'RoleEdit',
-  components: {
-    Modal,
-    iInput,
-    iForm,
-    FormItem,
-    iSelect,
-    iOption,
-    Checkbox,
-    iButton,
-    Spin,
-  },
-  props: {
-  },
   data () {
     return {
       id: 0,
@@ -116,10 +91,8 @@ export default {
       this.render()
       this.visible = true
     },
-    onVisible (visible) {
-      if (!visible) {
-        this.$refs.form.resetFields()
-      }
+    onClose () {
+      this.$refs.form.resetFields()
     },
     renderContent (h, { data }) {
       return h('span', {

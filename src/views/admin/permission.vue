@@ -1,8 +1,8 @@
 <template>
   <d2-container ref="container">
     <div style="margin-bottom: 5px">
-      <i-button type="primary" icon="md-refresh" :loading="loading.render" @click="load">刷新</i-button>
-      <i-button v-access="'admin.permission.scan'" type="warning" icon="md-refresh" :loading="loading.scan" @click="scan()">扫描权限</i-button>
+      <el-button type="primary" :loading="loading.render" @click="load" icon="el-icon-refresh">刷新</el-button>
+      <el-button v-access="'admin.permission.scan'" type="warning" :loading="loading.scan" @click="scan()" icon="el-icon-s-opportunity">扫描权限</el-button>
     </div>
     <vxe-grid
       ref="tree"
@@ -14,30 +14,28 @@
       :columns="columns"
       :data="data"
       :tree-config="{children: 'children'}"
+      :edit-config="{trigger: 'dblclick', mode: 'row', autoClear: true }"
+      @edit-closed="editColumn"
     >
       <template v-slot:sort="{ row, column }">
-        <a @click="quickEdit(row.name, column.property, row[column.property])">
-          <icon type="md-create" :size="15"/><span style="color: #515a6e">&nbsp;{{ row[column.property] }}</span>
-        </a>
+<!--        <a @click="quickEdit(row.name, column.property, row[column.property])">-->
+          <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] }}</span>
+<!--        </a>-->
       </template>
       <template v-slot:desc="{ row, column }">
-        <a @click="quickEdit(row.name, column.property, row[column.property])">
-          <icon type="md-create" :size="15"/><span style="color: #515a6e">&nbsp;{{ row[column.property] ? row[column.property] : '[无注释]' }}</span>
-        </a>
+<!--        <a @click="quickEdit(row.name, column.property, row[column.property])">-->
+          <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] ? row[column.property] : '[无注释]' }}</span>
+<!--        </a>-->
       </template>
       <template v-slot:action="{ row }">
-          <i-button type="primary" size="small" @click="permissionView(row.name)">查看</i-button>
+        <el-button type="primary" size="mini" @click="permissionView(row.name)">查看</el-button>
       </template>
     </vxe-grid>
-    <i-qucik-edit ref="quick" @submit="quickSubmit"/>
     <admin-permission-view ref="view" ></admin-permission-view>
   </d2-container>
 </template>
 
 <script>
-import IQucikEdit from '@/components/common/i-quick-edit'
-import iButton from '@ivu/button'
-import Icon from '@ivu/icon'
 import adminPermissionView from './permission-view'
 import { getPermissions, savePermission, scanPermission } from '@api/admin/admin'
 import ContainerResize from '@/mixin/container-resize'
@@ -55,9 +53,6 @@ const recursionTree = (d) => {
 export default {
   name: 'admin-permission',
   components: {
-    iButton,
-    Icon,
-    IQucikEdit,
     adminPermissionView,
   },
   mixins: [ContainerResize],
@@ -69,8 +64,26 @@ export default {
       },
       columns: [
         { title: '权限', field: 'title', treeNode: true, width: 350 },
-        { title: '排序', field: 'sort', width: 130, slots: { default: 'sort' } },
-        { title: '注释', field: 'desc', minWidth: 150, slots: { default: 'desc' } },
+        {
+          title: '排序',
+          field: 'sort',
+          width: 130,
+          slots: { default: 'sort' },
+          editRender: {
+            name: 'input',
+            attrs: { type: 'text' }
+          }
+        },
+        {
+          title: '注释',
+          field: 'desc',
+          minWidth: 150,
+          slots: { default: 'desc' },
+          editRender: {
+            name: 'input',
+            attrs: { type: 'text' }
+          }
+        },
         { title: '查看', minWidth: 80, slots: { default: 'action' } },
       ],
       data: [
@@ -100,16 +113,9 @@ export default {
         this.load()
       })
     },
-    quickEdit (name, field, value) {
-      this.$refs.quick.openEx(name, field, value, {
-        title: field === 'sort' ? '更改排序' : '更改注释'
-      })
-    },
-    quickSubmit ({ id, field, value }) {
+    editColumn ({ row }) {
       this.loading.render = true
-      savePermission(id, {
-        [field]: value,
-      }).finally(() => {
+      savePermission(row.name, row).finally(() => {
         this.loading.render = false
         this.load()
       })

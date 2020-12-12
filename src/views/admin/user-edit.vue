@@ -1,50 +1,40 @@
 <template>
-  <modal v-model="visible" @on-visible-change="onVisible" title="用户编辑" width="450px" footer-hide :styles="{top: '20px'}">
-    <spin fix v-if="loading"/>
-    <i-form ref="form" :model="formData" :rules="rules" :label-width="90">
-      <form-item label="账户类型" prop="genre" v-show="!id">
-        <i-select v-model="formData.genre" placeholder="请选择角色类型">
-          <i-option v-for="item in usersGenre" :key="item.value" :value="item.value" :selected="item.disabled">{{ item.label }}</i-option>
-        </i-select>
-      </form-item>
-      <form-item label="账户角色" prop="role_id">
-        <i-select v-model="formDataRoleId" placeholder="请选择用户角色">
-          <i-option v-for="item in roleList" :key="item.value" :value="item.value">{{ item.label }}</i-option>
-        </i-select>
-      </form-item>
-      <form-item label="账号" prop="username">
-        <i-input name="username"  v-model.trim="formData.username" :readonly="!!id"></i-input>
-      </form-item>
-      <form-item label="昵称" prop="nickname">
-        <i-input name="nickname" v-model.trim="formData.nickname"></i-input>
-      </form-item>
-      <form-item label="密码" prop="password">
-        <i-input type="password" v-model.trim="formData.password" placeholder="为空则不更改用户密码" password></i-input>
-      </form-item>
-      <form-item label="二次确认" prop="repeatPassword" v-show="!!formData.password">
-        <i-input type="password" v-model.trim="formData.repeatPassword" placeholder="为空则不更改用户密码" password></i-input>
-      </form-item>
-      <form-item label="状态" prop="status">
-        <checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></checkbox>
-      </form-item>
-      <form-item>
-        <i-button type="primary" @click="submit">提交</i-button>
-      </form-item>
-    </i-form>
-  </modal>
+  <el-dialog :visible.sync="visible" @close="onClose" title="用户编辑" width="450px" footer-hide :styles="{top: '20px'}">
+    <el-form ref="form" :model="formData" :rules="rules" label-width="80px" v-loading="loading">
+      <el-form-item label="账户类型" prop="genre" v-show="!id">
+        <el-select v-model="formData.genre" placeholder="请选择角色类型">
+          <el-option v-for="item in usersGenre" :key="item.value" :value="item.value" :label="item.label"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="账户角色" prop="role_id">
+        <el-select v-model="formDataRoleId" placeholder="请选择用户角色">
+          <el-option v-for="item in roleList" :key="item.value" :value="item.value" :label="item.label"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="账号" prop="username">
+        <el-input name="username"  v-model.trim="formData.username" :readonly="!!id"></el-input>
+      </el-form-item>
+      <el-form-item label="昵称" prop="nickname">
+        <el-input name="nickname" v-model.trim="formData.nickname"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input type="password" v-model.trim="formData.password" placeholder="为空则不更改用户密码" password></el-input>
+      </el-form-item>
+      <el-form-item label="二次确认" prop="repeatPassword" v-show="!!formData.password">
+        <el-input type="password" v-model.trim="formData.repeatPassword" placeholder="为空则不更改用户密码" password></el-input>
+      </el-form-item>
+      <el-form-item label="状态" prop="status">
+        <el-checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></el-checkbox>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submit">提交</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 </template>
 
 <script>
 import store from '@/store/index'
-import Modal from '@ivu/modal'
-import iInput from '@ivu/input'
-import iForm from '@ivu/form'
-import FormItem from '@ivu/form-item'
-import iSelect from '@ivu/select'
-import iOption from '@ivu/option'
-import Checkbox from '@ivu/checkbox'
-import iButton from '@ivu/button'
-import Spin from '@ivu/spin'
 import { getUser, getRolesSelect, saveUser } from '@api/admin/admin'
 import { ADMIN_USER_ROLE_MAPPING, ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 import { cloneDeep } from 'lodash'
@@ -52,19 +42,6 @@ import { hash } from '@/libs/util.crypto'
 
 export default {
   name: 'UserEdit',
-  components: {
-    Modal,
-    iInput,
-    iForm,
-    FormItem,
-    iSelect,
-    iOption,
-    Checkbox,
-    iButton,
-    Spin,
-  },
-  props: {
-  },
   data () {
     return {
       id: 0,
@@ -143,13 +120,13 @@ export default {
   methods: {
     open (id = 0) {
       this.id = id
-      this.loadData()
       this.visible = true
+      this.$nextTick(() => {
+        this.loadData()
+      })
     },
-    onVisible (visible) {
-      if (!visible) {
-        this.$refs.form.resetFields()
-      }
+    onClose () {
+      this.$refs.form.resetFields()
     },
     loadData () {
       this.loading = true
@@ -183,7 +160,7 @@ export default {
             this.$emit('on-submit')
           })
         } else {
-          this.$ivuMessage.error('请输入正确的表单')
+          this.$message.error('请输入正确的表单')
         }
       })
     },

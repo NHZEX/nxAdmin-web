@@ -7,3 +7,5 @@ Vue.component('d2-container', d2Container)
 Vue.component('d2-icon', () => import('./d2-icon'))
 Vue.component('d2-icon-svg', () => import('./d2-icon-svg/index.vue'))
 Vue.component('d2-scrollbar', () => import('./d2-scrollbar'))
+// 自定义组件
+Vue.component('nx-tag', () => import('./nx-tag'))

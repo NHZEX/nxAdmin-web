@@ -60,6 +60,13 @@ module.exports = {
       // 设置 scss 公用变量文件
       sass: {
         additionalData: '@import \'~@/assets/style/public.scss\';'
+      },
+      less: {
+        lessOptions: {
+          modifyVars: {
+            blue: '#2262AB'
+          }
+        }
       }
     }
   },

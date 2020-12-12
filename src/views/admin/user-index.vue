@@ -1,8 +1,8 @@
 <template>
   <d2-container ref="container">
     <div style="margin-bottom: 10px">
-      <i-button type="primary" icon="md-refresh" :loading="loading" @click="refresh">刷新</i-button>
-      <i-button type="primary" icon="md-add" @click="tableEdit()">添加</i-button>
+      <el-button type="primary" :loading="loading" @click="refresh" icon="el-icon-refresh">刷新</el-button>
+      <el-button type="primary" @click="tableEdit()" icon="el-icon-plus">添加</el-button>
     </div>
     <vxe-grid
       ref="table"
@@ -16,15 +16,19 @@
       @filter-change="handleFilterChange"
     >
       <template v-slot:genre="{row}">
-        <tag-color :values="[1, 2, 3]" :colors="['green', 'blue', 'orange']" :val="row.genre">
-          {{ row.genre_desc }}
-        </tag-color>
+        <nx-tag
+          :mapping-values="[1, 2, 3]"
+          :color="['#67C23A', '#409EFF', '#E6A23C']"
+          :value="row.genre"
+          :label="row.genre_desc"
+        >
+        </nx-tag>
       </template>
       <template v-slot:action="{ row }">
-        <i-button type="primary" size="small" @click="tableEdit(row.id)">编辑</i-button>
-        <poptip confirm transfer placement="top-end" title="确认删除?" @on-ok="tableDelete(row.id)">
-          <i-button type="error" size="small">删除</i-button>
-        </poptip>
+        <el-button type="primary" size="mini" @click="tableEdit(row.id)">编辑</el-button>
+        <el-popconfirm title="确认删除?" @confirm="tableDelete(row.id)" style="margin-left: 10px">
+          <el-button type="danger" size="mini" slot="reference">删除</el-button>
+        </el-popconfirm>
       </template>
     </vxe-grid>
     <user-edit ref="edit" @on-submit="refresh"></user-edit>
@@ -32,11 +36,8 @@
 </template>
 
 <script>
-import iButton from '@ivu/button'
-import Poptip from '@ivu/poptip'
 import UserEdit from './user-edit'
 import pageOption from '@/mixin/page-option'
-import TagColor from '@/components/common/tag-color'
 import { deleteUser, getRolesSelect, getUsers } from '@api/admin/admin'
 import { ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 import ContainerResize from '@/mixin/container-resize'
@@ -44,10 +45,7 @@ import ContainerResize from '@/mixin/container-resize'
 export default {
   name: 'admin-user-index',
   components: {
-    iButton,
-    Poptip,
     UserEdit,
-    TagColor,
   },
   mixins: [pageOption, ContainerResize],
   watch: {
