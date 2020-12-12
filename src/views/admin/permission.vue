@@ -17,7 +17,9 @@
       :data="data"
       :tree-config="{children: 'children'}"
       :edit-config="{trigger: 'dblclick', mode: 'row', autoClear: true, showStatus: true }"
+      :expand-config="{accordion: true, lazy: true, loadMethod: loadContentMethod}"
       @edit-closed="editClosed"
+      @toggle-row-expand="toggleRowExpand"
     >
       <template v-slot:sort="{ row, column }">
           <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] }}</span>
@@ -26,20 +28,30 @@
           <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] ? row[column.property] : '[无注释]' }}</span>
       </template>
       <template v-slot:action="{ row }">
-        <el-button type="info" size="mini" @click="permissionView(row.name)">查看</el-button>
+        <el-button type="info" size="mini" :loading="row._control.loading"
+                   icon="el-icon-document"
+                   @click="permissionView(row.name, row)"
+        >查看节点</el-button>
+      </template>
+      <template v-slot:expand="{ row }">
+        <vxe-grid :columns="control.columns" :data="row._control.data" max-height="350px">
+        </vxe-grid>
       </template>
     </vxe-grid>
-    <admin-permission-view ref="view" ></admin-permission-view>
   </d2-container>
 </template>
 
 <script>
-import adminPermissionView from './permission-view'
-import { getPermissions, savePermission, scanPermission } from '@api/admin/admin'
+import { getPermission, getPermissions, savePermission, scanPermission } from '@api/admin/admin'
 import ContainerResize from '@/mixin/container-resize'
 
 const recursionTree = (d) => {
   return d.map(el => {
+    el._control = {
+      loading: false,
+      open: false,
+      data: [],
+    }
     if (el.children && el.children.length) {
       el._showChildren = true
       el.children = recursionTree(el.children)
@@ -50,9 +62,7 @@ const recursionTree = (d) => {
 
 export default {
   name: 'admin-permission',
-  components: {
-    adminPermissionView,
-  },
+  components: {},
   mixins: [ContainerResize],
   data () {
     return {
@@ -61,6 +71,7 @@ export default {
         scan: false,
       },
       columns: [
+        { type: 'expand', visible: false, slots: { content: 'expand' } },
         { title: '权限', field: 'title', treeNode: true, width: 350 },
         {
           title: '排序',
@@ -86,11 +97,19 @@ export default {
       ],
       data: [],
       isChange: false,
+      control: {
+        loading: false,
+        columns: [
+          { title: '节点', field: 'name', width: 280 },
+          { title: '注释', field: 'desc' },
+        ],
+        data: [],
+      },
     }
   },
   methods: {
-    permissionView (id) {
-      this.$refs.view.open(id)
+    permissionView (id, row) {
+      this.$refs.tree.toggleRowExpand(row)
     },
     async load () {
       this.loading.render = true
@@ -104,6 +123,22 @@ export default {
       this.data = recursionTree(data)
       await this.$nextTick()
       this.$refs.tree.setAllTreeExpand(true)
+    },
+    async loadContentMethod ({ row }) {
+      row._control.loading = true
+      row._control.open = true
+      row._control.data = []
+      try {
+        const result = await getPermission(row.name)
+        if (result) {
+          row._control.data = result.allow
+        }
+      } finally {
+        row._control.loading = false
+      }
+    },
+    toggleRowExpand ({ expanded, row }) {
+      row._control.open = expanded
     },
     scan () {
       this.loading.scan = true
