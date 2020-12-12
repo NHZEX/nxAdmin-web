@@ -2,10 +2,10 @@
 import { cloneDeep } from 'lodash'
 
 export default {
-  name: 'Index',
+  name: 'nx-tag',
   props: {
     value: {
-      type: String | Boolean | Number,
+      type: [String, Boolean, Number],
       required: false,
       default: () => {
         return true
@@ -20,7 +20,7 @@ export default {
     },
     // 主颜色
     color: {
-      type: Array | String,
+      type: [Array, String],
       required: false,
       default: () => {
         return ['#409EFF']
@@ -46,7 +46,7 @@ export default {
     },
     // 标签文字
     label: {
-      type: String | Number,
+      type: [String, Number],
       required: false,
       default: 'null'
     },
