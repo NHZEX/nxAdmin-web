@@ -1,6 +1,6 @@
 <template>
   <d2-container ref="container">
-    <div style="margin-bottom: 5px">
+    <div style="margin-bottom: 10px">
       <el-button type="primary" :loading="loading.render" @click="load" icon="el-icon-refresh">刷新</el-button>
       <el-button v-access="'admin.permission.scan'" type="warning" :loading="loading.scan || loading.render" @click="scan()" icon="el-icon-s-opportunity">扫描权限</el-button>
       <el-button v-access="'admin.permission.edit'" type="success" :loading="loading.render" :disabled="!isChange" @click="saveChange()" icon="el-icon-upload">保存更改</el-button>
@@ -26,7 +26,7 @@
           <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] ? row[column.property] : '[无注释]' }}</span>
       </template>
       <template v-slot:action="{ row }">
-        <el-button type="primary" size="mini" @click="permissionView(row.name)">查看</el-button>
+        <el-button type="info" size="mini" @click="permissionView(row.name)">查看</el-button>
       </template>
     </vxe-grid>
     <admin-permission-view ref="view" ></admin-permission-view>

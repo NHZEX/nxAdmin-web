@@ -10,7 +10,8 @@ export default {
       containerResizeOptions: {
         target: '$refs.container.$el',
         targetEl: null,
-        heightOffset: -45,
+        heightOffset: -62,
+        minHeight: 150,
       },
     }
   },
@@ -27,6 +28,9 @@ export default {
     if (this.containerResizeOptions.targetEl) {
       erd.listenTo(this.containerResizeOptions.targetEl, (el) => {
         this.targetHeight = el.offsetHeight + this.containerResizeOptions.heightOffset
+        if (this.containerResizeOptions.minHeight > this.targetHeight) {
+          this.targetHeight = this.containerResizeOptions.minHeight
+        }
       })
     }
   },
