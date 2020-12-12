@@ -1,8 +1,8 @@
 <template>
   <d2-container ref="container">
     <div style="margin-bottom: 10px">
-      <el-button type="primary" :loading="loading" @click="refresh">刷新</el-button>
-      <el-button type="primary" @click="tableEdit()">添加</el-button>
+      <el-button type="primary" :loading="loading" @click="refresh" icon="el-icon-refresh">刷新</el-button>
+      <el-button type="primary" @click="tableEdit()" icon="el-icon-plus">添加</el-button>
     </div>
     <vxe-grid
       ref="table"

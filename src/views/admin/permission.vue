@@ -1,8 +1,8 @@
 <template>
   <d2-container ref="container">
     <div style="margin-bottom: 5px">
-      <el-button type="primary" :loading="loading.render" @click="load">刷新</el-button>
-      <el-button v-access="'admin.permission.scan'" type="warning" :loading="loading.scan" @click="scan()">扫描权限</el-button>
+      <el-button type="primary" :loading="loading.render" @click="load" icon="el-icon-refresh">刷新</el-button>
+      <el-button v-access="'admin.permission.scan'" type="warning" :loading="loading.scan" @click="scan()" icon="el-icon-s-opportunity">扫描权限</el-button>
     </div>
     <vxe-grid
       ref="tree"
