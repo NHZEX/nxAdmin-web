@@ -2,30 +2,28 @@
   <d2-container ref="container">
     <div style="margin-bottom: 5px">
       <el-button type="primary" :loading="loading.render" @click="load" icon="el-icon-refresh">刷新</el-button>
-      <el-button v-access="'admin.permission.scan'" type="warning" :loading="loading.scan" @click="scan()" icon="el-icon-s-opportunity">扫描权限</el-button>
+      <el-button v-access="'admin.permission.scan'" type="warning" :loading="loading.scan || loading.render" @click="scan()" icon="el-icon-s-opportunity">扫描权限</el-button>
+      <el-button v-access="'admin.permission.edit'" type="success" :loading="loading.render" :disabled="!isChange" @click="saveChange()" icon="el-icon-upload">保存更改</el-button>
     </div>
     <vxe-grid
       ref="tree"
       show-overflow
       row-key
       row-id="name"
+      :keep-source="true"
       :height="targetHeight"
       :loading="loading.render"
       :columns="columns"
       :data="data"
       :tree-config="{children: 'children'}"
-      :edit-config="{trigger: 'dblclick', mode: 'row', autoClear: true }"
-      @edit-closed="editColumn"
+      :edit-config="{trigger: 'dblclick', mode: 'row', autoClear: true, showStatus: true }"
+      @edit-closed="editClosed"
     >
       <template v-slot:sort="{ row, column }">
-<!--        <a @click="quickEdit(row.name, column.property, row[column.property])">-->
           <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] }}</span>
-<!--        </a>-->
       </template>
       <template v-slot:desc="{ row, column }">
-<!--        <a @click="quickEdit(row.name, column.property, row[column.property])">-->
           <i class="el-icon-edit"/><span style="color: #515a6e">&nbsp;{{ row[column.property] ? row[column.property] : '[无注释]' }}</span>
-<!--        </a>-->
       </template>
       <template v-slot:action="{ row }">
         <el-button type="primary" size="mini" @click="permissionView(row.name)">查看</el-button>
@@ -86,8 +84,8 @@ export default {
         },
         { title: '查看', minWidth: 80, slots: { default: 'action' } },
       ],
-      data: [
-      ],
+      data: [],
+      isChange: false,
     }
   },
   methods: {
@@ -96,6 +94,7 @@ export default {
     },
     async load () {
       this.loading.render = true
+      this.isChange = false
       let data
       try {
         data = await getPermissions()
@@ -113,13 +112,24 @@ export default {
         this.load()
       })
     },
-    editColumn ({ row }) {
+    editClosed () {
+      const rows = this.$refs.tree.getUpdateRecords()
+      this.isChange = rows.length > 0
+    },
+    saveChange () {
       this.loading.render = true
-      savePermission(row.name, row).finally(() => {
+      const rows = {}
+      for (const row of this.$refs.tree.getUpdateRecords()) {
+        rows[row.name] = {
+          sort: row.sort,
+          desc: row.desc,
+        }
+      }
+      savePermission(null, rows, true).finally(() => {
         this.loading.render = false
         this.load()
       })
-    }
+    },
   },
   async mounted () {
     await this.$nextTick()

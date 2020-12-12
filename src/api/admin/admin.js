@@ -81,8 +81,18 @@ export function getPermission (id) {
   }
 }
 
-export function savePermission (id, data) {
-  return require.put(`/api/admin/permission/${id}`, data)
+export function savePermission (id, data, batch = false) {
+  let result
+  if (batch) {
+    id = 'root'
+    result = {
+      batch: batch,
+      list: data,
+    }
+  } else {
+    result = data
+  }
+  return require.put(`/api/admin/permission/${id}`, result)
 }
 
 export function scanPermission () {
