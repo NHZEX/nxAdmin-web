@@ -17,7 +17,7 @@
     >
       <template v-slot:action="{ row }">
         <el-button type="primary" size="mini" @click="roleEdit(row.id)">编辑</el-button>
-        <el-popconfirm title="确认删除?" @confirm="roleDelete(row.id)">
+        <el-popconfirm title="确认删除?" @confirm="roleDelete(row.id)" style="margin-left: 10px">
           <el-button type="danger" size="mini" slot="reference">删除</el-button>
         </el-popconfirm>
       </template>
