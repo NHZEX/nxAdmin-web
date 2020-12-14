@@ -7,7 +7,7 @@ export default {
     // 主题
     list: get(setting, 'theme.list', []),
     // 现在激活的主题 这应该是一个名字 不是对象
-    activeName: get(setting, 'theme.list[0].name', 'd2')
+    activeName: get(setting, 'theme.list[0].name', setting.theme.default)
   },
   getters: {
     /**
@@ -48,7 +48,7 @@ export default {
       const activeName = await dispatch('d2admin/db/get', {
         dbName: 'sys',
         path: 'theme.activeName',
-        defaultValue: state.list[0].name,
+        defaultValue: setting.theme.default,
         user: true
       }, { root: true })
       // 检查这个主题在主题列表里是否存在

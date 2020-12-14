@@ -42,6 +42,7 @@ export default {
   },
   // 注册的主题
   theme: {
+    default: 'd2',
     list: [
       {
         title: 'd2admin 经典',
