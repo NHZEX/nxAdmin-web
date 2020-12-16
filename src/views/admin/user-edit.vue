@@ -72,16 +72,18 @@ export default {
           { required: true, min: 2, max: 64 },
         ],
         password: [
-          // { required: !this.id }, iview表单动态规则响应不完善
+          // { required: !this.id }, 表单动态规则响应可能不完善
           { min: 6, max: 64 },
         ],
         repeatPassword: [
           {
             validator: (rule, value, callback) => {
-              if (value === undefined) {
-                return true
+              if (value === undefined || value === this.formData.password) {
+                callback()
+              } else {
+                // eslint-disable-next-line standard/no-callback-literal
+                callback(false)
               }
-              return value === this.formData.password
             },
             message: '两次输入的密码要一致',
           }
