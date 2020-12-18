@@ -28,6 +28,7 @@
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
           <fa-icon iconx="bars"/>
         </div>
+        <span class="d2-header-title" v-if="!settingFeatures.tabs">{{ this.$route.meta.title }}</span>
         <d2-menu-header flex-box="1"/>
         <!-- 顶栏右侧 -->
         <div class="d2-header-right" flex-box="0">
