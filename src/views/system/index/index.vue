@@ -1,5 +1,5 @@
 <template>
-  <d2-container type="ghost">
+  <d2-container>
     <div style="padding: 10px 0 10px">
       <el-table :data="tableData" border size="mini" v-loading="loading" style="width: 450px">
         <el-table-column label="系统信息">

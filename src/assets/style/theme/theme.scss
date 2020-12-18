@@ -68,7 +68,7 @@
   .el-menu--horizontal .el-menu .el-submenu__title:hover {
     @include theme-menu-hover-style;
   }
-  
+
   // 顶栏
   .d2-theme-header {
     // 顶栏菜单空间不足时显示的滚动控件
@@ -161,6 +161,9 @@
           }
         }
       }
+    }
+    .d2-header-title {
+      color: $theme-header-item-color;
     }
   }
   // [布局] 顶栏下面
@@ -301,7 +304,7 @@
           // [组件]
           // d2-container-full 填充型
           .d2-container-full {
-            border: $theme-container-border-outer;
+            //border: $theme-container-border-outer;
             border-top: none;
             border-bottom: none;
             .d2-container-full__header {
@@ -309,7 +312,7 @@
               background: $theme-container-header-footer-background-color;
             }
             .d2-container-full__body {
-              background: $theme-container-background-color;
+              background: rgba($theme-container-background-color, .9);
             }
             .d2-container-full__footer {
               border-top: $theme-container-border-inner;

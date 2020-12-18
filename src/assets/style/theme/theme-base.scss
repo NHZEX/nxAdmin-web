@@ -182,6 +182,13 @@
           @extend %unable-select;
         }
       }
+      .d2-header-title {
+        font-family: "Helvetica","Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        font-weight: bold;
+        line-height: 60px;
+        font-size: 18px;
+        user-select: none;
+      }
     }
     // [布局] 顶栏下面
     .d2-theme-container {
