@@ -38,7 +38,7 @@ import store from '@/store/index'
 import { getUser, getRolesSelect, saveUser } from '@api/admin/admin'
 import { ADMIN_USER_ROLE_MAPPING, ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 import { cloneDeep } from 'lodash'
-import { hash } from '@/libs/util.crypto'
+import { hash_sha256 } from '@ozxin/js-tools/src/crypto/hash'
 
 export default {
   name: 'UserEdit',
@@ -152,7 +152,7 @@ export default {
           this.loading = true
           const data = cloneDeep(this.formData)
           if (data.password) {
-            data.password = hash('sha256', data.password)
+            data.password = hash_sha256(data.password)
           }
           delete data.repeatPassword
           saveUser(this.id, data).then(() => {

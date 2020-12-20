@@ -1200,6 +1200,13 @@
   dependencies:
     mkdirp "^1.0.4"
 
+"@ozxin/js-tools@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/@ozxin/js-tools/download/@ozxin/js-tools-1.0.0.tgz#1fc5f61a00a4996cff77836c860f8bb788cbac8a"
+  integrity sha1-H8X2GgCkmWz/d4Nshg+Lt4jLrIo=
+  dependencies:
+    node-forge "^0.10.0"
+
 "@polka/url@^1.0.0-next.9":
   version "1.0.0-next.11"
   resolved "https://registry.npm.taobao.org/@polka/url/download/@polka/url-1.0.0-next.11.tgz#aeb16f50649a91af79dbe36574b66d0f9e4d9f71"
