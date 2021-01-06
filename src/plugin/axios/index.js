@@ -1,6 +1,6 @@
 import store from '@/store'
 import axios from 'axios'
-import ivuMessage from '@ivu/message'
+import { Message } from 'element-ui-eoi'
 import util from '@/libs/util'
 import router from '@/router'
 import { isPlainObject, get } from 'lodash'
@@ -35,9 +35,10 @@ function handleError (error) {
     console.log(error)
   }
   // 显示提示
-  ivuMessage.error({
-    content: error.message,
-    duration: 5,
+  Message({
+    message: error.message,
+    type: 'error',
+    duration: 5 * 1000,
   })
 }
 
