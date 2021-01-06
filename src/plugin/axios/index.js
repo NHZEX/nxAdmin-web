@@ -113,6 +113,12 @@ service.interceptors.response.use(
           status: INVALID_SESSION,
         },
       })
+      Message({
+        message: '登录状态过期，请重新登录！',
+        type: 'warning',
+        duration: 5 * 1000,
+      })
+      throw error
     }
     // 异常处理分支
     if (error && error.response) {
