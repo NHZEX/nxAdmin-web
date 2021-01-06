@@ -18,10 +18,10 @@
         <el-input name="nickname" v-model.trim="formData.nickname"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model.trim="formData.password" placeholder="为空则不更改用户密码" password></el-input>
+        <el-input type="password" v-model.trim="formData.password" placeholder="为空则不更改用户密码"></el-input>
       </el-form-item>
       <el-form-item label="二次确认" prop="repeatPassword" v-show="!!formData.password">
-        <el-input type="password" v-model.trim="formData.repeatPassword" placeholder="为空则不更改用户密码" password></el-input>
+        <el-input type="password" v-model.trim="formData.repeatPassword" placeholder="为空则不更改用户密码"></el-input>
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></el-checkbox>
