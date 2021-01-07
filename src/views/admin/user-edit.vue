@@ -35,7 +35,7 @@
 
 <script>
 import store from '@/store/index'
-import { getUser, getRolesSelect, saveUser } from '@api/admin/admin'
+import { users, roles } from '@api/admin/admin'
 import { ADMIN_USER_ROLE_MAPPING, ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 import { cloneDeep } from 'lodash'
 import { hash_sha256 } from '@ozxin/js-tools/src/crypto/hash'
@@ -112,7 +112,7 @@ export default {
   watch: {
     'formData.genre' (v) {
       this.loading = true
-      getRolesSelect(ADMIN_USER_ROLE_MAPPING[v]).then(d => {
+      roles.select(ADMIN_USER_ROLE_MAPPING[v]).then(d => {
         this.roleList = d
       }).finally(() => {
         this.loading = false
@@ -133,8 +133,8 @@ export default {
     loadData () {
       this.loading = true
       Promise.all([
-        getRolesSelect(ADMIN_USER_ROLE_MAPPING[this.formData.genre]),
-        getUser(this.id),
+        roles.select(ADMIN_USER_ROLE_MAPPING[this.formData.genre]),
+        users.read(this.id),
       ]).then(values => {
         this.$refs.form.resetFields()
         this.roleList = values[0]
@@ -155,7 +155,7 @@ export default {
             data.password = hash_sha256(data.password)
           }
           delete data.repeatPassword
-          saveUser(this.id, data).then(() => {
+          users.save(this.id, data).then(() => {
             this.visible = false
           }).finally(() => {
             this.loading = false

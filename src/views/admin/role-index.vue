@@ -29,7 +29,7 @@
 <script>
 import RoleEdit from './role-edit'
 import pageOption from '@/mixin/page-option'
-import { deleteRole, getRoles } from '@api/admin/admin'
+import { roles } from '@api/admin/admin'
 import { ADMIN_ROLES_GENRE, toLabelValue } from '@/store/constant'
 import ContainerResize from '@/mixin/container-resize'
 
@@ -63,7 +63,7 @@ export default {
     },
     refresh () {
       this.loading = true
-      getRoles(this.tablePage.currentPage, this.tablePage.pageSize, this.where).then(({ data, count }) => {
+      roles.get(this.tablePage.currentPage, this.tablePage.pageSize, this.where).then(({ data, count }) => {
         this.data = data
         this.page.total = count
       }).finally(() => {
@@ -94,7 +94,7 @@ export default {
     },
     roleDelete (id) {
       this.loading = true
-      deleteRole(id).finally(() => {
+      roles.delete(id).finally(() => {
         this.refresh()
       })
     },

@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { getPermission, getPermissions, savePermission, scanPermission } from '@api/admin/admin'
+import { permission } from '@api/admin/admin'
 import ContainerResize from '@/mixin/container-resize'
 
 const recursionTree = (d) => {
@@ -116,7 +116,7 @@ export default {
       this.isChange = false
       let data
       try {
-        data = await getPermissions()
+        data = await permission.get()
       } finally {
         this.loading.render = false
       }
@@ -129,7 +129,7 @@ export default {
       row._control.open = true
       row._control.data = []
       try {
-        const result = await getPermission(row.name)
+        const result = await permission.read(row.name)
         if (result) {
           row._control.data = result.allow
         }
@@ -142,7 +142,7 @@ export default {
     },
     scan () {
       this.loading.scan = true
-      scanPermission().finally(() => {
+      permission.scan().finally(() => {
         this.loading.scan = false
         this.load()
       })
@@ -160,7 +160,7 @@ export default {
           desc: row.desc,
         }
       }
-      savePermission(null, rows, true).finally(() => {
+      permission.save(null, rows, true).finally(() => {
         this.loading.render = false
         this.load()
       })

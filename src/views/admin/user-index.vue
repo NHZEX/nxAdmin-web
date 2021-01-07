@@ -38,7 +38,7 @@
 <script>
 import UserEdit from './user-edit'
 import pageOption from '@/mixin/page-option'
-import { deleteUser, getRolesSelect, getUsers } from '@api/admin/admin'
+import { users, roles } from '@api/admin/admin'
 import { ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 import ContainerResize from '@/mixin/container-resize'
 
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     init () {
-      getRolesSelect().then(data => {
+      roles.select().then(data => {
         const table = this.$refs.table
         const column = table.getColumnByField('role_name')
         table.setFilter(column, data)
@@ -94,7 +94,7 @@ export default {
     },
     refresh () {
       this.loading = true
-      getUsers(this.tablePage.currentPage, this.tablePage.pageSize, this.where).then(({ data, count }) => {
+      users.get(this.tablePage.currentPage, this.tablePage.pageSize, this.where).then(({ data, count }) => {
         this.data = data
         this.tablePage.total = count
       }).finally(() => {
@@ -127,7 +127,7 @@ export default {
       this.$refs.edit.open(id)
     },
     tableDelete (id) {
-      deleteUser(id).finally(() => {
+      users.delete(id).finally(() => {
         this.refresh()
       })
     },

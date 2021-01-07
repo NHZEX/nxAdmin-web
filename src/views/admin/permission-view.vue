@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { getPermission } from '@api/admin/admin'
+import { permission } from '@api/admin/admin'
 
 export default {
   name: 'admin-permission-view',
@@ -55,7 +55,7 @@ export default {
     },
     render () {
       this.loading = true
-      getPermission(this.id).then(data => {
+      permission.read(this.id).then(data => {
         this.formData = data
         this.controlData = data.allow
       }).finally(() => {
