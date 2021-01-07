@@ -1,4 +1,4 @@
-import { sysCongig } from '@/api/sys'
+import { system } from '@/api/sys'
 import { random_hex } from '@ozxin/js-tools/src/crypto/util'
 import { Notification } from 'element-ui'
 
@@ -38,7 +38,7 @@ export default {
       commit('updateMachine', machine)
     },
     load ({ state }) {
-      sysCongig().then(config => {
+      system.congig().then(config => {
         state.loginCaptcha = config.loginCaptcha
       }).catch(err => {
         Notification.error({

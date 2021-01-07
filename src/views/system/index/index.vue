@@ -20,7 +20,7 @@
 
 <script>
 
-import { sysinfo } from '@api/sys'
+import { system } from '@api/sys'
 
 export default {
   components: {},
@@ -33,7 +33,7 @@ export default {
   methods: {
     load () {
       this.loading = true
-      sysinfo().then(data => {
+      system.sysinfo().then(data => {
         const result = []
         for (const key of Object.keys(data)) {
           result.push({
