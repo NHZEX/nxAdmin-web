@@ -5169,9 +5169,9 @@ functional-red-black-tree@^1.0.1:
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
 fuse.js@^6.3.0:
-  version "6.4.5"
-  resolved "https://registry.npm.taobao.org/fuse.js/download/fuse.js-6.4.5.tgz#bf960ddd4827c8eadf230ceae4b7cf90b104503e"
-  integrity sha1-v5YN3UgnyOrfIwzq5LfPkLEEUD4=
+  version "6.4.6"
+  resolved "https://registry.npm.taobao.org/fuse.js/download/fuse.js-6.4.6.tgz#62f216c110e5aa22486aff20be7896d19a059b79"
+  integrity sha1-YvIWwRDlqiJIav8gvniW0ZoFm3k=
 
 gensync@^1.0.0-beta.1:
   version "1.0.0-beta.2"
@@ -10915,9 +10915,9 @@ vxe-table-plugin-virtual-tree@^0.5.6:
   integrity sha1-tnV7ubIgzJ/CrL7zrybWwa+NTzI=
 
 vxe-table@^3.0.2:
-  version "3.0.21"
-  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-3.0.21.tgz#a692d4a17498dcfe412216dbcbdad683ea7c9621"
-  integrity sha1-ppLUoXSY3P5BIhbby9rWg+p8liE=
+  version "3.0.22"
+  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-3.0.22.tgz#f28791bf7d9e7f4ce4173f781e17ff882150b3db"
+  integrity sha1-8oeRv32ef0zkFz94Hhf/iCFQs9s=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
