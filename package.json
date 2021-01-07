@@ -13,7 +13,7 @@
     "analyz": "cross-env npm_config_report=true npm run build"
   },
   "engines": {
-    "node": ">=10.14",
+    "node": ">=12.10",
     "npm": ">=6",
     "yarn": ">=1"
   },
