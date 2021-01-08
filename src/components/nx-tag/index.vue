@@ -36,13 +36,13 @@ export default {
     fontSize: {
       type: String,
       required: false,
-      default: '12px'
+      default: '13px'
     },
     // 背景色减少的亮度
     lighten: {
       type: Number,
       required: false,
-      default: 0.07
+      default: -100
     },
     // 标签文字
     label: {
@@ -54,7 +54,7 @@ export default {
     padding: {
       type: String,
       required: false,
-      default: '3px'
+      default: '2px'
     },
   },
   computed: {
@@ -90,10 +90,10 @@ export default {
         col = col.slice(1)
       }
       const num = parseInt(col, 16)
-      const r = (num >> 16)
-      const g = ((num >> 8) & 0x00FF)
-      const b = (num & 0x0000FF)
-      return `rgba(${r}, ${g}, ${b}, ${this.lighten})`
+      const r = (num >> 16) - (this.lighten * 0.9)
+      const g = ((num >> 8) & 0x00FF) - this.lighten
+      const b = (num & 0x0000FF) - this.lighten
+      return `rgba(${r}, ${g}, ${b}, 0.3)`
     }
   },
   render () {
@@ -105,11 +105,7 @@ export default {
       backgroundColor: this.styleColor.backgroundColor
     }
     return (
-      <span
-        ref='tag'
-        class='tag'
-        style={style}
-      >
+      <span ref='tag' class='tag' style={style}>
         {this.label}
       </span>
     )
