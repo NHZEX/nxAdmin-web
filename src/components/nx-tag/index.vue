@@ -36,13 +36,13 @@ export default {
     fontSize: {
       type: String,
       required: false,
-      default: '12px'
+      default: '13px'
     },
     // 背景色减少的亮度
     lighten: {
       type: Number,
       required: false,
-      default: 0.07
+      default: -110
     },
     // 标签文字
     label: {
@@ -54,7 +54,7 @@ export default {
     padding: {
       type: String,
       required: false,
-      default: '3px'
+      default: '2px'
     },
   },
   computed: {
@@ -90,26 +90,40 @@ export default {
         col = col.slice(1)
       }
       const num = parseInt(col, 16)
-      const r = (num >> 16)
-      const g = ((num >> 8) & 0x00FF)
-      const b = (num & 0x0000FF)
-      return `rgba(${r}, ${g}, ${b}, ${this.lighten})`
+      const r = (num >> 16) - (this.lighten * 0.9)
+      const g = ((num >> 8) & 0x00FF) - this.lighten
+      const b = (num & 0x0000FF) - this.lighten
+      return `rgba(${r}, ${g}, ${b}, 0.3)`
+    },
+    font (col) {
+      if (col[0] === '#') {
+        col = col.slice(1)
+      }
+      const num = parseInt(col, 16)
+      let r = (num >> 16) - 20
+      let g = ((num >> 8) & 0x00FF) - 20
+      let b = (num & 0x0000FF) - 20
+      if (r > g) {
+        r -= 15
+      }
+      if (g > b) {
+        g -= 15
+      } else {
+        b -= 15
+      }
+      return `rgb(${r}, ${g}, ${b})`
     }
   },
   render () {
     const style = {
-      '--size': this.fontSize,
-      '--padding': this.padding,
       '--color': this.styleColor.fontColor,
-      color: this.styleColor.fontColor,
+      size: this.fontSize,
+      padding: this.padding,
+      color: this.effect === 'light' ? this.font(this.styleColor.fontColor) : '#eee',
       backgroundColor: this.styleColor.backgroundColor
     }
     return (
-      <span
-        ref='tag'
-        class='tag'
-        style={style}
-      >
+      <span ref='tag' class='tag' style={style}>
         {this.label}
       </span>
     )
@@ -119,9 +133,9 @@ export default {
 
 <style scoped lang="scss">
 .tag {
-  font-size: var(--size);
-  padding: var(--padding);
   border-radius: 0.3em;
+  font-family: "Microsoft YaHei UI";
+  //font-weight: bold;
   border: var(--color) solid 1px;
   filter: saturate(1.2);
 }
