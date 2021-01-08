@@ -89,12 +89,11 @@ export default {
         table.setFilter(column, data)
         table.updateData()
       })
-
       this.refresh()
     },
     refresh () {
       this.loading = true
-      users.get(this.tablePage.currentPage, this.tablePage.pageSize, this.where).then(({ data, count }) => {
+      users.get(this.pageParams, this.where).then(({ data, count }) => {
         this.data = data
         this.tablePage.total = count
       }).finally(() => {
@@ -104,10 +103,6 @@ export default {
     handlePageChange ({ currentPage, pageSize }) {
       this.tablePage.currentPage = currentPage
       this.tablePage.pageSize = pageSize
-      this.refresh()
-    },
-    searchSubmit () {
-      this.page.current = 1
       this.refresh()
     },
     handleFilterChange ({ property, values }) {
@@ -121,7 +116,7 @@ export default {
         default:
           break
       }
-      this.searchSubmit()
+      this.refresh()
     },
     tableEdit (id = 0) {
       this.$refs.edit.open(id)

@@ -2,11 +2,10 @@ import require from '@/plugin/axios'
 import { promiseResolveFalse } from '@/libs/util.common'
 
 class UsersApi {
-  get (page, limit, where = {}) {
+  get (pageParams, where = {}) {
     return require.get('/api/admin/users', {
       params: {
-        page,
-        limit,
+        ...pageParams,
         ...where,
       },
     })

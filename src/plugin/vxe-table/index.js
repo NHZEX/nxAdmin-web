@@ -43,6 +43,9 @@ VXETable.setup({
 })
 
 VXETable.formats.add('unixTime', ({ cellValue }, format = 'YYYY-MM-DD HH:mm') => {
+  if (cellValue === 0) {
+    return ''
+  }
   return formatUnix(cellValue, format)
 })
 
