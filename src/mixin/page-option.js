@@ -1,5 +1,5 @@
 export default {
-  data: function () {
+  data () {
     return {
       page: {
         total: 0,
@@ -12,6 +12,14 @@ export default {
         currentPage: 1,
         pageSize: 20,
       },
+    }
+  },
+  computed: {
+    pageParams () {
+      return {
+        limit: this.tablePage.pageSize,
+        page: this.tablePage.currentPage
+      }
     }
   }
 }
