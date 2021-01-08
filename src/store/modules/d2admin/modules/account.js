@@ -1,7 +1,7 @@
 import { Message, MessageBox } from 'element-ui'
 import util from '@/libs/util.js'
 import router from '@/router'
-import { accountLogin, accountLogout, userInfo } from '@/api/sys.login'
+import { account } from '@/api/sys'
 
 export default {
   namespaced: true,
@@ -23,7 +23,7 @@ export default {
       code = '',
       lasting = false,
     } = {}) {
-      const res = await accountLogin(username, password, code, lasting, token)
+      const res = await account.login(username, password, code, lasting, token)
       // 设置 cookie 一定要存 uuid 和 token 两个 cookie
       // 整个系统依赖这两个数据进行校验和存储
       // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
@@ -45,7 +45,7 @@ export default {
      */
     async refresh ({ dispatch, rootState }, payload = {}) {
       // 若未登录则抛出错误 不执行后面的代码
-      const data = await userInfo(!!payload.silent)
+      const data = await account.userInfo(!!payload.silent)
 
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', {
@@ -65,7 +65,7 @@ export default {
        */
       const logout = async function () {
         // 注销会话
-        await accountLogout()
+        await account.logout()
         // 清空 vuex 用户信息
         await dispatch('d2admin/user/clean', {}, { root: true })
         // 删除cookie

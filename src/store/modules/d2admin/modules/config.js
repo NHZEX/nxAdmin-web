@@ -1,5 +1,5 @@
-import { sysCongig } from '@/api/sys'
-import { randomHex } from '@/libs/util.crypto'
+import { system } from '@/api/sys'
+import { random_hex } from '@ozxin/js-tools/src/crypto/util'
 import { Notification } from 'element-ui'
 
 const MACHINE_CODE_LEN = 64
@@ -26,7 +26,7 @@ export default {
       }, { root: true })
 
       if (!machine || machine.length !== MACHINE_CODE_LEN) {
-        machine = randomHex(MACHINE_CODE_LEN)
+        machine = random_hex(MACHINE_CODE_LEN)
 
         await dispatch('d2admin/db/set', {
           dbName: 'sys',
@@ -38,7 +38,7 @@ export default {
       commit('updateMachine', machine)
     },
     load ({ state }) {
-      sysCongig().then(config => {
+      system.congig().then(config => {
         state.loginCaptcha = config.loginCaptcha
       }).catch(err => {
         Notification.error({

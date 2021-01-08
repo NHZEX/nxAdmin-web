@@ -115,9 +115,9 @@
 import { mapActions, mapState } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
 import { blobToDataURL } from '@/libs/util.common'
-import { captcha } from '@api/sys'
+import { system } from '@api/sys'
 import { Loading } from 'element-ui'
-import { hash } from '@/libs/util.crypto'
+import { hash_sha256 } from '@ozxin/js-tools/src/crypto/hash'
 
 export default {
   mixins: [
@@ -192,7 +192,7 @@ export default {
           // 登录
           this.login({
             username: this.formLogin.username,
-            password: hash('sha256', this.formLogin.password),
+            password: hash_sha256(this.formLogin.password),
             lasting: this.formLogin.lasting,
             code: this.formLogin.code,
             token: this.captchaToken,
@@ -217,7 +217,7 @@ export default {
       })
     },
     async refrushCode (focus) {
-      const result = await captcha()
+      const result = await system.captcha()
       this.captchaToken = result.headers['x-captcha-token']
       this.captchaUrl = await blobToDataURL(result.data)
       this.formLogin.code = ''

@@ -18,10 +18,10 @@
         <el-input name="nickname" v-model.trim="formData.nickname"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model.trim="formData.password" placeholder="为空则不更改用户密码" password></el-input>
+        <el-input type="password" v-model.trim="formData.password" placeholder="为空则不更改用户密码"></el-input>
       </el-form-item>
       <el-form-item label="二次确认" prop="repeatPassword" v-show="!!formData.password">
-        <el-input type="password" v-model.trim="formData.repeatPassword" placeholder="为空则不更改用户密码" password></el-input>
+        <el-input type="password" v-model.trim="formData.repeatPassword" placeholder="为空则不更改用户密码"></el-input>
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-checkbox v-model="formDataStatus"><span style="padding-left: 4px">启用</span></el-checkbox>
@@ -35,10 +35,10 @@
 
 <script>
 import store from '@/store/index'
-import { getUser, getRolesSelect, saveUser } from '@api/admin/admin'
+import { users, roles } from '@api/admin/admin'
 import { ADMIN_USER_ROLE_MAPPING, ADMIN_USERS_GENRE, toLabelValue } from '@/store/constant'
 import { cloneDeep } from 'lodash'
-import { hash } from '@/libs/util.crypto'
+import { hash_sha256 } from '@ozxin/js-tools/src/crypto/hash'
 
 export default {
   name: 'UserEdit',
@@ -112,7 +112,7 @@ export default {
   watch: {
     'formData.genre' (v) {
       this.loading = true
-      getRolesSelect(ADMIN_USER_ROLE_MAPPING[v]).then(d => {
+      roles.select(ADMIN_USER_ROLE_MAPPING[v]).then(d => {
         this.roleList = d
       }).finally(() => {
         this.loading = false
@@ -133,8 +133,8 @@ export default {
     loadData () {
       this.loading = true
       Promise.all([
-        getRolesSelect(ADMIN_USER_ROLE_MAPPING[this.formData.genre]),
-        getUser(this.id),
+        roles.select(ADMIN_USER_ROLE_MAPPING[this.formData.genre]),
+        users.read(this.id),
       ]).then(values => {
         this.$refs.form.resetFields()
         this.roleList = values[0]
@@ -152,10 +152,10 @@ export default {
           this.loading = true
           const data = cloneDeep(this.formData)
           if (data.password) {
-            data.password = hash('sha256', data.password)
+            data.password = hash_sha256(data.password)
           }
           delete data.repeatPassword
-          saveUser(this.id, data).then(() => {
+          users.save(this.id, data).then(() => {
             this.visible = false
           }).finally(() => {
             this.loading = false

@@ -1,6 +1,6 @@
 import store from '@/store'
 import axios from 'axios'
-import ivuMessage from '@ivu/message'
+import { Message } from 'element-ui-eoi'
 import util from '@/libs/util'
 import router from '@/router'
 import { isPlainObject, get } from 'lodash'
@@ -35,9 +35,10 @@ function handleError (error) {
     console.log(error)
   }
   // 显示提示
-  ivuMessage.error({
-    content: error.message,
-    duration: 5,
+  Message({
+    message: error.message,
+    type: 'error',
+    duration: 5 * 1000,
   })
 }
 
@@ -112,6 +113,12 @@ service.interceptors.response.use(
           status: INVALID_SESSION,
         },
       })
+      Message({
+        message: '登录状态过期，请重新登录！',
+        type: 'warning',
+        duration: 5 * 1000,
+      })
+      throw error
     }
     // 异常处理分支
     if (error && error.response) {

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { saveRole, getRole, getPermissions } from '@api/admin/admin'
+import { roles, permission } from '@api/admin/admin'
 import { ADMIN_ROLES_GENRE, ADMIN_USER_ROLE_MAPPING, toLabelValue } from '@/store/constant'
 import store from '@/store'
 
@@ -104,7 +104,7 @@ export default {
     },
     render () {
       this.loading = true
-      Promise.all([getRole(this.id), getPermissions()]).then(async values => {
+      Promise.all([roles.read(this.id), permission.get()]).then(async values => {
         const role = values[0]
         if (role) {
           if (Array.isArray(role.ext)) {
@@ -135,7 +135,7 @@ export default {
         if (valid) {
           this.loading = true
           this.formData.ext.permission = this.treeCheckedKeys
-          saveRole(this.id, this.formData)
+          roles.save(this.id, this.formData)
             .then(() => {
               this.visible = false
             }).finally(() => {
