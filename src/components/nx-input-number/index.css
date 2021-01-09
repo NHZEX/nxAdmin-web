@@ -1,0 +1,63 @@
+.app {
+    --size: 30px;
+    width: calc(var(--size) * 4.5 + 10px);
+    display: flex;
+    text-align: center;
+    line-height: var(--size);
+}
+
+.input {
+    outline: none;
+    margin: auto 3px;
+    text-align: center;
+    width:  calc(var(--size) * 2.5);
+    height: var(--size);
+    font-size: calc(var(--size) * 0.5);
+    background: #dedede;
+    border: none;
+}
+
+.btn {
+    width: var(--size);
+    height: var(--size);
+    background: #dedede;
+    font-size: calc(var(--size));
+    cursor: pointer;
+    user-select: none;
+}
+.btn:hover {
+    filter: brightness(1.05);
+}
+.btn:active {
+    filter: brightness(0.95);
+}
+.btn:nth-child(1)::before {
+    content: '';
+    position: absolute;
+    padding: 0;
+    height: calc(var(--size) / 6);
+    width: calc(var(--size) / 2);
+    transform: translateX(calc(var(--size) / -4)) translateY(calc(var(--size) / 2.5));;
+    background: #757575;
+    line-height: var(--size);
+}
+.btn:nth-child(3)::before {
+    content: '';
+    position: absolute;
+    padding: 0;
+    height: calc(var(--size) / 6);
+    width: calc(var(--size) / 2);
+    transform: translateX(calc(var(--size) / -4)) translateY(calc(var(--size) / 2.5));;
+    background: #757575;
+    line-height: var(--size);
+}
+.btn:nth-child(3)::after {
+    content: '';
+    position: absolute;
+    padding: 0;
+    height: calc(var(--size) / 6);
+    width: calc(var(--size) / 2);
+    transform: translateX(calc(var(--size) / -4)) translateY(calc(var(--size) / 2.5)) rotate(90deg);;
+    background: #757575;
+    line-height: var(--size);
+}
