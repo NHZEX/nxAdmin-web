@@ -7,12 +7,14 @@
     <div>
       <label>
         <input
+          type="number"
           ref="input"
           class="input"
           v-model="number"
+          :step="step"
+          :max="max"
+          :min="min"
           @keyup.enter="$refs.input.blur()"
-          @keydown.up="add"
-          @keydown.down="reduce"
           @blur="handleBlur"
           @input="handleInput"
         />
@@ -49,12 +51,12 @@ export default {
     place: {
       type: Number,
       required: false,
-      default: 2
+      default: 0
     },
     step: {
       type: Number,
       required: false,
-      default: 0.1,
+      default: 1,
     },
     max: {
       type: Number,
@@ -108,10 +110,10 @@ export default {
       this.dispatch('ElFormItem', 'el.form.blur', [this.value])
     },
     handleInput () {
-      if (typeof this.number === 'string') {
-        this.number = this.number.replace(/[^\d.]/g, '')
-        this.number = this.number.replace(/\.{2,}/g, '.')
-      }
+      // if (typeof this.number === 'string') {
+      //   this.number = this.number.replace(/[^\d.]/g, '')
+      //   this.number = this.number.replace(/\.{2,}/g, '.')
+      // }
     }
   },
   watch: {
@@ -120,7 +122,7 @@ export default {
       this.$emit('input', this.number)
     },
     number () {
-      if (this.number === '' || isNaN(this.number)) {
+      if (isNaN(this.number)) {
         this.number = 0
       }
     }
