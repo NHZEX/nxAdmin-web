@@ -52,14 +52,26 @@ const service = axios.create({
   },
 })
 
-let cancelTokenList = {}
+class ProtectedRequestCancelTokens {
+  #tokenList = {}
 
-function cancelAllRequest () {
-  for (const uniqid of Object.keys(cancelTokenList)) {
-    cancelTokenList[uniqid]()
+  add (key, func) {
+    this.#tokenList[key] = func
   }
-  cancelTokenList = {}
+
+  remove (key) {
+    delete this.#tokenList[key]
+  }
+
+  cancelAllRequest () {
+    for (const uniqid of Object.keys(this.#tokenList)) {
+      this.#tokenList[uniqid]('invalid session')
+    }
+    this.#tokenList = {}
+  }
 }
+
+const rrct = new ProtectedRequestCancelTokens()
 
 // 请求拦截器
 service.interceptors.request.use(
@@ -69,21 +81,26 @@ service.interceptors.request.use(
     }
     // 请求唯一id
     config.__uniqid = `${config.url}-${new Date().getTime()}`
+    // 需要鉴权
+    config.__permission = false
     // 处理鉴权
     const token = util.cookies.get('token')
     const uuid = util.cookies.get('uuid')
     let authorization = ''
     if (token && uuid) {
       authorization += `TK="${token}" `
+      config.__permission = true
     }
     if (store.state.d2admin.config.machine) {
       authorization += `MC="${store.state.d2admin.config.machine}" `
     }
     config.headers.Authorization = `Bearer ${authorization}`.trim()
-    // 注册取消令牌
-    config.cancelToken = new axios.CancelToken(function executor (canceler) {
-      cancelTokenList[config.__uniqid] = canceler
-    })
+    if (config.__permission) {
+      // 注册取消令牌
+      config.cancelToken = new axios.CancelToken(function executor (canceler) {
+        rrct.add(config.__uniqid, canceler)
+      })
+    }
     return config
   },
   error => {
@@ -98,7 +115,7 @@ service.interceptors.response.use(
   response => {
     // 注销取消令牌
     if (has(response, 'config.__uniqid')) {
-      delete cancelTokenList[response.config.__uniqid]
+      rrct.remove(response.config.__uniqid)
     }
     // 更新用户会话Token
     if (hasOwnProperty(response.headers, 'x-uuid') && hasOwnProperty(response.headers, 'x-token')) {
@@ -113,19 +130,22 @@ service.interceptors.response.use(
     return response.data
   },
   async error => {
+    if (axios.isCancel(error)) {
+      throw new Error(`request canceled: ${error.message}`)
+    }
     // 注销取消令牌
     if (has(error, 'config.__uniqid')) {
-      delete cancelTokenList[error.config.__uniqid]
+      rrct.remove(error.config.__uniqid)
     }
     // 静默异常标志
-    const silent = !!error.config.silent
+    const silent = !!get(error, 'config.silent', false)
     // 响应处理分支
     if (error.response === undefined) {
       throw error
     }
     if (error.response.status === 401) {
       // 取消所有请求
-      cancelAllRequest()
+      rrct.cancelAllRequest()
       // 删除cookie
       util.cookies.remove('token')
       util.cookies.remove('uuid')
