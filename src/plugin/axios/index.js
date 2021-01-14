@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Message } from 'element-ui-eoi'
 import util from '@/libs/util'
 import router from '@/router'
-import { isPlainObject, get } from 'lodash'
+import { isPlainObject, get, has } from 'lodash'
 import { blobToString, hasOwnProperty } from '@/libs/util.common'
 import { INVALID_SESSION } from '@/plugin/auth'
 
@@ -97,7 +97,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     // 注销取消令牌
-    if (response.config.__uniqid) {
+    if (has(response, 'config.__uniqid')) {
       delete cancelTokenList[response.config.__uniqid]
     }
     // 更新用户会话Token
@@ -114,7 +114,7 @@ service.interceptors.response.use(
   },
   async error => {
     // 注销取消令牌
-    if (error.config.__uniqid) {
+    if (has(error, 'config.__uniqid')) {
       delete cancelTokenList[error.config.__uniqid]
     }
     // 静默异常标志
