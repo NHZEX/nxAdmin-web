@@ -125,6 +125,7 @@ export default {
       if (isNaN(this.number)) {
         this.number = 0
       }
+      this.$emit('input', this.number)
     }
   }
 }
