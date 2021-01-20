@@ -51,7 +51,7 @@
     "vxe-table": "^3.0.2",
     "vxe-table-plugin-iview": "^1.10.0",
     "vxe-table-plugin-virtual-tree": "^0.5.6",
-    "xe-utils": "^3.0.1"
+    "xe-utils": "^3.1.2"
   },
   "devDependencies": {
     "@d2-projects/vue-filename-injector": "^1.1.0",
