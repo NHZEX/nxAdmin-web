@@ -123,7 +123,10 @@ service.interceptors.response.use(
       util.cookies.set('token', response.headers['x-token'])
       // todo 刷新用户远程状态
     }
-    if (response.request.responseType === 'blob' || response.data instanceof Blob) {
+    if (get(response, 'config.extractData', true)
+      || response.request.responseType === 'blob'
+      || response.data instanceof Blob
+    ) {
       return response
     }
     // 直接抽取 axios 返回数据中的 data

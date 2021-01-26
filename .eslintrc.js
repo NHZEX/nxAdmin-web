@@ -35,6 +35,8 @@ module.exports = {
     'quotes': 'warn',
     // object-curly-newline
     'object-curly-newline': 'off',
+    // operator-linebreak
+    'operator-linebreak': ['warn', 'before']
   },
   parserOptions: {
     parser: 'babel-eslint'
