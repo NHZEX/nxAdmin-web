@@ -2,7 +2,9 @@ import request from '@/plugin/axios'
 
 export const system = new (class {
   congig () {
-    return request.get('/api/system/config')
+    return request.get('/api/system/config', {
+      authorization: false,
+    })
   }
 
   sysinfo () {
