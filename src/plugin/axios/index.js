@@ -123,7 +123,7 @@ service.interceptors.response.use(
       util.cookies.set('token', response.headers['x-token'])
       // todo 刷新用户远程状态
     }
-    if (get(response, 'config.extractData', true)
+    if (!get(response, 'config.extractData', true)
       || response.request.responseType === 'blob'
       || response.data instanceof Blob
     ) {
