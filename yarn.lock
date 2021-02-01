@@ -2571,9 +2571,9 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-better-scroll@^2.0.4:
+better-scroll@^2.1.4:
   version "2.1.4"
-  resolved "https://registry.npm.taobao.org/better-scroll/download/better-scroll-2.1.4.tgz#d65b5e7630a2fb1e47477ad90a430d01e7281302"
+  resolved "https://registry.npm.taobao.org/better-scroll/download/better-scroll-2.1.4.tgz?cache=0&sync_timestamp=1611478186560&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbetter-scroll%2Fdownload%2Fbetter-scroll-2.1.4.tgz#d65b5e7630a2fb1e47477ad90a430d01e7281302"
   integrity sha1-1ltedjCi+x5HR3rZCkMNAecoEwI=
   dependencies:
     "@better-scroll/core" "^2.1.4"
@@ -3851,9 +3851,9 @@ data-urls@^1.0.0, data-urls@^1.1.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
-dayjs@^1.10.2:
+dayjs@^1.10.4:
   version "1.10.4"
-  resolved "https://registry.npm.taobao.org/dayjs/download/dayjs-1.10.4.tgz#8e544a9b8683f61783f570980a8a80eaf54ab1e2"
+  resolved "https://registry.npm.taobao.org/dayjs/download/dayjs-1.10.4.tgz?cache=0&sync_timestamp=1611310021152&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdayjs%2Fdownload%2Fdayjs-1.10.4.tgz#8e544a9b8683f61783f570980a8a80eaf54ab1e2"
   integrity sha1-jlRKm4aD9heD9XCYCoqA6vVKseI=
 
 de-indent@^1.0.2:
@@ -4237,7 +4237,7 @@ element-resize-detector@^1.2.0:
   dependencies:
     batch-processor "1.0.0"
 
-element-ui-eoi@^2.14.4:
+element-ui-eoi@^2.14.10:
   version "2.14.10"
   resolved "https://registry.npm.taobao.org/element-ui-eoi/download/element-ui-eoi-2.14.10.tgz#50a777e621635ce313107e867699db7fb8973b37"
   integrity sha1-UKd35iFjXOMTEH6Gdpnbf7iXOzc=
@@ -4930,9 +4930,9 @@ file-loader@^4.2.0:
     loader-utils "^1.2.3"
     schema-utils "^2.5.0"
 
-file-saver@^2.0.2:
+file-saver@^2.0.5:
   version "2.0.5"
-  resolved "https://registry.npm.taobao.org/file-saver/download/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
+  resolved "https://registry.npm.taobao.org/file-saver/download/file-saver-2.0.5.tgz?cache=0&sync_timestamp=1605790832320&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffile-saver%2Fdownload%2Ffile-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
   integrity sha1-1hz+LOBZ9BTYmendbUEH7iVnDDg=
 
 file-uri-to-path@1.0.0:
@@ -5187,7 +5187,7 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.npm.taobao.org/functional-red-black-tree/download/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-fuse.js@^6.3.0:
+fuse.js@^6.4.6:
   version "6.4.6"
   resolved "https://registry.npm.taobao.org/fuse.js/download/fuse.js-6.4.6.tgz#62f216c110e5aa22486aff20be7896d19a059b79"
   integrity sha1-YvIWwRDlqiJIav8gvniW0ZoFm3k=
@@ -5497,9 +5497,9 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.npm.taobao.org/hosted-git-info/download/hosted-git-info-2.8.8.tgz?cache=0&sync_timestamp=1602803832496&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhosted-git-info%2Fdownload%2Fhosted-git-info-2.8.8.tgz#7539bd4bc1e0e0a895815a2e0262420b12858488"
   integrity sha1-dTm9S8Hg4KiVgVouAmJCCxKFhIg=
 
-hotkeys-js@^3.7.3:
+hotkeys-js@^3.8.2:
   version "3.8.2"
-  resolved "https://registry.npm.taobao.org/hotkeys-js/download/hotkeys-js-3.8.2.tgz#177c3e7dc19279c881e69983177849bed76e4747"
+  resolved "https://registry.npm.taobao.org/hotkeys-js/download/hotkeys-js-3.8.2.tgz?cache=0&sync_timestamp=1611061004349&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhotkeys-js%2Fdownload%2Fhotkeys-js-3.8.2.tgz#177c3e7dc19279c881e69983177849bed76e4747"
   integrity sha1-F3w+fcGSeciB5pmDF3hJvtduR0c=
 
 hpack.js@^2.1.6:
@@ -10537,9 +10537,9 @@ typedarray@^0.0.6:
   resolved "https://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-ua-parser-js@^0.7.20:
+ua-parser-js@^0.7.23:
   version "0.7.23"
-  resolved "https://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.23.tgz#704d67f951e13195fbcd3d78818577f5bc1d547b"
+  resolved "https://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.23.tgz?cache=0&sync_timestamp=1607578029447&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fua-parser-js%2Fdownload%2Fua-parser-js-0.7.23.tgz#704d67f951e13195fbcd3d78818577f5bc1d547b"
   integrity sha1-cE1n+VHhMZX7zT14gYV39bwdVHs=
 
 uglify-js@3.4.x:
@@ -10929,25 +10929,30 @@ vue@^2.5.19, vue@^2.6.11:
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha1-9evU+mvShpQD4pqJau1JBEVskSM=
 
-vuex@^3.4.0:
+vuex@^3.6.2:
   version "3.6.2"
   resolved "https://registry.npm.taobao.org/vuex/download/vuex-3.6.2.tgz#236bc086a870c3ae79946f107f16de59d5895e71"
   integrity sha1-I2vAhqhww655lG8QfxbeWdWJXnE=
 
-vxe-table-plugin-iview@^1.10.0:
-  version "1.10.1"
-  resolved "https://registry.npm.taobao.org/vxe-table-plugin-iview/download/vxe-table-plugin-iview-1.10.1.tgz#b878f5c66d89aab0b6bed37c47a94fdbce84d0b1"
-  integrity sha1-uHj1xm2JqrC2vtN8R6lP286E0LE=
+vxe-table-plugin-element@^1.10.3:
+  version "1.10.3"
+  resolved "https://registry.npm.taobao.org/vxe-table-plugin-element/download/vxe-table-plugin-element-1.10.3.tgz#a5080eeef90a04f67ca5ad3492d15b887353f15a"
+  integrity sha1-pQgO7vkKBPZ8pa00ktFbiHNT8Vo=
 
-vxe-table-plugin-virtual-tree@^0.5.6:
-  version "0.5.8"
-  resolved "https://registry.npm.taobao.org/vxe-table-plugin-virtual-tree/download/vxe-table-plugin-virtual-tree-0.5.8.tgz#417f524d3bb147a6f08add32e3458ad5fc107783"
-  integrity sha1-QX9STTuxR6bwit0y40WK1fwQd4M=
+vxe-table-plugin-iview@^1.10.2:
+  version "1.10.2"
+  resolved "https://registry.npm.taobao.org/vxe-table-plugin-iview/download/vxe-table-plugin-iview-1.10.2.tgz#f5c77b891feb7a6422677508e37c382d2a75afc6"
+  integrity sha1-9cd7iR/remQiZ3UI43w4LSp1r8Y=
 
-vxe-table@^3.0.2:
-  version "3.1.0"
-  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-3.1.0.tgz#baf274ce4834b38efdd76e2d689146d7f99b34e1"
-  integrity sha1-uvJ0zkg0s479124taJFG1/mbNOE=
+vxe-table-plugin-virtual-tree@^0.5.9:
+  version "0.5.9"
+  resolved "https://registry.npm.taobao.org/vxe-table-plugin-virtual-tree/download/vxe-table-plugin-virtual-tree-0.5.9.tgz#ad95b03d287cdfea40db7945930ba42466347988"
+  integrity sha1-rZWwPSh83+pA23lFkwukJGY0eYg=
+
+vxe-table@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.npm.taobao.org/vxe-table/download/vxe-table-3.1.2.tgz#91031f32338d8ea6f83ae43aaf77ec14696d322f"
+  integrity sha1-kQMfMjONjqb4OuQ6r3fsFGltMi8=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
@@ -11310,7 +11315,7 @@ ws@^7.0.0, ws@^7.3.1:
   resolved "https://registry.npm.taobao.org/ws/download/ws-7.4.2.tgz?cache=0&sync_timestamp=1609271323957&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fws%2Fdownload%2Fws-7.4.2.tgz#782100048e54eb36fe9843363ab1c68672b261dd"
   integrity sha1-eCEABI5U6zb+mEM2OrHGhnKyYd0=
 
-xe-utils@^3.1.2:
+xe-utils@^3.1.6:
   version "3.1.6"
   resolved "https://registry.npm.taobao.org/xe-utils/download/xe-utils-3.1.6.tgz#821bd5a2b79877c270d17321b46c0a87e46a8cac"
   integrity sha1-ghvVoreYd8Jw0XMhtGwKh+RqjKw=
