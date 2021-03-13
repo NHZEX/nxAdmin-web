@@ -51,7 +51,6 @@
     "vxe-table": "^3.1.2",
     "vxe-table-plugin-element": "^1.10.3",
     "vxe-table-plugin-iview": "^1.10.2",
-    "vxe-table-plugin-virtual-tree": "^0.5.9",
     "xe-utils": "^3.1.6"
   },
   "devDependencies": {

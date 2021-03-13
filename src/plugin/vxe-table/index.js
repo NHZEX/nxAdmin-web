@@ -8,8 +8,8 @@ import { formatUnix } from '@/libs/util.common'
 import VXETablePluginIView from 'vxe-table-plugin-iview'
 import 'vxe-table-plugin-iview/dist/style.css'
 
-import VXETablePluginVirtualTree from 'vxe-table-plugin-virtual-tree'
-import 'vxe-table-plugin-virtual-tree/dist/style.css'
+import VXETablePluginElement from 'vxe-table-plugin-element'
+import 'vxe-table-plugin-element/dist/style.css'
 
 VXETable.setup({
   size: 'mini',
@@ -48,8 +48,8 @@ VXETable.formats.add('unixTime', ({ cellValue }, format = 'YYYY-MM-DD HH:mm') =>
 
 Vue.use(VXETable)
 
-VXETable.use(VXETablePluginVirtualTree)
 VXETable.use(VXETablePluginIView)
+VXETable.use(VXETablePluginElement)
 
 // 给 vue 实例挂载全局窗口对象，属性名称随意定义，例如：$XModal
 Vue.prototype.$XModal = VXETable.modal
