@@ -3,7 +3,7 @@ import { promiseResolveFalse } from '@/libs/util.common'
 
 class UsersApi {
   get (page, limit, where = {}) {
-    return require.get('/api/admin/users', {
+    return require.get('/admin/users', {
       params: {
         page,
         limit,
@@ -14,7 +14,7 @@ class UsersApi {
 
   read (id) {
     if (id) {
-      return require.get(`/api/admin/users/${id}`)
+      return require.get(`/admin/users/${id}`)
     } else {
       return promiseResolveFalse()
     }
@@ -22,20 +22,20 @@ class UsersApi {
 
   save (id, data) {
     if (id) {
-      return require.put(`/api/admin/users/${id}`, data)
+      return require.put(`/admin/users/${id}`, data)
     } else {
-      return require.post('/api/admin/users', data)
+      return require.post('/admin/users', data)
     }
   }
 
   delete (id) {
-    return require.delete(`/api/admin/users/${id}`)
+    return require.delete(`/admin/users/${id}`)
   }
 }
 
 class RolesApi {
   get (page, limit, where) {
-    return require.get('/api/admin/roles', {
+    return require.get('/admin/roles', {
       params: {
         page,
         limit,
@@ -45,7 +45,7 @@ class RolesApi {
   }
 
   select (genre) {
-    return require.get('/api/admin/roles/select', {
+    return require.get('/admin/roles/select', {
       params: {
         genre,
       }
@@ -54,7 +54,7 @@ class RolesApi {
 
   read (id) {
     if (id) {
-      return require.get(`/api/admin/roles/${id}`)
+      return require.get(`/admin/roles/${id}`)
     } else {
       return promiseResolveFalse()
     }
@@ -62,25 +62,25 @@ class RolesApi {
 
   save (id, data) {
     if (id) {
-      return require.put(`/api/admin/roles/${id}`, data)
+      return require.put(`/admin/roles/${id}`, data)
     } else {
-      return require.post('/api/admin/roles', data)
+      return require.post('/admin/roles', data)
     }
   }
 
   delete (id) {
-    return require.delete(`/api/admin/roles/${id}`)
+    return require.delete(`/admin/roles/${id}`)
   }
 }
 
 class PermissionApi {
   get () {
-    return require.get('/api/admin/permission')
+    return require.get('/admin/permission')
   }
 
   read (id) {
     if (id) {
-      return require.get(`/api/admin/permission/${id}`)
+      return require.get(`/admin/permission/${id}`)
     } else {
       return promiseResolveFalse()
     }
@@ -97,11 +97,11 @@ class PermissionApi {
     } else {
       result = data
     }
-    return require.put(`/api/admin/permission/${id}`, result)
+    return require.put(`/admin/permission/${id}`, result)
   }
 
   scan () {
-    return require.get('/api/admin/permission/scan')
+    return require.get('/admin/permission/scan')
   }
 }
 

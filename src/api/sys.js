@@ -2,17 +2,17 @@ import request from '@/plugin/axios'
 
 export const system = new (class {
   congig () {
-    return request.get('/api/system/config', {
+    return request.get('/system/config', {
       authorization: false,
     })
   }
 
   sysinfo () {
-    return request.get('/api/system/sysinfo')
+    return request.get('/system/sysinfo')
   }
 
   captcha () {
-    return request.get('/api/system/captcha', {
+    return request.get('/system/captcha', {
       // authorization: false,
       responseType: 'blob',
       params: {
@@ -23,7 +23,7 @@ export const system = new (class {
 
 export const account = new (class {
   login (username, password, code, lasting, token) {
-    return request.post('/api/admin/login', {
+    return request.post('/admin/login', {
       account: username,
       password: password,
       captcha: code,
@@ -33,11 +33,11 @@ export const account = new (class {
   }
 
   logout () {
-    return request.get('/api/admin/logout')
+    return request.get('/admin/logout')
   }
 
   userInfo (silent = false) {
-    return request.get('/api/admin/user-info', {
+    return request.get('/admin/user-info', {
       silent: silent,
     })
   }
