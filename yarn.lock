@@ -1869,9 +1869,9 @@
   integrity sha1-zrkktOyzucQ4ccekKaAvhCPmIas=
 
 "@vue/test-utils@^1.0.2":
-  version "1.2.1"
-  resolved "https://registry.nlark.com/@vue/test-utils/download/@vue/test-utils-1.2.1.tgz#4671fc8844e09ccddb6801ceedd7b7309ae11d06"
-  integrity sha1-RnH8iETgnM3baAHO7de3MJrhHQY=
+  version "1.2.2"
+  resolved "https://registry.nlark.com/@vue/test-utils/download/@vue/test-utils-1.2.2.tgz#0242ea4e202d4853541bb167fead3f2249140ab7"
+  integrity sha1-AkLqTiAtSFNUG7Fn/q0/IkkUCrc=
   dependencies:
     dom-event-types "^1.0.0"
     lodash "^4.17.15"
@@ -5324,7 +5324,7 @@ glob-parent@^3.1.0:
 
 glob-parent@^5.0.0, glob-parent@~5.1.2:
   version "5.1.2"
-  resolved "https://registry.nlark.com/glob-parent/download/glob-parent-5.1.2.tgz?cache=0&sync_timestamp=1620073321855&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fglob-parent%2Fdownload%2Fglob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
+  resolved "https://registry.nlark.com/glob-parent/download/glob-parent-5.1.2.tgz?cache=0&sync_timestamp=1626760165717&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fglob-parent%2Fdownload%2Fglob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
   integrity sha1-hpgyxYA0/mikCTwX3BXoNA2EAcQ=
   dependencies:
     is-glob "^4.0.1"
@@ -9475,9 +9475,9 @@ sass-loader@^10.1.0:
     semver "^7.3.2"
 
 sass@^1.23.7:
-  version "1.35.2"
-  resolved "https://registry.nlark.com/sass/download/sass-1.35.2.tgz#b732314fcdaf7ef8d0f1698698adc378043cb821"
-  integrity sha1-tzIxT82vfvjQ8WmGmK3DeAQ8uCE=
+  version "1.36.0"
+  resolved "https://registry.nlark.com/sass/download/sass-1.36.0.tgz#5912ef9d5d16714171ba11cb17edb274c4bbc07e"
+  integrity sha1-WRLvnV0WcUFxuhHLF+2ydMS7wH4=
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
 
@@ -10945,7 +10945,12 @@ vue-i18n-extract@1.0.2:
     is-valid-glob "^1.0.0"
     yargs "^13.2.2"
 
-vue-i18n@^8.15.1, vue-i18n@^8.17.0:
+vue-i18n@^8.15.1:
+  version "8.25.0"
+  resolved "https://registry.nlark.com/vue-i18n/download/vue-i18n-8.25.0.tgz?cache=0&sync_timestamp=1627151484174&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvue-i18n%2Fdownload%2Fvue-i18n-8.25.0.tgz#1037d9295fa2845a230b771de473481edb2cfc4c"
+  integrity sha1-EDfZKV+ihFojC3cd5HNIHtss/Ew=
+
+vue-i18n@^8.17.0:
   version "8.24.5"
   resolved "https://registry.nlark.com/vue-i18n/download/vue-i18n-8.24.5.tgz#7127a666d5be2199be69be39e439a419a90ff931"
   integrity sha1-cSemZtW+IZm+ab455DmkGakP+TE=
@@ -11034,9 +11039,9 @@ vxe-table-plugin-iview@^1.10.2:
   integrity sha1-tDlv25wryJeZndiqb8rrXuxD6NY=
 
 vxe-table@^3.1.2:
-  version "3.3.9"
-  resolved "https://registry.nlark.com/vxe-table/download/vxe-table-3.3.9.tgz#19ebca814ae932261f10fe172c65b8a1027c590d"
-  integrity sha1-GevKgUrpMiYfEP4XLGW4oQJ8WQ0=
+  version "3.3.10"
+  resolved "https://registry.nlark.com/vxe-table/download/vxe-table-3.3.10.tgz?cache=0&sync_timestamp=1626954653531&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvxe-table%2Fdownload%2Fvxe-table-3.3.10.tgz#83e4e2b91fcc5657119c070e0f2763671d1018b5"
+  integrity sha1-g+TiuR/MVlcRnAcODydjZx0QGLU=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
@@ -11206,9 +11211,9 @@ webpack-merge@^4.2.2:
     lodash "^4.17.15"
 
 webpack-sources@*:
-  version "2.3.0"
-  resolved "https://registry.nlark.com/webpack-sources/download/webpack-sources-2.3.0.tgz?cache=0&sync_timestamp=1622110325575&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fwebpack-sources%2Fdownload%2Fwebpack-sources-2.3.0.tgz#9ed2de69b25143a4c18847586ad9eccb19278cfa"
-  integrity sha1-ntLeabJRQ6TBiEdYatnsyxknjPo=
+  version "2.3.1"
+  resolved "https://registry.nlark.com/webpack-sources/download/webpack-sources-2.3.1.tgz#570de0af163949fe272233c2cefe1b56f74511fd"
+  integrity sha1-Vw3grxY5Sf4nIjPCzv4bVvdFEf0=
   dependencies:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
@@ -11222,9 +11227,9 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
     source-map "~0.6.1"
 
 webpack-theme-color-replacer@^1.3.5:
-  version "1.3.22"
-  resolved "https://registry.nlark.com/webpack-theme-color-replacer/download/webpack-theme-color-replacer-1.3.22.tgz#d77febb02b433859226dd4b9d754111cd320e559"
-  integrity sha1-13/rsCtDOFkibdS511QRHNMg5Vk=
+  version "1.3.24"
+  resolved "https://registry.nlark.com/webpack-theme-color-replacer/download/webpack-theme-color-replacer-1.3.24.tgz#86bfda9c5b3c9ce079d90f3b9a8dfa2b584c36ea"
+  integrity sha1-hr/anFs8nOB52Q87mo36K1hMNuo=
   dependencies:
     webpack-sources "*"
 
@@ -11411,9 +11416,9 @@ ws@^7.0.0, ws@^7.3.1:
   integrity sha1-Fgg1tjx9l7+rQY/BuKn87SrAGnQ=
 
 xe-utils@^3.1.6:
-  version "3.3.0"
-  resolved "https://registry.nlark.com/xe-utils/download/xe-utils-3.3.0.tgz#24a6f3c74a1041324a6ed15dc7baa0ee3f884f6e"
-  integrity sha1-JKbzx0oQQTJKbtFdx7qg7j+IT24=
+  version "3.3.1"
+  resolved "https://registry.nlark.com/xe-utils/download/xe-utils-3.3.1.tgz#77af254b12d5ae2d4d3f32c3df7e3a5ccde1fad8"
+  integrity sha1-d68lSxLVri1NPzLD3346XM3h+tg=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
