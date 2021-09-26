@@ -129,8 +129,9 @@ export function filterMenu (menu) {
           item.children = filter(value.children)
         }
       }
-      if (hasOwnProperty(routeMapping, item.path)) {
-        if (!isBoolean(routeMapping[item.path]) && !canAccess(routeMapping[item.path], true)) {
+      const path = item.path.split('?')[0]
+      if (hasOwnProperty(routeMapping, path)) {
+        if (!isBoolean(routeMapping[path]) && !canAccess(routeMapping[path], true)) {
           // 无权限访问
           return
         }
