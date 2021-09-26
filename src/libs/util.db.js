@@ -1,17 +1,15 @@
-import low from 'lowdb'
-import LocalStorage from 'lowdb/adapters/LocalStorage'
+import { Low } from 'lowdb/lib/Low'
+import { LocalStorage } from 'lowdb/lib/adapters/LocalStorage'
 import util from '@/libs/util'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, chain } from 'lodash'
 
 const adapter = new LocalStorage(`d2admin-${process.env.VUE_APP_VERSION}`)
-const db = low(adapter)
+const db = new Low(adapter)
 
-db
-  .defaults({
-    sys: {},
-    database: {}
-  })
-  .write()
+db.data ||= { sys: {}, database: {} }
+db.write()
+
+db.chain = chain(db.data)
 
 export default db
 
@@ -33,11 +31,12 @@ export function pathInit ({
 }) {
   const uuid = util.cookies.get('uuid') || 'ghost-uuid'
   const currentPath = `${dbName}.${user ? `user.${uuid}` : 'public'}${path ? `.${path}` : ''}`
-  const value = db.get(currentPath).value()
+  const value = db.chain.get(currentPath).value()
   if (!(value !== undefined && validator(value))) {
-    db
+    db.chain
       .set(currentPath, defaultValue)
-      .write()
+      .value()
+    db.write()
   }
   return currentPath
 }
@@ -56,11 +55,12 @@ export function dbSet ({
   value = '',
   user = false
 }) {
-  db.set(pathInit({
+  db.chain.set(pathInit({
     dbName,
     path,
     user
-  }), value).write()
+  }), value).value()
+  db.write()
 }
 
 /**
@@ -77,7 +77,7 @@ export function dbGet ({
   defaultValue = '',
   user = false
 }) {
-  return cloneDeep(db.get(pathInit({
+  return cloneDeep(db.chain.get(pathInit({
     dbName,
     path,
     user,
@@ -96,7 +96,7 @@ export function database ({
   validator = () => true,
   defaultValue = ''
 } = {}) {
-  return db.get(pathInit({
+  return db.chain.get(pathInit({
     dbName, path, user, validator, defaultValue
   }))
 }
