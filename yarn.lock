@@ -3608,7 +3608,12 @@ core-js@^2.4.0:
   resolved "https://registry.nlark.com/core-js/download/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha1-2TM9+nsGXjR8xWgiGdb2kIWcwuw=
 
-core-js@^3.4.3, core-js@^3.6.5:
+core-js@^3.4.3:
+  version "3.18.0"
+  resolved "https://registry.nlark.com/core-js/download/core-js-3.18.0.tgz?cache=0&sync_timestamp=1632078258639&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.18.0.tgz#9af3f4a6df9ba3428a3fb1b171f1503b3f40cc49"
+  integrity sha1-mvP0pt+bo0KKP7GxcfFQOz9AzEk=
+
+core-js@^3.6.5:
   version "3.17.3"
   resolved "https://registry.nlark.com/core-js/download/core-js-3.17.3.tgz#8e8bd20e91df9951e903cabe91f9af4a0895bc1e"
   integrity sha1-jovSDpHfmVHpA8q+kfmvSgiVvB4=
@@ -9535,9 +9540,9 @@ sass-loader@^10.1.0:
     semver "^7.3.2"
 
 sass@^1.23.7:
-  version "1.41.0"
-  resolved "https://registry.nlark.com/sass/download/sass-1.41.0.tgz#f7b41dc00336a4c03429c37b9680b86758af61d4"
-  integrity sha1-97QdwAM2pMA0KcN7loC4Z1ivYdQ=
+  version "1.42.1"
+  resolved "https://registry.nlark.com/sass/download/sass-1.42.1.tgz?cache=0&sync_timestamp=1632295808177&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fsass%2Fdownload%2Fsass-1.42.1.tgz#5ab17bebc1cb1881ad2e0c9a932c66ad64e441e2"
+  integrity sha1-WrF768HLGIGtLgyakyxmrWTkQeI=
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
 
@@ -11015,7 +11020,12 @@ vue-i18n-extract@1.0.2:
     is-valid-glob "^1.0.0"
     yargs "^13.2.2"
 
-vue-i18n@^8.15.1, vue-i18n@^8.17.0:
+vue-i18n@^8.15.1:
+  version "8.26.1"
+  resolved "https://registry.npmmirror.com/vue-i18n/download/vue-i18n-8.26.1.tgz?cache=0&sync_timestamp=1632471124261&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvue-i18n%2Fdownload%2Fvue-i18n-8.26.1.tgz#56419bcb2414a01e0e9046fe1883d0edd421bf41"
+  integrity sha1-VkGbyyQUoB4OkEb+GIPQ7dQhv0E=
+
+vue-i18n@^8.17.0:
   version "8.25.1"
   resolved "https://registry.nlark.com/vue-i18n/download/vue-i18n-8.25.1.tgz#63e4111ff50269c8ae91e7f0f73373198a81a0fc"
   integrity sha1-Y+QRH/UCaciukefw9zNzGYqBoPw=
@@ -11104,9 +11114,9 @@ vxe-table-plugin-iview@^1.10.2:
   integrity sha1-tDlv25wryJeZndiqb8rrXuxD6NY=
 
 vxe-table@^3.1.2:
-  version "3.3.12"
-  resolved "https://registry.nlark.com/vxe-table/download/vxe-table-3.3.12.tgz#5f624915e5c0834a3e89caa227db9d36d1d7bd1e"
-  integrity sha1-X2JJFeXAg0o+icqiJ9udNtHXvR4=
+  version "3.3.13"
+  resolved "https://registry.npmmirror.com/vxe-table/download/vxe-table-3.3.13.tgz#7330aa55f3e86747ee78074ae2ddab4222aa9063"
+  integrity sha1-czCqVfPoZ0fueAdK4t2rQiKqkGM=
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
@@ -11478,9 +11488,9 @@ ws@^7.0.0, ws@^7.3.1:
   integrity sha1-i0vEr1GM+r0Ec65PmRRCh7M+uIE=
 
 xe-utils@^3.1.6:
-  version "3.3.2"
-  resolved "https://registry.nlark.com/xe-utils/download/xe-utils-3.3.2.tgz#b05817b094a6b40d897cd8d5df62ed716ff845f5"
-  integrity sha1-sFgXsJSmtA2JfNjV32LtcW/4RfU=
+  version "3.3.3"
+  resolved "https://registry.npmmirror.com/xe-utils/download/xe-utils-3.3.3.tgz#a5e5a86fc3e5574862fa8fb4be7ecdc1c5d344db"
+  integrity sha1-peWob8PlV0hi+o+0vn7NwcXTRNs=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
