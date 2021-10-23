@@ -1,9 +1,9 @@
-import require from '@/plugin/axios'
+import request from '@/plugin/axios'
 import { promiseResolveFalse } from '@/libs/util.common'
 
-class UsersApi {
+export const users = new (class {
   get (page, limit, where = {}) {
-    return require.get('/admin/users', {
+    return request.get('/admin/users', {
       params: {
         page,
         limit,
@@ -14,7 +14,7 @@ class UsersApi {
 
   read (id) {
     if (id) {
-      return require.get(`/admin/users/${id}`)
+      return request.get(`/admin/users/${id}`)
     } else {
       return promiseResolveFalse()
     }
@@ -22,20 +22,20 @@ class UsersApi {
 
   save (id, data) {
     if (id) {
-      return require.put(`/admin/users/${id}`, data)
+      return request.put(`/admin/users/${id}`, data)
     } else {
-      return require.post('/admin/users', data)
+      return request.post('/admin/users', data)
     }
   }
 
   delete (id) {
-    return require.delete(`/admin/users/${id}`)
+    return request.delete(`/admin/users/${id}`)
   }
-}
+})()
 
-class RolesApi {
+export const roles = new (class {
   get (page, limit, where) {
-    return require.get('/admin/roles', {
+    return request.get('/admin/roles', {
       params: {
         page,
         limit,
@@ -45,7 +45,7 @@ class RolesApi {
   }
 
   select (genre) {
-    return require.get('/admin/roles/select', {
+    return request.get('/admin/roles/select', {
       params: {
         genre,
       }
@@ -54,7 +54,7 @@ class RolesApi {
 
   read (id) {
     if (id) {
-      return require.get(`/admin/roles/${id}`)
+      return request.get(`/admin/roles/${id}`)
     } else {
       return promiseResolveFalse()
     }
@@ -62,25 +62,25 @@ class RolesApi {
 
   save (id, data) {
     if (id) {
-      return require.put(`/admin/roles/${id}`, data)
+      return request.put(`/admin/roles/${id}`, data)
     } else {
-      return require.post('/admin/roles', data)
+      return request.post('/admin/roles', data)
     }
   }
 
   delete (id) {
-    return require.delete(`/admin/roles/${id}`)
+    return request.delete(`/admin/roles/${id}`)
   }
-}
+})()
 
-class PermissionApi {
+export const permission = new (class {
   get () {
-    return require.get('/admin/permission')
+    return request.get('/admin/permission')
   }
 
   read (id) {
     if (id) {
-      return require.get(`/admin/permission/${id}`)
+      return request.get(`/admin/permission/${id}`)
     } else {
       return promiseResolveFalse()
     }
@@ -97,14 +97,10 @@ class PermissionApi {
     } else {
       result = data
     }
-    return require.put(`/admin/permission/${id}`, result)
+    return request.put(`/admin/permission/${id}`, result)
   }
 
   scan () {
-    return require.get('/admin/permission/scan')
+    return request.get('/admin/permission/scan')
   }
-}
-
-export const users = new UsersApi()
-export const roles = new RolesApi()
-export const permission = new PermissionApi()
+})()
