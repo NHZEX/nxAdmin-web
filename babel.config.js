@@ -6,13 +6,5 @@ module.exports = {
   sourceType: 'unambiguous',
   plugins: [
     '@babel/syntax-dynamic-import',
-    [
-      'import',
-      {
-        libraryName: 'view-design',
-        libraryDirectory: 'src/components'
-      },
-      'view-design'
-    ],
   ]
 }

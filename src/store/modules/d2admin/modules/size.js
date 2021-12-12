@@ -39,7 +39,6 @@ export default {
      */
     apply ({ state, commit }, refresh) {
       Vue.prototype.$ELEMENT.size = mapping[state.value].el
-      Vue.prototype.$IVIEW.size = mapping[state.value].iv
       if (refresh) {
         commit('d2admin/page/keepAliveClean', null, { root: true })
         router.replace('/refresh')
@@ -53,7 +52,8 @@ export default {
       if (state.value) return Promise.resolve()
       return new Promise(resolve => {
         const timer = setInterval(() => {
-          if (state.value) resolve(clearInterval(timer))
+          clearInterval(timer)
+          if (state.value) resolve(true)
         }, 10)
       })
     },

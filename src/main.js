@@ -7,9 +7,6 @@ import d2Admin from '@/plugin/d2admin'
 // store
 import store from '@/store/index'
 
-// iviewui
-import iviewMini from '@/plugin/iview/index'
-
 // vxe-table
 import '@/plugin/vxe-table'
 
@@ -30,8 +27,6 @@ import fortawesome from '@/plugin/fortawesome/index'
 
 // 核心插件
 Vue.use(d2Admin)
-// 注册 iview
-Vue.use(iviewMini)
 // 注册权限
 Vue.use(auth)
 // FortAwesome

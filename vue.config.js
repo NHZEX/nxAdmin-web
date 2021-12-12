@@ -235,7 +235,6 @@ module.exports = {
     // 重新设置 alias
     config.resolve.alias
       .set('@api', resolve('src/api'))
-      .set('@ivu', resolve('node_modules/view-design/src/components'))
     // 分析工具
     if (process.env.npm_config_report) {
       config
