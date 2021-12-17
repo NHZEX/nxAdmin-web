@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Message } from 'element-ui-eoi'
 import util from '@/libs/util'
 import router from '@/router'
-import { isPlainObject, get, has } from 'lodash'
+import { get, has, isPlainObject } from 'lodash'
 import { blobToString, hasOwnProperty } from '@/libs/util.common'
 import { INVALID_SESSION } from '@/plugin/auth'
 
@@ -65,7 +65,7 @@ class ProtectedRequestCancelTokens {
 
   cancelAllRequest () {
     for (const uniqid of Object.keys(this.#tokenList)) {
-      this.#tokenList[uniqid]('invalid session')
+      this.#tokenList[uniqid]('__[internal] invalid session')
     }
     this.#tokenList = {}
   }
@@ -95,7 +95,7 @@ service.interceptors.request.use(
       authorization += `MC="${store.state.d2admin.config.machine}" `
     }
     config.headers.Authorization = `Bearer ${authorization}`.trim()
-    if (config.__permission) {
+    if (config.__permission && !config.cancelToken) {
       // 注册取消令牌
       config.cancelToken = new axios.CancelToken(function executor (canceler) {
         rrct.add(config.__uniqid, canceler)
@@ -133,7 +133,7 @@ service.interceptors.response.use(
     return response.data
   },
   async error => {
-    if (axios.isCancel(error)) {
+    if (axios.isCancel(error) && error.message.startsWith('__[internal]')) {
       throw new Error(`request canceled: ${error.message}`)
     }
     // 注销取消令牌
