@@ -10,3 +10,6 @@ Vue.component('d2-scrollbar', () => import('./d2-scrollbar'))
 // 自定义组件
 Vue.component('nx-tag', () => import('./nx-tag'))
 Vue.component('nx-input-number', () => import('./nx-input-number'))
+Vue.component('nx-description', () => import('./nx-description'))
+Vue.component('nx-description-col', () => import('./nx-description/col'))
+Vue.component('nx-description-row', () => import('./nx-description/row'))
