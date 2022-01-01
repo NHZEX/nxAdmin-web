@@ -1,5 +1,4 @@
-import { Low } from 'lowdb/lib/Low'
-import { LocalStorage } from 'lowdb/lib/adapters/LocalStorage'
+import { Low, LocalStorage } from 'lowdb'
 import util from '@/libs/util'
 import { cloneDeep, chain } from 'lodash'
 

@@ -76,10 +76,12 @@ export default {
     const props = context.props
     let tmp
 
-    props.icon = (isString(props.iconx) && (tmp = props.iconx.split(' ')).length === 2) ? {
-      prefix: tmp[0],
-      iconName: tmp[1],
-    } : props.iconx
+    props.icon = (isString(props.iconx) && (tmp = props.iconx.split(' ')).length === 2)
+      ? {
+        prefix: tmp[0],
+        iconName: tmp[1],
+      }
+      : props.iconx
 
     // delete props.iconx
 

@@ -11,9 +11,9 @@ function supplementPath (menu) {
   return menu.map(e => ({
     ...e,
     path: e.path || uniqueId('d2-menu-empty-'),
-    ...e.children ? {
-      children: supplementPath(e.children)
-    } : {}
+    ...e.children
+      ? { children: supplementPath(e.children) }
+      : {}
   }))
 }
 
