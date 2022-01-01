@@ -34,21 +34,21 @@ export default {
       {
         this.isScroll
           ? [
-            <div
-              class="d2-theme-header-menu__prev"
-              flex="main:center cross:center"
-              flex-box="0"
-              onClick={ () => this.scroll('left') }>
-              <i class="el-icon-arrow-left"></i>
-            </div>,
-            <div
-              class="d2-theme-header-menu__next"
-              flex="main:center cross:center"
-              flex-box="0"
-              onClick={ () => this.scroll('right') }>
-              <i class="el-icon-arrow-right"></i>
-            </div>
-          ]
+              <div
+                class="d2-theme-header-menu__prev"
+                flex="main:center cross:center"
+                flex-box="0"
+                onClick={ () => this.scroll('left') }>
+                <i class="el-icon-arrow-left"></i>
+              </div>,
+              <div
+                class="d2-theme-header-menu__next"
+                flex="main:center cross:center"
+                flex-box="0"
+                onClick={ () => this.scroll('right') }>
+                <i class="el-icon-arrow-right"></i>
+              </div>
+            ]
           : []
       }
     </div>

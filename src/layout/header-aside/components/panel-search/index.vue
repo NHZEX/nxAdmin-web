@@ -75,10 +75,12 @@ export default {
     ]),
     // 这份数据是展示在搜索面板下面的
     resultsList () {
-      return (this.results.length === 0 && this.searchText === '') ? this.pool.map(e => ({
-        value: e.fullTitle,
-        ...e
-      })) : this.results
+      return (this.results.length === 0 && this.searchText === '')
+        ? this.pool.map(e => ({
+          value: e.fullTitle,
+          ...e
+        }))
+        : this.results
     },
     // 根据 pool 更新 fuse 实例
     fuse () {

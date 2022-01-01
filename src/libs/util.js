@@ -12,7 +12,7 @@ const util = {
 
 /**
  * @description 更新标题
- * @param {String} title 标题
+ * @param {String} titleText 标题
  */
 util.title = function (titleText) {
   const processTitle = process.env.VUE_APP_TITLE || 'D2Admin'
@@ -24,7 +24,7 @@ util.title = function (titleText) {
  * @param {String} url 地址
  */
 util.open = function (url) {
-  var a = document.createElement('a')
+  const a = document.createElement('a')
   a.setAttribute('href', url)
   a.setAttribute('target', '_blank')
   a.setAttribute('id', 'd2admin-link-temp')
