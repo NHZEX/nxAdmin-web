@@ -12,13 +12,16 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // 暂时关闭对逗号的检查
     'comma-dangle': ['off', 'always-multiline'],
-    'camelcase': 'off',
+    // camelcase
+    camelcase: 'off',
     // script 标签缩进设置
     'vue/script-indent': ['warn', 2, {
       baseIndent: 0,
       switchCase: 1,
       ignores: []
     }],
+    // multi-word
+    'vue/multi-word-component-names': 'warn',
     // Object.prototype (https://eslint.org/docs/rules/no-prototype-builtins)
     'no-prototype-builtins': 'warn',
     // const 变量声明
@@ -32,7 +35,7 @@ module.exports = {
     // dot-notation
     'dot-notation': 'warn',
     // quotes
-    'quotes': 'warn',
+    quotes: 'warn',
     // object-curly-newline
     'object-curly-newline': 'off',
     // operator-linebreak
