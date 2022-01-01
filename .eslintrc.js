@@ -11,7 +11,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // 暂时关闭对逗号的检查
-    'comma-dangle': ['off', "always-multiline"],
+    'comma-dangle': ['off', 'always-multiline'],
     'camelcase': 'off',
     // script 标签缩进设置
     'vue/script-indent': ['warn', 2, {
@@ -39,7 +39,7 @@ module.exports = {
     'operator-linebreak': ['warn', 'before']
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@babel/eslint-parser'
   },
   overrides: [
     {
