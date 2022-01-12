@@ -4,6 +4,7 @@
       <el-button type="primary" :loading="loading.render" @click="load" icon="el-icon-refresh">刷新</el-button>
       <el-button v-access="'admin.permission.scan'" type="warning" :loading="loading.scan || loading.render" @click="scan()" icon="el-icon-s-opportunity">扫描权限</el-button>
       <el-button v-access="'admin.permission.edit'" type="success" :loading="loading.render" :disabled="!isChange" @click="saveChange()" icon="el-icon-upload">保存更改</el-button>
+      <el-button v-access="'admin.resetCache'" type="warning" :loading="loading.reset" @click="resetCache()" icon="el-icon-refresh-right">重置缓存</el-button>
     </div>
     <vxe-grid
       ref="tree"
@@ -43,6 +44,7 @@
 
 <script>
 import { permission } from '@api/admin/admin'
+import { system } from '@api/sys'
 import ContainerResize from '@/mixin/container-resize'
 
 const recursionTree = (d) => {
@@ -69,6 +71,7 @@ export default {
       loading: {
         render: false,
         scan: false,
+        reset: false,
       },
       columns: [
         { type: 'expand', visible: false, slots: { content: 'expand' } },
@@ -163,6 +166,13 @@ export default {
       permission.save(null, rows, true).finally(() => {
         this.loading.render = false
         this.load()
+      })
+    },
+    resetCache () {
+      this.loading.reset = true
+      system.resetCache().finally(() => {
+        this.loading.reset = false
+        this.$message.success('重置缓存完成')
       })
     },
   },

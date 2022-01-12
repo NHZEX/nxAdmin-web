@@ -19,6 +19,10 @@ export const system = new (class {
       }
     })
   }
+
+  resetCache () {
+    return request.post('/system/resetCache')
+  }
 })()
 
 export const account = new (class {
