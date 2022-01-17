@@ -98,7 +98,7 @@ export function generateRouteMapping () {
       if (!value.path.startsWith('/')) {
         path = root + path
       }
-      mapping[path] = value.meta && hasOwnProperty(value.meta, 'auth') ? value.meta.auth : false
+      mapping[path.toLowerCase()] = value.meta && hasOwnProperty(value.meta, 'auth') ? value.meta.auth : false
     })
   }
   recursive(frameInRoutes)
@@ -129,7 +129,7 @@ export function filterMenu (menu) {
           item.children = filter(value.children)
         }
       }
-      const path = item.path.split('?')[0]
+      const path = item.path.split('?')[0].toLowerCase()
       if (hasOwnProperty(routeMapping, path)) {
         if (!isBoolean(routeMapping[path]) && !canAccess(routeMapping[path], true)) {
           // 无权限访问
