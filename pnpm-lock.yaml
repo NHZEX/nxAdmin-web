@@ -36,7 +36,6 @@ specifiers:
   eslint-plugin-import: ^2.26.0
   eslint-plugin-node: ^11.1.0
   eslint-plugin-promise: ^6.0.0
-  eslint-plugin-standard: ^5.0.0
   eslint-plugin-vue: ^9.3.0
   file-saver: ^2.0.5
   flex.css: ^1.1.7
@@ -127,7 +126,6 @@ devDependencies:
   eslint-plugin-import: 2.26.0_eslint@8.22.0
   eslint-plugin-node: 11.1.0_eslint@8.22.0
   eslint-plugin-promise: 6.0.0_eslint@8.22.0
-  eslint-plugin-standard: 5.0.0_eslint@8.22.0
   eslint-plugin-vue: 9.3.0_eslint@8.22.0
   jest: 27.5.1
   less: 4.1.3
@@ -5082,15 +5080,6 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0
-    dependencies:
-      eslint: 8.22.0
-    dev: true
-
-  /eslint-plugin-standard/5.0.0_eslint@8.22.0:
-    resolution: {integrity: sha512-eSIXPc9wBM4BrniMzJRBm2uoVuXz2EPa+NXPk2+itrVt+r5SbKFERx/IgrK/HmfjddyKVz2f+j+7gBRvu19xLg==}
-    deprecated: 'standard 16.0.0 and eslint-config-standard 16.0.0 no longer require the eslint-plugin-standard package. You can remove it from your dependencies with ''npm rm eslint-plugin-standard''. More info here: https://github.com/standard/standard/issues/1316'
-    peerDependencies:
-      eslint: '>=5.0.0'
     dependencies:
       eslint: 8.22.0
     dev: true
