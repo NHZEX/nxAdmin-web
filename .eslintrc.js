@@ -39,7 +39,9 @@ module.exports = {
     // object-curly-newline
     'object-curly-newline': 'off',
     // operator-linebreak
-    'operator-linebreak': ['warn', 'before']
+    'operator-linebreak': ['warn', 'before'],
+    // no-callback-literal
+    'n/no-callback-literal': 'off',
   },
   parserOptions: {
     parser: '@babel/eslint-parser'

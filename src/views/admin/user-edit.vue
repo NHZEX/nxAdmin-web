@@ -81,7 +81,6 @@ export default {
               if (value === undefined || value === this.formData.password) {
                 callback()
               } else {
-                // eslint-disable-next-line node/no-callback-literal
                 callback(false)
               }
             },
