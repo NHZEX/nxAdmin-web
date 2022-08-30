@@ -1,5 +1,6 @@
 // Vue
 import Vue from 'vue'
+import { install } from 'vue-demi'
 import i18n from './i18n'
 import App from './App'
 // 核心插件
@@ -24,6 +25,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
 
 import fortawesome from '@/plugin/fortawesome/index'
+
+install()
 
 // 核心插件
 Vue.use(d2Admin)
