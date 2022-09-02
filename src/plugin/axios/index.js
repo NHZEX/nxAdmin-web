@@ -1,6 +1,6 @@
 import store from '@/store'
 import axios from 'axios'
-import { Message } from 'element-ui-eoi'
+import { Message } from 'element-ui'
 import util from '@/libs/util'
 import router from '@/router'
 import { get, has, isPlainObject } from 'lodash'

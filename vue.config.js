@@ -87,7 +87,7 @@ module.exports = {
     }
     configNew.resolve = {
       alias: {
-        'element-ui': 'element-ui-eoi',
+        // 'element-ui': 'element-ui-eoi',
       },
       fallback: {
         path: require.resolve('path-browserify'),
@@ -195,7 +195,8 @@ module.exports = {
           ...forElementUI.getElementUISeries(process.env.VUE_APP_ELEMENT_COLOR), // element-ui 主色系列
           // ...forElementUI.getElementUISeries('#2d8cf0'), // iview-ui 主色系列 (样式暂时无法完全兼任)
         ],
-        externalCssFiles: ['./node_modules/element-ui-eoi/lib/theme-chalk/index.css'], // optional, String or string array. Set external css files (such as cdn css) to extract colors.
+        // replace './node_modules/element-ui-eoi/lib/theme-chalk/index.css'
+        externalCssFiles: ['./node_modules/element-ui/lib/theme-chalk/index.css'], // optional, String or string array. Set external css files (such as cdn css) to extract colors.
         changeSelector: forElementUI.changeSelector,
       }])
     config

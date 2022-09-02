@@ -25,7 +25,7 @@
     "core-js": "^3.24.1",
     "dayjs": "^1.11.5",
     "element-resize-detector": "^1.2.4",
-    "element-ui-eoi": "^2.15.0",
+    "element-ui": "npm:element-ui-eoi@^2.15.0",
     "file-saver": "^2.0.5",
     "flex.css": "^1.1.7",
     "fuse.js": "^6.6.2",

@@ -1,6 +1,7 @@
 // Element
 import ElementUI from 'element-ui'
-import 'element-ui-eoi/lib/theme-chalk/index.css'
+// element-ui-eoi
+import 'element-ui/lib/theme-chalk/index.css'
 // flex 布局库
 import 'flex.css'
 // 组件

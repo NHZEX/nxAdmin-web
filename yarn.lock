@@ -4155,7 +4155,7 @@ element-resize-detector@^1.2.4:
   dependencies:
     batch-processor "1.0.0"
 
-element-ui-eoi@^2.15.0:
+"element-ui@npm:element-ui-eoi@^2.15.0":
   version "2.15.0"
   resolved "https://registry.npmmirror.com/element-ui-eoi/-/element-ui-eoi-2.15.0.tgz#74531007ff070e3889df36d994470500c23e5eca"
   integrity sha512-TC2B0rQ1412+fOBVjjqYtSQAmLdUGJjP8iOuyUu5SAuSioAIbHVYOAdWpchN0ziT1BdI7r2+2kBas+3xgG0S2A==
