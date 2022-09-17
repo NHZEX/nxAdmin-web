@@ -65,7 +65,7 @@ class ProtectedRequestCancelTokens {
 
   cancelAllRequest () {
     for (const uniqid of Object.keys(this.#tokenList)) {
-      this.#tokenList[uniqid]('__[internal] invalid session')
+      this.#tokenList[uniqid].abort('__[internal] invalid session')
     }
     this.#tokenList = {}
   }
@@ -95,11 +95,11 @@ service.interceptors.request.use(
       authorization += `MC="${store.state.d2admin.config.machine}" `
     }
     config.headers.Authorization = `Bearer ${authorization}`.trim()
-    if (config.__permission && !config.cancelToken) {
+    if (config.__permission && (!config.cancelToken && !config.signal)) {
       // 注册取消令牌
-      config.cancelToken = new axios.CancelToken(function executor (canceler) {
-        rrct.add(config.__uniqid, canceler)
-      })
+      const controller = new AbortController()
+      config.signal = controller.signal
+      rrct.add(config.__uniqid, controller)
     }
     return config
   },
