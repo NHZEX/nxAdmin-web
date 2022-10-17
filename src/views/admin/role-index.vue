@@ -65,7 +65,7 @@ export default {
       this.loading = true
       roles.get(this.tablePage.currentPage, this.tablePage.pageSize, this.where).then(({ data, count }) => {
         this.data = data
-        this.page.total = count
+        this.tablePage.total = count
       }).finally(() => {
         this.loading = false
       })
