@@ -53,6 +53,12 @@ module.exports = {
   devServer: {
     allowedHosts: process.env.NODE_ENV === 'development' ? 'all' : 'auto', // 关闭 host check，方便使用 ngrok 之类的内网转发工具
     port: process.env.VUE_DEV_SERVER_PORT || 8080,
+    proxy: {
+      '/api-proxy': {
+        target: process.env.API_SERVER_PATH || '/',
+        pathRewrite: { '^/api-proxy': '' },
+      },
+    },
   },
   css: {
     loaderOptions: {
