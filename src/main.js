@@ -1,3 +1,4 @@
+import '@/assets/style/tailwindcss/tailwindcss.css'
 // Vue
 import Vue from 'vue'
 import { install } from 'vue-demi'

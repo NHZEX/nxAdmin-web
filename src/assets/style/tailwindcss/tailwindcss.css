@@ -1,0 +1,9 @@
+@import "tailwindcss-base.css"; /* 替代 @tailwind base，解决兼容问题 */
+@import "tailwindcss/components.css";
+@import "tailwindcss/utilities.css";
+
+/*@layer base {*/
+/*    *, ::before, ::after {*/
+/*        border-color: #000;*/
+/*    }*/
+/*}*/
