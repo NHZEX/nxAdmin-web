@@ -13,3 +13,20 @@ td.nx-monospace {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.table-attr-info {
+  width: 100%;
+  @apply flex flex-wrap;
+  @apply content-start gap-x-2.5 gap-y-px;
+}
+
+.table-attr-row-info {
+  width: 100%;
+  @apply flex flex-col;
+  @apply gap-y-px;
+}
+
+.table-attr-info, .table-attr-row-info label {
+  @apply font-sans font-medium text-black antialiased;
+}
+
