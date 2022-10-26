@@ -58,7 +58,7 @@
                     autocomplete="off">
                     <template slot="append">
                       <!--suppress HtmlUnknownTarget -->
-                      <img class="login-code" :src="captchaUrl" @click="refrushCode(true)" alt="logo code">
+                      <img class="login-code" style="max-width: initial" :src="captchaUrl" @click="refrushCode(true)" alt="logo code">
                     </template>
                   </el-input>
                 </el-form-item>
