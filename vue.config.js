@@ -52,7 +52,9 @@ module.exports = {
   lintOnSave: true,
   devServer: {
     allowedHosts: process.env.NODE_ENV === 'development' ? 'all' : 'auto', // 关闭 host check，方便使用 ngrok 之类的内网转发工具
+    host: process.env.VUE_DEV_SERVER_HOST || '::',
     port: process.env.VUE_DEV_SERVER_PORT || 8080,
+    server: process.env.VUE_DEV_SERVER_PROTOCOL || 'http',
     proxy: {
       '/api-proxy': {
         target: process.env.API_SERVER_PATH || '/',
