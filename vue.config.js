@@ -3,13 +3,22 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const ThemeColorReplacer = require('webpack-theme-color-replacer')
 const forElementUI = require('webpack-theme-color-replacer/forElementUI')
 const { set, each, compact, map, keys } = require('lodash')
+const child_process = require('child_process')
 
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
 
+function git (command) {
+  return child_process.execSync(`git ${command}`, { encoding: 'utf8' }).trim()
+}
+
 // 增加环境变量
 process.env.VUE_APP_VERSION = require('./package.json').version
 process.env.VUE_APP_BUILD_TIME = require('dayjs')().format('YYYY-M-D HH:mm:ss')
+
+process.env.VUE_APP_BUILD_TIME2 = require('dayjs')().format('YYYYMMDDHHmmss')
+process.env.VUE_APP_GIT_VERSION = git('describe --always')
+process.env.VUE_APP_GIT_AUTHOR_DATE = git('log -1 --format=%aI')
 
 // 基础路径 注意发布之前要先修改这里
 const publicPath = process.env.VUE_APP_PUBLIC_PATH || '/'
