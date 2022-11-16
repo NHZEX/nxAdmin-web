@@ -61,11 +61,15 @@ export function blobToDataURL (blob) {
 }
 
 /**
- * @param timestamp
- * @param format
- * @returns {string}
+ * @param {Number} timestamp
+ * @param {String} format
+ * @param {String} placeholder
+ * @returns {String}
  */
-export function formatUnix (timestamp, format) {
+export function formatUnix (timestamp, format = 'YYYY-MM-DD HH:mm', placeholder = '无') {
+  if (!timestamp && placeholder) {
+    return placeholder
+  }
   return dayjs.unix(timestamp).format(format || 'YYYY-MM-DD HH:mm')
 }
 
