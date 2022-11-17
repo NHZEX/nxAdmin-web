@@ -4,6 +4,7 @@ const ThemeColorReplacer = require('webpack-theme-color-replacer')
 const forElementUI = require('webpack-theme-color-replacer/forElementUI')
 const { set, each, compact, map, keys } = require('lodash')
 const child_process = require('child_process')
+const FileManagerPlugin = require('filemanager-webpack-plugin')
 
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
@@ -99,8 +100,26 @@ module.exports = {
           threshold: 10240,
           minRatio: 0.8,
           deleteOriginalAssets: false
-        })
+        }),
       ]
+      // dist
+      if (process.env.DIST_ARCHIVE_ENABLE === undefined ? true : process.env.DIST_ARCHIVE_ENABLE) {
+        const DIST_FILENAME = (process.env.DIST_ZIP_NAME || 'dist') + '.zip'
+        configNew.plugins.push(
+          new FileManagerPlugin({
+            events: {
+              onStart: {
+                delete: ['./' + DIST_FILENAME],
+              },
+              onEnd: {
+                archive: [
+                  { source: './dist', destination: './' + DIST_FILENAME }
+                ],
+              },
+            }
+          })
+        )
+      }
     }
     configNew.resolve = {
       alias: {
