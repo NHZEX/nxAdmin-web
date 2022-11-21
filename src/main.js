@@ -27,7 +27,13 @@ import 'dayjs/locale/zh-cn'
 
 import fortawesome from '@/plugin/fortawesome/index'
 
+// autoUpdate
+import autoUpdated from '@/plugin/autoUpdated/autoUpdated.js'
+
 install()
+
+// 首次加载必须重置
+autoUpdated.resetStorage()
 
 // 核心插件
 Vue.use(d2Admin)
@@ -51,6 +57,7 @@ new Vue({
   i18n,
   render: h => h(App),
   async created () {
+    autoUpdated.registerCheck()
     // 初始化机器码
     await this.$store.dispatch('d2admin/config/loadMachineCode')
     // 处理路由 得到每一级的路由设置
