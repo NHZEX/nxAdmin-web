@@ -65,6 +65,9 @@ module.exports = {
     host: process.env.VUE_DEV_SERVER_HOST || '::',
     port: process.env.VUE_DEV_SERVER_PORT || 8080,
     server: process.env.VUE_DEV_SERVER_PROTOCOL || 'http',
+    client: {
+      webSocketURL: 'auto://0.0.0.0:0/ws',
+    },
     proxy: {
       '/api-proxy': {
         target: process.env.API_SERVER_PATH || '/',
