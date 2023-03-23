@@ -1,6 +1,8 @@
 import qs from 'qs'
 import request from '@/plugin/axios'
 import { saveAs } from 'file-saver'
+// eslint-disable-next-line no-unused-vars
+import { AxiosResponse } from 'axios'
 
 /**
  * 下载文件
@@ -19,7 +21,7 @@ function download (url, params = {}, target = '_self') {
 
 export function downloadFile (url, params = {}) {
   return request.get(url, {
-    params: params,
+    params,
     responseType: 'blob',
     timeout: 3600 * 1000,
     // onDownloadProgress: (e) => {
@@ -27,6 +29,22 @@ export function downloadFile (url, params = {}) {
     // }
   }).then(resp => {
     const filename = decodeURI(resp.headers['content-disposition'].match(/filename="(.*)"/)[1])
+    saveAs(resp.data, filename)
+  })
+}
+
+/**
+ * @param {Promise<AxiosResponse>} response
+ * @return {Promise<AxiosResponse>}
+ */
+export function downloadFileEx (response) {
+  return response.then(resp => {
+    let filename
+    if (resp.headers['content-disposition']) {
+      filename = decodeURI(resp.headers['content-disposition'].match(/filename="(.*)"/)[1])
+    } else {
+      filename = 'raw.xlsx'
+    }
     saveAs(resp.data, filename)
   })
 }

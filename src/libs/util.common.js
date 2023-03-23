@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import request from '@/plugin/axios/index.js'
 
 export function randomString (length) {
   let result = ''
@@ -71,6 +72,38 @@ export function formatUnix (timestamp, format = 'YYYY-MM-DD HH:mm', placeholder 
     return placeholder
   }
   return dayjs.unix(timestamp).format(format || 'YYYY-MM-DD HH:mm')
+}
+
+export function elUploadRequestWarp (url, options, params, fileField = 'file', config = {}) {
+  const data = new FormData()
+  data.append(fileField, options.file)
+  for (const key of Object.keys(params)) {
+    if (params[key] !== null && params[key] !== undefined) {
+      data.append(key, params[key])
+    }
+  }
+  const resp = request.post(url, data, {
+    onUploadProgress: options.onProgress,
+    ...config,
+  })
+
+  resp
+    .then((result) => {
+      options.onSuccess(result)
+    })
+    .catch((e) => {
+      console.log(e)
+      options.onError(e)
+    })
+
+  return {
+    abort: () => {
+      console.debug('todo upload abort')
+    },
+    then: () => {
+      console.debug('todo upload then')
+    },
+  }
 }
 
 const common = {}
