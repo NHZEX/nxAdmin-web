@@ -11,6 +11,10 @@ export const system = new (class {
     return request.get('/system/sysinfo')
   }
 
+  database () {
+    return request.get('/system/database')
+  }
+
   captcha () {
     return request.get('/system/captcha', {
       // authorization: false,
