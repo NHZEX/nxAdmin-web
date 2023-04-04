@@ -19,7 +19,18 @@ const frameIn = [
         meta: {
           auth: true,
         },
-        component: _import('system/index'),
+        component: _import('system/index/HomeIndex'),
+      },
+      // 系统信息
+      {
+        path: 'system/info',
+        name: 'system-info',
+        component: _import('system/SystemInfo'),
+        meta: {
+          title: '系统信息',
+          cache: true,
+          auth: ['admin'],
+        },
       },
       // 系统 前端日志
       {

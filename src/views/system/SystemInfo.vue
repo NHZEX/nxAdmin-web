@@ -54,6 +54,7 @@
 import { system } from '@api/sys'
 
 export default {
+  name: 'SystemInfo',
   components: {},
   data () {
     return {
