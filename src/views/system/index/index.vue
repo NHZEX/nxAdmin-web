@@ -1,7 +1,7 @@
 <template>
   <d2-container>
     <div style="padding: 10px 0 10px" class="flex flex-row space-x-2">
-      <el-table :data="tableData" border size="mini" v-loading="loading" style="max-width: 450px">
+      <el-table :data="tableData" border size="mini" v-loading="loading.system" style="max-width: 450px">
         <el-table-column label="系统信息">
           <el-table-column
             prop="name"
@@ -14,22 +14,35 @@
           </el-table-column>
         </el-table-column>
       </el-table>
-      <div>
-        <el-card v-for="item of database" :key="item.name" style="max-width: 900px" :body-style="{ padding: '6px' }">
+      <div v-loading="loading.database">
+        <el-card v-for="item of database" :key="item.name" style="max-width: 1100px" :body-style="{ padding: '6px' }">
           <template v-slot:header>
             <span class="font-bold text-xl"># {{ item.name }}</span>
           </template>
-          <el-table :data="item.tables" border size="mini">
-            <el-table-column prop="table_name" label="表名" fixed width="120"></el-table-column>
-            <el-table-column prop="table_rows" label="行数" fixed></el-table-column>
-            <el-table-column prop="human.total_size" label="表尺寸"></el-table-column>
-            <el-table-column prop="human.data_size" label="数据大小"></el-table-column>
-            <el-table-column prop="human.index_size" label="索引大小"></el-table-column>
-            <el-table-column prop="human.data_free_size" label="碎片大小"></el-table-column>
-            <el-table-column prop="human.avg_row_size" label="平均行尺寸"></el-table-column>
-            <el-table-column prop="update_time" label="更新时间"></el-table-column>
-            <el-table-column prop="table_comment" label="表注释"></el-table-column>
-          </el-table>
+          <div style="width: 100%">
+            <vxe-table
+              :data="item.tables"
+              border
+              size="small"
+              max-height="900"
+              :empty-text="item.message || '暂无数据'"
+              :sort-config="{
+                remote: false,
+                sortMethod: databaseSortMethod,
+              }"
+            >
+              <vxe-table-column type="seq" title="#" fixed="left" width="50"></vxe-table-column>
+              <vxe-table-column field="table_name" title="表名" fixed="left" width="180" sortable></vxe-table-column>
+              <vxe-table-column field="table_rows" title="行数" fixed="left" width="90" sortable></vxe-table-column>
+              <vxe-table-column field="human.total_size" title="表尺寸" width="100" sortable></vxe-table-column>
+              <vxe-table-column field="human.data_size" title="数据大小" width="100" sortable></vxe-table-column>
+              <vxe-table-column field="human.index_size" title="索引大小" width="100" sortable></vxe-table-column>
+              <vxe-table-column field="human.data_free_size" title="碎片大小" width="100" sortable></vxe-table-column>
+              <vxe-table-column field="human.avg_row_size" title="平均行尺寸" width="110" sortable></vxe-table-column>
+              <vxe-table-column field="update_time" title="更新时间" width="140" sortable></vxe-table-column>
+              <vxe-table-column field="table_comment" title="表注释" width="140"></vxe-table-column>
+            </vxe-table>
+          </div>
         </el-card>
       </div>
     </div>
@@ -44,33 +57,75 @@ export default {
   components: {},
   data () {
     return {
-      loading: false,
+      loading: {
+        system: false,
+        database: false,
+      },
       tableData: [],
       database: [],
     }
   },
   methods: {
     load () {
-      this.loading = true
-      system.sysinfo().then(data => {
-        const result = []
-        for (const key of Object.keys(data)) {
-          result.push({
-            name: data[key][0],
-            value: data[key][1],
-          })
-        }
-        this.tableData = result
-      }).finally(() => {
-        this.loading = false
-      })
+      this.loading.system = true
+      system.sysinfo()
+        .then(data => {
+          const result = []
+          for (const key of Object.keys(data)) {
+            result.push({
+              name: data[key][0],
+              value: data[key][1],
+            })
+          }
+          this.tableData = result
+        }).finally(() => {
+          this.loading.system = false
+        })
 
-      system
-        .database()
+      this.loading.database = true
+      system.database()
         .then(data => {
           this.database = data
-        }).finally(() => {
         })
+        .finally(() => {
+          this.loading.database = false
+        })
+    },
+    databaseSortMethod ({ data, column, property, order }) {
+      const humanMap = {
+        avg_row_size: 'avg_row_length',
+        data_size: 'data_length',
+        index_size: 'index_length',
+        data_free_size: 'data_free',
+        total_size: (item) => item.data_length + item.index_length
+      }
+
+      let sortProperty = property
+
+      if (property.startsWith('human.') && Object.prototype.hasOwnProperty.call(humanMap, property.split('.')[1])) {
+        sortProperty = humanMap[property.split('.')[1]]
+      }
+
+      data.sort((a, b) => {
+        let aVal = 0
+        let bVal = 0
+
+        if (typeof sortProperty === 'function') {
+          aVal = sortProperty(a)
+          bVal = sortProperty(b)
+        } else {
+          aVal = a[sortProperty]
+          bVal = b[sortProperty]
+        }
+
+        if (order === 'desc') {
+          return aVal < bVal ? 1 : -1
+        } else {
+          return aVal > bVal ? 1 : -1
+        }
+      })
+
+      return data
     },
   },
   mounted () {
