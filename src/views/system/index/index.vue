@@ -17,7 +17,7 @@
       <div v-loading="loading.database">
         <el-card v-for="item of database" :key="item.name" style="max-width: 1100px" :body-style="{ padding: '6px' }">
           <template v-slot:header>
-            <span class="font-bold text-xl"># {{ item.name }}</span>
+            <span class="font-bold text-xl"># {{ item.name }} ({{ item.version }})</span>
           </template>
           <div style="width: 100%">
             <vxe-table
@@ -107,8 +107,8 @@ export default {
       }
 
       data.sort((a, b) => {
-        let aVal = 0
-        let bVal = 0
+        let aVal
+        let bVal
 
         if (typeof sortProperty === 'function') {
           aVal = sortProperty(a)
