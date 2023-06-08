@@ -5,6 +5,7 @@ const forElementUI = require('webpack-theme-color-replacer/forElementUI')
 const { set, each, compact, map, keys } = require('lodash')
 const child_process = require('child_process')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
+const path = require("path");
 
 // 拼接路径
 const resolve = dir => require('path').join(__dirname, dir)
@@ -126,7 +127,7 @@ module.exports = {
     }
     configNew.resolve = {
       alias: {
-        // 'element-ui': 'element-ui-eoi',
+        '@': path.resolve(__dirname, 'src'),
       },
       fallback: {
         path: require.resolve('path-browserify'),
