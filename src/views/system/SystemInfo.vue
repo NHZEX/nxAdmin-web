@@ -1,7 +1,7 @@
 <template>
   <d2-container>
     <div style="padding: 10px 0 10px" class="flex flex-row space-x-2">
-      <el-table :data="tableData" border size="mini" v-loading="loading.system" style="max-width: 450px">
+      <el-table :data="tableData" border size="mini" v-loading="loading.system" style="min-width: 400px; max-width: 600px">
         <el-table-column label="系统信息">
           <el-table-column
             prop="name"
